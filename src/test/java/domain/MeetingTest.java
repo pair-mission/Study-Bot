@@ -1,4 +1,5 @@
-import domain.Meeting;
+package domain;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -48,5 +49,4 @@ class MeetingTest {
                 Meeting.of(date, startTime, endTime, topic, place)
         ).isInstanceOf(IllegalArgumentException.class);
     }
-
 }

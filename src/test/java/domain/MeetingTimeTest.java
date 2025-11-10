@@ -1,0 +1,30 @@
+package domain;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class MeetingTimeTest {
+
+    @Test
+    @DisplayName("종료 시간이 시작시간보다 빠른 경우 예외가 발생한다.")
+    void testMeetingTime() {
+        // given
+        LocalDate date = LocalDate.now();
+        LocalTime startTime = LocalTime.of(12, 30, 0);
+        LocalTime endTime = LocalTime.of(12, 10, 0);
+        // 명시를 꼭 하자 ! 하루 전으로 돌아가면 시간을 더 늦은 시간이 된다..
+        String topic = "study topic";
+        String place = "study place";
+
+        // when
+        assertThatThrownBy(() -> Meeting.of(date, startTime, endTime, topic, place))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        // git commit -m "feat(MeetingTime): 미팅 시간 검증 기능 구현" -m "미팅 종료 시간이 시작 시간 보다 이전일때 IllegalArgument throw하도록 구현하였습니다."
+    }
+}
