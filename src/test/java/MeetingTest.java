@@ -48,4 +48,5 @@ class MeetingTest {
                 Meeting.of(date, startTime, endTime, topic, place)
         ).isInstanceOf(IllegalArgumentException.class);
     }
+
 }

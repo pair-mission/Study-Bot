@@ -30,7 +30,7 @@ public class Meeting {
 
     private void validateDate(LocalDate date) {
         if (date.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_DATE.getMeesage());
+            throw new IllegalArgumentException(ErrorMessage.INVALID_DATE.getMessage());
         }
     }
 
