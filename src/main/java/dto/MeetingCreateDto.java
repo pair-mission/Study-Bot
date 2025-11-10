@@ -1,13 +1,14 @@
 package dto;
 
+import global.InputValidator;
+
 import static global.ErrorMessage.INVALID_DATE_PATTERN;
 import static global.ErrorMessage.INVALID_TIME_PATTERN;
 import static global.InputValidator.validateBlankInput;
+import static global.Pattern.DATE_PATTERN;
+import static global.Pattern.TIME_PATTERN;
 
 public class MeetingCreateDto {
-
-    private static final String DATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
-    private static final String TIME_PATTERN = "^([01]\\d|2[0-3]):(00|30)$";
 
     private final String date;
     private final String startTime;
@@ -24,10 +25,16 @@ public class MeetingCreateDto {
     }
 
     public static MeetingCreateDto of(String date, String startTime, String endTime, String topic, String place) {
+        validate(date, startTime, endTime, topic, place);
+        return new MeetingCreateDto(date, startTime, endTime, topic, place);
+    }
+
+    private static void validate(String date, String startTime, String endTime, String topic, String place) {
         validateDate(date);
         validateTime(startTime);
         validateTime(endTime);
-        return new MeetingCreateDto(date, startTime, endTime, topic, place);
+        InputValidator.validateBlankInput(topic);
+        InputValidator.validateBlankInput(place);
     }
 
     private static void validateDate(String dateInput) {
@@ -36,7 +43,7 @@ public class MeetingCreateDto {
     }
 
     private static void validateDatePattern(String dateInput) {
-        if (!dateInput.matches(DATE_PATTERN)) {
+        if (!dateInput.matches(DATE_PATTERN.getValue())) {
             throw new IllegalArgumentException(INVALID_DATE_PATTERN.getMessage());
         }
     }
@@ -47,8 +54,9 @@ public class MeetingCreateDto {
     }
 
     private static void validateTimePattern(String timeInput) {
-        if (!timeInput.matches(TIME_PATTERN)) {
+        if (!timeInput.matches(TIME_PATTERN.getValue())) {
             throw new IllegalArgumentException(INVALID_TIME_PATTERN.getMessage());
         }
     }
+
 }

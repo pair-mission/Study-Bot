@@ -71,11 +71,4 @@ class MeetingCreateDtoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"", " "})
-    @DisplayName("모임의 주제가 빈 문자열이거나 공백이면 예외가 발생한다.")
-    void testBlankTopicTest(String topicInput) {
-        // when, then
-
-    }
 }
