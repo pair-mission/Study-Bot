@@ -38,4 +38,24 @@ class InputValidatorTest {
         assertThatThrownBy(() -> InputValidator.validateTime(meetingTimeInput))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"25:00:00", "50:00:00"})
+    @DisplayName("시간(Hour)는 24시 표기법이어야 한다.")
+    void testMeetingTimeHour(String input) {
+        // given, when
+        assertThatThrownBy(() -> InputValidator.validateTime(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"23:10", "22:20"})
+    @DisplayName("분(Minute)은 30분 단위여야 한다.")
+    void testMeetingTimeMinute(String input) {
+        // given, when
+        assertThatThrownBy(() -> InputValidator.validateTime(input))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        // git commit -m "feat(global): 시간 검증 기능 추가" -m "시간은 24시 표기가 아니고 분은 30분 단위가 아니면 IllegalArgumentException을 throw 하도록 구현하였습니다."
+    }
 }
