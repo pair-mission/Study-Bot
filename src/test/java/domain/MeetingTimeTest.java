@@ -24,7 +24,5 @@ public class MeetingTimeTest {
         // when
         assertThatThrownBy(() -> Meeting.of(date, startTime, endTime, topic, place))
                 .isInstanceOf(IllegalArgumentException.class);
-
-        // git commit -m "feat(MeetingTime): 미팅 시간 검증 기능 구현" -m "미팅 종료 시간이 시작 시간 보다 이전일때 IllegalArgument throw하도록 구현하였습니다."
     }
 }

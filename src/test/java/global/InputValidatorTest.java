@@ -29,4 +29,13 @@ class InputValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(BLANK_INPUT.getMessage());
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"00-46", "7:5", "23/06"})
+    @DisplayName("시간의 형식을 \"HH:mm\"으로 입력하지 않으면 예외가 발생한다.")
+    void testMeetingTimeFormat(String meetingTimeInput) {
+        // when
+        assertThatThrownBy(() -> InputValidator.validateTime(meetingTimeInput))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }

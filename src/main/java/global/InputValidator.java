@@ -1,11 +1,11 @@
 package global;
 
-import static global.ErrorMessage.BLANK_INPUT;
-import static global.ErrorMessage.INVALID_DATE_PATTERN;
+import static global.ErrorMessage.*;
 
 public class InputValidator {
 
     private static final String DATE_PATTERN = "^\\d{4}-\\d{2}-\\d{2}$";
+    private static final String TIME_PATTERN = "^\\d{2}:\\d{2}$";
 
     public static void validateDate(String dateInput) {
         validateBlankInput(dateInput);
@@ -21,6 +21,17 @@ public class InputValidator {
     private static void validateBlankInput(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException(BLANK_INPUT.getMessage());
+        }
+    }
+
+    public static void validateTime(String timeInput) {
+        validateBlankInput(timeInput);
+        validateTimePattern(timeInput);
+    }
+
+    private static void validateTimePattern(String timeInput) {
+        if (!timeInput.matches(TIME_PATTERN)) {
+            throw new IllegalArgumentException(INVALID_TIME_PATTERN.getMessage());
         }
     }
 
