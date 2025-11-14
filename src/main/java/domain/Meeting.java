@@ -1,9 +1,10 @@
 package domain;
 
 import dto.MeetingCreateDto;
+import dto.MeetingUpdateDto;
 import global.ErrorMessage;
+
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class Meeting {
     private Long id;
@@ -24,10 +25,10 @@ public class Meeting {
         return new Meeting(date, meetingTime, topic, place);
     }
 
-    public static Meeting toEntity(MeetingCreateDto meetingCreateDto){
+    public static Meeting toEntity(MeetingCreateDto meetingCreateDto) {
         return of(
                 InputParser.parseDate(meetingCreateDto.date()),
-                InputParser.parseTime(meetingCreateDto.startTime(),meetingCreateDto.endTime()),
+                InputParser.parseTime(meetingCreateDto.startTime(), meetingCreateDto.endTime()),
                 meetingCreateDto.topic(),
                 meetingCreateDto.place()
         );
@@ -41,5 +42,25 @@ public class Meeting {
         if (date.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_DATE.getMessage());
         }
+    }
+
+    public void compareAndChange(MeetingUpdateDto meetingUpdateDto) {
+        String newTopic = meetingUpdateDto.topic();
+        String newPlace = meetingUpdateDto.place();
+
+        if (!newTopic.equals(this.topic)) {
+            this.topic = newTopic;
+        }
+        if (!newPlace.equals(this.place)) {
+            this.place = newPlace;
+        }
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public String getPlace() {
+        return place;
     }
 }

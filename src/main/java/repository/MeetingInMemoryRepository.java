@@ -1,10 +1,10 @@
 package repository;
 
 import domain.Meeting;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
+import static global.ErrorMessage.MEETING_NOT_FOUND;
 
 public class MeetingInMemoryRepository implements MeetingRepository {
 
@@ -13,7 +13,6 @@ public class MeetingInMemoryRepository implements MeetingRepository {
 
     @Override
     public Meeting save(Meeting meeting) {
-
         meetings.put(sequence++, meeting);
         return meeting;
     }
@@ -22,4 +21,11 @@ public class MeetingInMemoryRepository implements MeetingRepository {
     public List<Meeting> findAll() {
         return new ArrayList<>(meetings.values());
     }
+
+    @Override
+    public Meeting findById(Long id) {
+        return Optional.ofNullable(meetings.get(id))
+                .orElseThrow(() -> new IllegalArgumentException(MEETING_NOT_FOUND.getMessage()));
+    }
+
 }
