@@ -2,10 +2,7 @@ package domain;
 
 import java.time.LocalTime;
 
-import static global.ErrorMessage.INVALID_ENDTIME;
-
 public class MeetingTime {
-
     private LocalTime startTime;
     private LocalTime endTime;
 
@@ -19,17 +16,9 @@ public class MeetingTime {
         return new MeetingTime(startTime, endTime);
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
     private static void validate(LocalTime startTime, LocalTime endTime) {
         if (endTime.isBefore(startTime)) {
-            throw new IllegalArgumentException(INVALID_ENDTIME.getMessage());
+            throw new IllegalArgumentException();
         }
     }
 }
