@@ -8,6 +8,7 @@ public enum ErrorMessage {
     // 모임
     MEETING_NOT_FOUND("[ERROR] 존재하지 않는 모임입니다."),
     MEMBER_NOT_FOUND("[ERROR] 존재하지 않는 멤버입니다."),
+    SEARCH_NOT_FOUND("[ERROR] 조회 결과가 없습니다."),
 
     // 날짜
     INVALID_DATE("[ERROR] 입력 날짜는 현재날짜보다 이후여야합니다."),
@@ -15,7 +16,10 @@ public enum ErrorMessage {
 
     // 시간
     INVALID_ENDTIME("[ERROR] 종료 시간은 시작 시작 이후여야 합니다."),
-    INVALID_TIME_PATTERN("[ERROR] 입력 시간의 형식이 올바르지 않습니다.");
+    INVALID_TIME_PATTERN("[ERROR] 입력 시간의 형식이 올바르지 않습니다."),
+
+    // 숫자
+    INVALID_NUMBER_FORMAT("[ERROR] 숫자 형식이 올바르지 않습니다.");
 
     private final String message;
 

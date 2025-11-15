@@ -1,19 +1,21 @@
 package controller;
 
-import static global.ErrorMessage.INVALID_MENU_INPUT;
-
 import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import service.MeetingService;
 import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static global.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MeetingController {
 
@@ -57,19 +59,23 @@ public class MeetingController {
 
     private void registerMeeting() {
         String userInput = inputView.getMeetingCreationInput();
-        List<String> tokens = InputParser.parseTokens(userInput);
+        List<String> tokens = InputParser.parseToTokens(userInput);
         MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(tokens);
 //        meetingService.createMeeting(meetingCreateDto, );
     }
 
     private void showAllMembers() {
-        List<MemberInfoDto> memberInfos = memberService.findAllMember().stream().map(MemberInfoDto::from).toList();
-        outputView.printAllMemberInfo(memberInfos);
+        try {
+            List<MemberInfoDto> memberInfos = memberService.findAllMember().stream().map(MemberInfoDto::from).toList();
+            outputView.printAllMemberInfo(memberInfos);
+        } catch (IOException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
     }
 
     private void login(String nickname) {
         InputValidator.validateBlankInput(nickname);
-        String trimmedNickname = InputParser.parseValidString(nickname);
+        String trimmedNickname = InputParser.parseToValidString(nickname);
         loginMember = memberService.findByNickName(trimmedNickname);
     }
 

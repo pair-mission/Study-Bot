@@ -30,8 +30,8 @@ public class Meeting {
 
     public static Meeting toEntity(MeetingCreateDto meetingCreateDto) {
         return of(
-                InputParser.parseDate(meetingCreateDto.date()),
-                InputParser.parseTime(meetingCreateDto.startTime(), meetingCreateDto.endTime()),
+                InputParser.parseToDate(meetingCreateDto.date()),
+                InputParser.parseToTime(meetingCreateDto.startTime(), meetingCreateDto.endTime()),
                 meetingCreateDto.topic(),
                 meetingCreateDto.place()
         );

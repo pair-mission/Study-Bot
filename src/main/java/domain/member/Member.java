@@ -1,15 +1,26 @@
 package domain.member;
 
-public class Member {
+import java.io.Serializable;
+
+public class Member implements Serializable {
     private final String nickname;
     private Long id;
 
     private Member(String nickname) {
+        this(null, nickname);
+    }
+
+    private Member(Long id, String nickname) {
+        this.id = id;
         this.nickname = nickname;
     }
 
     public static Member from(String nickname) {
         return new Member(nickname);
+    }
+
+    public static Member of(Long id, String nickname) {
+        return new Member(id, nickname);
     }
 
     void setId(Long id) {
