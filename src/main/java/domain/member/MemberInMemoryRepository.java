@@ -5,17 +5,18 @@ import java.util.List;
 import java.util.Map;
 
 public class MemberInMemoryRepository implements MemberRepository {
-
-    private final Map<String, Member> members = new HashMap<>();
+    private final Map<Long, Member> members = new HashMap<>();
+    private Long sequence = 0L;
 
     @Override
-    public Member save() {
-        return null;
+    public void save(Member member) {
+        member.setId(sequence);
+        members.put(sequence, member);
     }
 
     @Override
     public List<Member> findAll() {
-        return List.of();
+        return members.values().stream().toList();
     }
 
     @Override

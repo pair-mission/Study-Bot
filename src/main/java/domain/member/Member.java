@@ -12,4 +12,7 @@ public class Member {
         return new Member(nickname);
     }
 
+    void setId(Long id) {
+        this.id = id;
+    }
 }

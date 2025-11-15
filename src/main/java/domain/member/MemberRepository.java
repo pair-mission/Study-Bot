@@ -3,7 +3,7 @@ package domain.member;
 import java.util.List;
 
 public interface MemberRepository {
-    Member save();
+    void save(Member member);
 
     List<Member> findAll();
 
