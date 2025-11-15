@@ -7,36 +7,61 @@ import domain.meeting.ParticipantInMemoryRepository;
 import domain.member.MemberInMemoryRepository;
 import domain.member.MemberRepository;
 import service.MeetingService;
+import service.MemberService;
 import view.InputView;
 import view.OutputView;
 
 public class AppConfig {
+
+    private static final AppConfig Instance = new AppConfig();
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
+    private final MeetingRepository meetingRepository = new MeetingInMemoryRepository();
+    private final MemberRepository memberRepository = new MemberInMemoryRepository();
+    private final ParticipantInMemoryRepository participantRepository = new ParticipantInMemoryRepository();
+    private final MemberService memberService = new MemberService(memberRepository);
+    private final MeetingService meetingService = new MeetingService(meetingRepository, memberRepository,
+            participantRepository);
+    private final MeetingController meetingController = new MeetingController(memberService, meetingService, inputView,
+            outputView);
+
+    private AppConfig() {
+    }
+
+    public static AppConfig getInstance() {
+        return Instance;
+    }
+
     public InputView inputView() {
-        return new InputView();
+        return inputView;
     }
 
     public OutputView outputView() {
-        return new OutputView();
+        return outputView;
     }
 
     public MeetingRepository meetingRepository() {
-        return new MeetingInMemoryRepository();
+        return meetingRepository;
     }
 
     public MemberRepository memberRepository() {
-        return new MemberInMemoryRepository();
+        return memberRepository;
     }
 
     public ParticipantInMemoryRepository participantRepository() {
-        return new ParticipantInMemoryRepository();
+        return participantRepository;
+    }
+
+    public MemberService memberService() {
+        return memberService;
     }
 
     public MeetingService meetingService() {
-        return new MeetingService(meetingRepository(), memberRepository(), participantRepository());
+        return meetingService;
     }
 
     public MeetingController meetingController() {
-        return new MeetingController(meetingService(), inputView(), outputView());
+        return meetingController;
     }
 
 }

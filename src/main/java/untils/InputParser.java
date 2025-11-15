@@ -20,4 +20,8 @@ public class InputParser {
         return Arrays.stream(input.split(",")).map(String::trim).toList();
     }
 
+    public static String parseValidString(String input) {
+        return input.replaceAll("\\s+", "");
+    }
+
 }

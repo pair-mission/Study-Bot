@@ -1,6 +1,10 @@
 package view;
 
+import dto.MemberInfoDto;
+import java.util.List;
+
 public class OutputView {
+
     public void printErrorMessage(String message) {
         System.out.println(message);
     }
@@ -18,5 +22,12 @@ public class OutputView {
                 + "8. 출석 체크\n"
                 + "9. 내 모임 조회\n"
                 + "10. 종료");
+    }
+
+    public void printAllMemberInfo(List<MemberInfoDto> memberInfos) {
+        System.out.println("[스터디 멤버]");
+        for (MemberInfoDto memberInfo : memberInfos) {
+            System.out.println("- " + memberInfo.nickname());
+        }
     }
 }

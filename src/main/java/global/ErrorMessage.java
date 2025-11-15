@@ -6,8 +6,8 @@ public enum ErrorMessage {
     INVALID_MENU_INPUT("[ERROR] 메뉴 입력값이 유효하지 않습니다."),
 
     // 모임
-    MEETING_NOT_FOUND("존재하지 않는 모임입니다."),
-    MEMBER_NOT_FOUND("존재하지 않는 멤버입니다."),
+    MEETING_NOT_FOUND("[ERROR] 존재하지 않는 모임입니다."),
+    MEMBER_NOT_FOUND("[ERROR] 존재하지 않는 멤버입니다."),
 
     // 날짜
     INVALID_DATE("[ERROR] 입력 날짜는 현재날짜보다 이후여야합니다."),

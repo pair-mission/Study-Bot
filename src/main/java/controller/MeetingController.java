@@ -2,23 +2,31 @@ package controller;
 
 import static global.ErrorMessage.INVALID_MENU_INPUT;
 
+import domain.member.Member;
 import dto.MeetingCreateDto;
+import dto.MemberInfoDto;
+import global.InputValidator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import service.MeetingService;
+import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
 
 public class MeetingController {
 
+    private final MemberService memberService;
     private final MeetingService meetingService;
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<Integer, Runnable> actions;
+    private Member loginMember;
 
-    public MeetingController(MeetingService meetingService, InputView inputView, OutputView outputView) {
+    public MeetingController(MemberService memberService, MeetingService meetingService,
+                             InputView inputView, OutputView outputView) {
+        this.memberService = memberService;
         this.meetingService = meetingService;
         this.inputView = inputView;
         this.outputView = outputView;
@@ -26,12 +34,23 @@ public class MeetingController {
         registerAction();
     }
 
+    public void start() {
+        try {
+            outputView.printMenu();
+            login(inputView.getUserNickname());
+            int menuOption = getValidMenu();
+            handleOption(menuOption);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
+    }
+
     private void registerAction() {
         actions.put(1, this::registerMeeting);
 //        actions.put(2, createMeetings());
 //        actions.put(3, createMeetings());
 //        actions.put(4, createMeetings());
-//        actions.put(5, createMeetings());
+        actions.put(5, this::showAllMembers);
 //        actions.put(6, createMeetings());
 //        actions.put(7, createMeetings());
     }
@@ -43,20 +62,15 @@ public class MeetingController {
 //        meetingService.createMeeting(meetingCreateDto, );
     }
 
-    public void start() {
-        try {
-            outputView.printMenu();
-            String nickname = inputView.getUserNickname();
-//            login();
-            int menuOption = getValidMenu();
-            handleOption(menuOption);
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-        }
+    private void showAllMembers() {
+        List<MemberInfoDto> memberInfos = memberService.findAllMember().stream().map(MemberInfoDto::from).toList();
+        outputView.printAllMemberInfo(memberInfos);
     }
 
-    private void login() {
-
+    private void login(String nickname) {
+        InputValidator.validateBlankInput(nickname);
+        String trimmedNickname = InputParser.parseValidString(nickname);
+        loginMember = memberService.findByNickName(trimmedNickname);
     }
 
     private void handleOption(int menu) {

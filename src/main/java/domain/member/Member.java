@@ -19,4 +19,8 @@ public class Member {
     public boolean isSameNickname(String name) {
         return true;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
 }

@@ -6,7 +6,12 @@ import java.util.Map;
 
 public class MemberInMemoryRepository implements MemberRepository {
     private final Map<Long, Member> members = new HashMap<>();
-    private Long sequence = 0L;
+    private final Long sequence = 2L;
+
+    public MemberInMemoryRepository() {
+        members.put(0L, Member.from("제오"));
+        members.put(1L, Member.from("제이"));
+    }
 
     @Override
     public void save(Member member) {
@@ -27,11 +32,11 @@ public class MemberInMemoryRepository implements MemberRepository {
     @Override
     public Member findByNickName(String nickname) {
         return members.values().stream()
-                .filter(member -> member.isSameNickname(nickname)).findFirst().get();
+                .filter(member -> member.isSameNickname(nickname)).findFirst().orElse(null);
     }
 
     @Override
     public Member findById(long id) {
-        return null;
+        return members.get(id);
     }
 }

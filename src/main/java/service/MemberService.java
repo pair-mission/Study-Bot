@@ -40,5 +40,17 @@ public class MemberService {
 
         return member;
     }
+    
+    public Member findById(long id){
+        
+        Member member = memberRepository.findById(id);
+        
+        if(member == null) {
+            throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
+        }
+        
+        return member;
+        
+    }
 
 }
