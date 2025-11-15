@@ -3,8 +3,11 @@ package domain.meeting;
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-import java.time.LocalDate;
 import untils.InputParser;
+
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Meeting {
     private final LocalDate date;
@@ -54,6 +57,41 @@ public class Meeting {
         if (!newPlace.equals(this.place)) {
             this.place = newPlace;
         }
+    }
+
+    public boolean isAfterNow() {
+        LocalDateTime now = LocalDateTime.now();
+        long duration = getBetweenDays();
+        if (duration > 0) {
+            return true;
+        }
+        if (date.isEqual(now.toLocalDate()) && meetingTime.isStartTimeAfter(now.toLocalTime())) {
+            return true;
+        }
+        return false;
+    }
+
+    private long getBetweenDays() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startDateTime = LocalDateTime.of(date, meetingTime.getStartTime());
+        return Duration.between(now, startDateTime).toDays();
+    }
+
+    public boolean isTomorrowMeeting() {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        return this.date.isEqual(tomorrow);
+    }
+
+    public boolean isMeetingOver() {
+        LocalDateTime now = LocalDateTime.now();
+        long duration = getBetweenDays();
+        if (duration < 0) {
+            return true;
+        }
+        if (date.isEqual(now.toLocalDate()) && meetingTime.isEndTimeBefore(now.toLocalTime())) {
+            return true;
+        }
+        return false;
     }
 
     public Long getId() {

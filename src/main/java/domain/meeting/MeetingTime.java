@@ -21,4 +21,16 @@ public class MeetingTime {
             throw new IllegalArgumentException();
         }
     }
+
+    public boolean isStartTimeAfter(LocalTime time) {
+        return startTime.isAfter(time);
+    }
+
+    public boolean isEndTimeBefore(LocalTime time) {
+        return endTime.isBefore(time);
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
 }
