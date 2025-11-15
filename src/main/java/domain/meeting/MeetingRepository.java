@@ -1,6 +1,4 @@
-package repository;
-
-import domain.Meeting;
+package domain.meeting;
 
 import java.util.List;
 

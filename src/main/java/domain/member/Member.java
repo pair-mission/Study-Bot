@@ -1,7 +1,8 @@
-package domain;
+package domain.member;
 
 public class Member {
-    private String nickname;
+    private final String nickname;
+    private Long id;
 
     private Member(String nickname) {
         this.nickname = nickname;

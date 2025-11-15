@@ -1,10 +1,10 @@
-package domain;
+package domain.meeting;
 
 import java.time.LocalTime;
 
 public class MeetingTime {
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private final LocalTime startTime;
+    private final LocalTime endTime;
 
     private MeetingTime(LocalTime startTime, LocalTime endTime) {
         this.startTime = startTime;

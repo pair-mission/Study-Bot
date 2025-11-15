@@ -1,11 +1,11 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import domain.meeting.MeetingTime;
+import java.time.LocalTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalTime;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MeetingTimeTest {
 

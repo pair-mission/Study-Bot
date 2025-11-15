@@ -1,25 +1,33 @@
 package service;
 
-import domain.Meeting;
+import static global.ErrorMessage.MEMBER_NOT_FOUND;
+
+import domain.meeting.Meeting;
+import domain.meeting.MeetingParticipant;
+import domain.meeting.MeetingRepository;
+import domain.meeting.ParticipantInMemoryRepository;
+import domain.member.MemberRepository;
+import domain.member.Role;
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
-import repository.MeetingRepository;
-import repository.MemberRepository;
-
-import static global.ErrorMessage.MEMBER_NOT_FOUND;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final MemberRepository memberRepository;
+    private final ParticipantInMemoryRepository participantRepository;
 
-    public MeetingService(MeetingRepository meetingRepository, MemberRepository memberRepository) {
+    public MeetingService(MeetingRepository meetingRepository, MemberRepository memberRepository,
+                          ParticipantInMemoryRepository participantRepository) {
         this.meetingRepository = meetingRepository;
         this.memberRepository = memberRepository;
+        this.participantRepository = participantRepository;
     }
 
-    public void save(MeetingCreateDto meetingCreateDto) {
+    public void createMeeting(MeetingCreateDto meetingCreateDto, Long hostId) {
         Meeting meeting = Meeting.toEntity(meetingCreateDto);
         meetingRepository.save(meeting);
+        MeetingParticipant participant = MeetingParticipant.toEntity(Role.HOST, hostId, meeting.getId());
+        participantRepository.save(participant);
     }
 
     public void updateMeeting(String nickname, Long meetingId, MeetingUpdateDto meetingUpdateDto) {

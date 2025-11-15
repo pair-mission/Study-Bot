@@ -1,0 +1,65 @@
+@startuml
+actor User
+
+note over User
+프로그램 시작 시 User 객체가 생성된다고 가정합니다.
+end note
+
+== 프로그램 시작 ==
+User -> AppController : start()
+AppController -> OutputView : printWelcome()\n(인사 / 선택 목록 출력)
+
+== 로그인 메뉴 선택 ==
+User -> AppController : select(로그인)
+
+AppController -> InputView : read("닉네임 입력")
+InputView --> AppController : nickname
+
+== 로그인 처리 ==
+AppController -> MemberService : findByNickname(nickname)
+activate MemberService
+
+alt 멤버 존재
+    MemberService -> MemberRepository : findByNickname(nickname)
+    activate MemberRepository
+    MemberRepository --> MemberService : Member
+    deactivate MemberRepository
+
+    MemberService --> AppController : Member
+    deactivate MemberService
+
+    AppController -> OutputView : printLoginSuccess(Member)
+
+    == 로그인 성공 후 ==
+    AppController -> MeetingService : getTomorrowMeetings(member)
+    activate MeetingService
+    MeetingService -> MeetingRepository : findByParticipant(member)
+    activate MeetingRepository
+    MeetingRepository --> MeetingService : List<Meeting>
+    deactivate MeetingRepository
+
+    MeetingService --> AppController : List<Meeting>
+    deactivate MeetingService
+
+    AppController -> OutputView : printTomorrowMeetings()
+
+else 멤버 없음
+    MemberService -> MemberRepository : findByNickname(nickname)
+    activate MemberRepository
+    MemberRepository --> MemberService : null
+    deactivate MemberRepository
+
+    MemberService --> AppController : IllegalArgumentException("[ERROR] 존재하지 않는 멤버")
+    deactivate MemberService
+
+    AppController -> OutputView : printError("[ERROR] 존재하지 않는 멤버입니다.")
+end
+
+== 메뉴로 돌아가기 ==
+AppController -> OutputView : printWelcome()\n(선택 목록 재출력)
+
+== 종료 ==
+User -> AppController : select(종료)
+AppController -> OutputView : printExit()
+
+@enduml

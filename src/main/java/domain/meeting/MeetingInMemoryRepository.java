@@ -1,19 +1,22 @@
-package repository;
-
-import domain.Meeting;
-
-import java.util.*;
+package domain.meeting;
 
 import static global.ErrorMessage.MEETING_NOT_FOUND;
 
-public class MeetingInMemoryRepository implements MeetingRepository {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-    private Map<Long, Meeting> meetings = new HashMap<>();
+public class MeetingInMemoryRepository implements MeetingRepository {
+    private final Map<Long, Meeting> meetings = new HashMap<>();
     private Long sequence = 0L;
 
     @Override
     public Meeting save(Meeting meeting) {
-        meetings.put(sequence++, meeting);
+        meeting.setId(sequence);
+        meetings.put(sequence, meeting);
+        sequence++;
         return meeting;
     }
 

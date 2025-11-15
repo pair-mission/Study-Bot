@@ -1,15 +1,15 @@
-package domain;
+package domain.meeting;
 
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-
 import java.time.LocalDate;
+import untils.InputParser;
 
 public class Meeting {
+    private final LocalDate date;
+    private final MeetingTime meetingTime;
     private Long id;
-    private LocalDate date;
-    private MeetingTime meetingTime;
     private String place;
     private String topic;
 
@@ -54,6 +54,14 @@ public class Meeting {
         if (!newPlace.equals(this.place)) {
             this.place = newPlace;
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    void setId(Long id) {
+        this.id = id;
     }
 
     public String getTopic() {

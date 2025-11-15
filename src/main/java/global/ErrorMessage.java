@@ -3,6 +3,7 @@ package global;
 public enum ErrorMessage {
     // 공통
     BLANK_INPUT("[ERROR] 입력값이 비어있습니다"),
+    INVALID_MENU_INPUT("[ERROR] 메뉴 입력값이 유효하지 않습니다."),
 
     // 모임
     MEETING_NOT_FOUND("존재하지 않는 모임입니다."),
@@ -16,7 +17,7 @@ public enum ErrorMessage {
     INVALID_ENDTIME("[ERROR] 종료 시간은 시작 시작 이후여야 합니다."),
     INVALID_TIME_PATTERN("[ERROR] 입력 시간의 형식이 올바르지 않습니다.");
 
-    private String message;
+    private final String message;
 
     ErrorMessage(String message) {
         this.message = message;

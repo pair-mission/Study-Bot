@@ -1,6 +1,4 @@
-package repository;
-
-import domain.Member;
+package domain.member;
 
 import java.util.List;
 
