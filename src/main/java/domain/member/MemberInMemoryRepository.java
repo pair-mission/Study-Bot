@@ -23,4 +23,15 @@ public class MemberInMemoryRepository implements MemberRepository {
     public Boolean existsBy(String nickname) {
         return members.containsKey(nickname);
     }
+
+    @Override
+    public Member findByNickName(String nickname) {
+        return members.values().stream()
+                .filter(member -> member.isSameNickname(nickname)).findFirst().get();
+    }
+
+    @Override
+    public Member findById(long id) {
+        return null;
+    }
 }

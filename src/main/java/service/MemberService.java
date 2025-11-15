@@ -30,4 +30,15 @@ public class MemberService {
     public List<Member> findAllMember() {
         return memberRepository.findAll();
     }
+
+    public Member findByNickName(String nickname) {
+        Member member = memberRepository.findByNickName(nickname);
+
+        if (member == null) {
+            throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
+        }
+
+        return member;
+    }
+
 }

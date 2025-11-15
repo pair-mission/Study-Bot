@@ -7,5 +7,9 @@ public interface MemberRepository {
 
     List<Member> findAll();
 
+    Member findByNickName(String nickname);
+
+    Member findById(long id);
+
     Boolean existsBy(String nickname);
 }

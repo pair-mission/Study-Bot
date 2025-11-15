@@ -15,4 +15,8 @@ public class Member {
     void setId(Long id) {
         this.id = id;
     }
+
+    public boolean isSameNickname(String name) {
+        return true;
+    }
 }
