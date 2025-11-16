@@ -3,6 +3,7 @@ package controller;
 import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
+import dto.MeetingUpdateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
 import global.exception.DataAccessException;
@@ -54,7 +55,7 @@ public class MeetingController {
 
     private void registerAction() {
         actions.put(1, this::registerMeeting);
-//        actions.put(2, createMeetings());
+        actions.put(2, this::updateMeeting);
 //        actions.put(3, createMeetings());
         actions.put(4, this::showAllMeetings);
         actions.put(5, this::showAllMembers);
@@ -67,6 +68,17 @@ public class MeetingController {
         List<String> tokens = InputParser.parseToTokens(userInput);
         MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(tokens);
         meetingService.createMeeting(meetingCreateDto, loginMember);
+        outputView.printMeetingRegisterSuccess();
+    }
+
+    private void updateMeeting() {
+        // TODO 내 모임 조회 먼저 보여줘야함
+        String userInput = inputView.getMeetingUpdateInput();
+        List<String> tokens = InputParser.parseToTokens(userInput);
+        Long meetingId = Long.parseLong(tokens.getFirst());
+        MeetingUpdateDto meetingUpdateDto = MeetingUpdateDto.from(tokens.get(1), tokens.get(2));
+        meetingService.updateMeeting(loginMember, meetingId, meetingUpdateDto);
+        outputView.printMeetingUpdateSuccess();
     }
 
     private void showAllMeetings() {
@@ -83,7 +95,6 @@ public class MeetingController {
         } catch (DataAccessException e) {
             outputView.printErrorMessage(e.getMessage());
         }
-
     }
 
     private void showAllMembers() {

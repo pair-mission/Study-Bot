@@ -19,7 +19,12 @@ public class InputView {
     }
 
     public String getMemberNickname() {
-        System.out.println("\n 등록할 멤버의 닉네임을 입력하세요.");
+        System.out.println("\n등록할 멤버의 닉네임을 입력하세요.");
+        return Console.readLine();
+    }
+
+    public String getMeetingUpdateInput() {
+        System.out.println("\n수정할 모임의 ID와 새로운 정보를 순서대로 입력해주세요. (예: 2, 코테 1회차, 스터디룸A)\n");
         return Console.readLine();
     }
 }

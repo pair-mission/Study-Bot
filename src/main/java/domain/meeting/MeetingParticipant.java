@@ -23,6 +23,14 @@ public class MeetingParticipant {
         return meeting.isSameById(meetingId);
     }
 
+    public boolean isSameMemberId(Long memberId) {
+        return member.isSameId(memberId);
+    }
+
+    public boolean isHost() {
+        return role == Role.HOST;
+    }
+
     void setId(Long id) {
         this.id = id;
     }

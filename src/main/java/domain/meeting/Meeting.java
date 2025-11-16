@@ -3,10 +3,11 @@ package domain.meeting;
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
+import untils.InputParser;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import untils.InputParser;
 
 public class Meeting {
     private final LocalDate date;
@@ -56,15 +57,8 @@ public class Meeting {
     }
 
     public void compareAndChange(MeetingUpdateDto meetingUpdateDto) {
-        String newTopic = meetingUpdateDto.topic();
-        String newPlace = meetingUpdateDto.place();
-
-        if (!newTopic.equals(this.topic)) {
-            this.topic = newTopic;
-        }
-        if (!newPlace.equals(this.place)) {
-            this.place = newPlace;
-        }
+        meetingUpdateDto.topic().ifPresent(topic -> this.topic = topic);
+        meetingUpdateDto.place().ifPresent(place -> this.place = place);
     }
 
     public boolean isAfterNow() {

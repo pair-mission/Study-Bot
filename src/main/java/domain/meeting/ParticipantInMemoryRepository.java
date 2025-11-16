@@ -20,4 +20,10 @@ public class ParticipantInMemoryRepository {
                 .filter(meetingParticipant -> meetingParticipant.isSameMeetingId(meetingId))
                 .collect(Collectors.toList());
     }
+
+    public boolean isHost(Long memberId, Long meetingId) {
+        return participants.values().stream()
+                .anyMatch(participant -> participant.isSameMemberId(memberId)
+                        && participant.isSameMeetingId(meetingId) && participant.isHost());
+    }
 }

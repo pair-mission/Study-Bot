@@ -44,4 +44,12 @@ public class OutputView {
             System.out.println("-" + meetingInfo.meetingInfo() + " / 참여인원 " + meetingInfo.participantsCount() + "명");
         }
     }
+
+    public void printMeetingRegisterSuccess() {
+        System.out.println("모임이 등록되었습니다.");
+    }
+
+    public void printMeetingUpdateSuccess() {
+        System.out.println("모임 정보가 수정되었습니다.");
+    }
 }

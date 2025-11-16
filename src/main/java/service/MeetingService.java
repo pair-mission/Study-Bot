@@ -10,11 +10,10 @@ import domain.member.Role;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
+import global.ErrorMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static global.ErrorMessage.MEMBER_NOT_FOUND;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
@@ -35,11 +34,13 @@ public class MeetingService {
         participantRepository.save(participant);
     }
 
-    public void updateMeeting(String nickname, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
-        if (!memberRepository.existsBy(nickname)) {
-            throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
+    public void updateMeeting(Member member, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
+        if (!participantRepository.isHost(member.getId(), meetingId)) { // 모임장인지 확인
+            throw new IllegalArgumentException(ErrorMessage.NOT_HOST.getMessage());
         }
+
         Meeting meeting = meetingRepository.findById(meetingId);
+
         meeting.compareAndChange(meetingUpdateDto);
     }
 

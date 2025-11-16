@@ -6,17 +6,18 @@ import java.util.Map;
 
 public class MemberInMemoryRepository implements MemberRepository {
     private final Map<Long, Member> members = new HashMap<>();
-    private final Long sequence = 2L;
+    private Long sequence = 2L;
 
     public MemberInMemoryRepository() {
-        members.put(0L, Member.from("제오"));
-        members.put(1L, Member.from("제이"));
+        members.put(0L, Member.of(0L, "제오"));
+        members.put(1L, Member.of(1L, "제이"));
     }
 
     @Override
     public void save(Member member) {
         member.setId(sequence);
         members.put(sequence, member);
+        sequence++;
     }
 
     @Override
