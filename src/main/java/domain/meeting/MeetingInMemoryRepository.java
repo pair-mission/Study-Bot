@@ -30,4 +30,8 @@ public class MeetingInMemoryRepository implements MeetingRepository {
                 .orElseThrow(() -> new IllegalArgumentException(MEETING_NOT_FOUND.getMessage()));
     }
 
+    @Override
+    public void delete(Long meetingId) {
+        meetings.remove(meetingId);
+    }
 }

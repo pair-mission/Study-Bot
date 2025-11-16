@@ -51,4 +51,9 @@ public class MeetingFileRepository implements MeetingRepository {
     public Meeting findById(Long id) {
         return null;
     }
+
+    @Override
+    public void delete(Long meetingId) {
+
+    }
 }

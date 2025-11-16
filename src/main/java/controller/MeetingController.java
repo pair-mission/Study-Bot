@@ -1,5 +1,7 @@
 package controller;
 
+import static global.ErrorMessage.INVALID_MENU_INPUT;
+
 import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
@@ -7,17 +9,14 @@ import dto.MeetingUpdateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
 import global.exception.DataAccessException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import service.MeetingService;
 import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static global.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MeetingController {
 
@@ -56,7 +55,7 @@ public class MeetingController {
     private void registerAction() {
         actions.put(1, this::registerMeeting);
         actions.put(2, this::updateMeeting);
-//        actions.put(3, createMeetings());
+        actions.put(3, this::deleteMeeting);
         actions.put(4, this::showAllMeetings);
         actions.put(5, this::showAllMembers);
         actions.put(6, this::registerMember);
@@ -79,6 +78,13 @@ public class MeetingController {
         MeetingUpdateDto meetingUpdateDto = MeetingUpdateDto.from(tokens.get(1), tokens.get(2));
         meetingService.updateMeeting(loginMember, meetingId, meetingUpdateDto);
         outputView.printMeetingUpdateSuccess();
+    }
+
+    private void deleteMeeting() {
+        String userInput = inputView.getMeetingDeleteInput();
+        Long meetingId = Long.parseLong(userInput);
+        meetingService.deleteMeeting(meetingId, loginMember);
+        outputView.printMeetingDeleteMessage();
     }
 
     private void showAllMeetings() {

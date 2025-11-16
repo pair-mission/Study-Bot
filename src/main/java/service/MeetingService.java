@@ -11,7 +11,6 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +34,7 @@ public class MeetingService {
     }
 
     public void updateMeeting(Member member, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
-        if (!participantRepository.isHost(member.getId(), meetingId)) { // 모임장인지 확인
-            throw new IllegalArgumentException(ErrorMessage.NOT_HOST.getMessage());
-        }
+        this.isHost(member, meetingId);
 
         Meeting meeting = meetingRepository.findById(meetingId);
 
@@ -57,4 +54,16 @@ public class MeetingService {
         return meetingInfos;
     }
 
+    public void deleteMeeting(Long meetingId, Member hostMember) {
+        this.isHost(hostMember, meetingId);
+        meetingRepository.delete(meetingId);
+    }
+
+
+    private boolean isHost(Member hostMember, Long meetingId) {
+        if (!participantRepository.isHost(hostMember.getId(), meetingId)) { // 모임장인지 확인
+            throw new IllegalArgumentException(ErrorMessage.NOT_HOST.getMessage());
+        }
+        return true;
+    }
 }

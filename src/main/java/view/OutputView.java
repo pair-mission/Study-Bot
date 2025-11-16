@@ -2,7 +2,6 @@ package view;
 
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
-
 import java.util.List;
 
 public class OutputView {
@@ -51,5 +50,9 @@ public class OutputView {
 
     public void printMeetingUpdateSuccess() {
         System.out.println("모임 정보가 수정되었습니다.");
+    }
+
+    public void printMeetingDeleteMessage() {
+        System.out.println("모임이 삭제 되었습니다.");
     }
 }

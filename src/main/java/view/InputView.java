@@ -27,4 +27,9 @@ public class InputView {
         System.out.println("\n수정할 모임의 ID와 새로운 정보를 순서대로 입력해주세요. (예: 2, 코테 1회차, 스터디룸A)\n");
         return Console.readLine();
     }
+
+    public String getMeetingDeleteInput() {
+        System.out.println("\n삭제할 모임의 ID 를 입력해주세요.");
+        return Console.readLine();
+    }
 }

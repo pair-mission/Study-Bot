@@ -8,4 +8,6 @@ public interface MeetingRepository {
     List<Meeting> findAll();
 
     Meeting findById(Long id);
+
+    void delete(Long meetingId);
 }
