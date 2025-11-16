@@ -38,4 +38,8 @@ public class MeetingParticipant {
     public Member getMember() {
         return member;
     }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
 }

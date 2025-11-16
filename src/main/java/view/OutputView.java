@@ -1,5 +1,6 @@
 package view;
 
+import domain.meeting.Meeting;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
 import java.util.List;
@@ -54,5 +55,13 @@ public class OutputView {
 
     public void printMeetingDeleteMessage() {
         System.out.println("모임이 삭제 되었습니다.");
+    }
+
+    public void printMyMeetings(List<Meeting> myMeetings) {
+        System.out.println("[내가 참여 중인 모임 목록]");
+
+        for (Meeting meeting : myMeetings) {
+            System.out.println(meeting.toString());
+        }
     }
 }

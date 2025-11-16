@@ -26,4 +26,9 @@ public class ParticipantInMemoryRepository {
                 .anyMatch(participant -> participant.isSameMemberId(memberId)
                         && participant.isSameMeetingId(meetingId) && participant.isHost());
     }
+
+    public List<Meeting> findMeetingsByMember(Long id) {
+        return participants.values().stream().filter(participants -> participants.isSameMemberId(id))
+                .map(MeetingParticipant::getMeeting).toList();
+    }
 }

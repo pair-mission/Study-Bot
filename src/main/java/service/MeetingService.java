@@ -66,4 +66,8 @@ public class MeetingService {
         }
         return true;
     }
+
+    public List<Meeting> getMyMeetings(Member member) {
+        return participantRepository.findMeetingsByMember(member.getId());
+    }
 }

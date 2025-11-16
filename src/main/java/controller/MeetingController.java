@@ -2,6 +2,7 @@ package controller;
 
 import static global.ErrorMessage.INVALID_MENU_INPUT;
 
+import domain.meeting.Meeting;
 import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
@@ -60,6 +61,12 @@ public class MeetingController {
         actions.put(5, this::showAllMembers);
         actions.put(6, this::registerMember);
 //        actions.put(7, createMeetings());
+        actions.put(10, this::showMyMeetings);
+    }
+
+    private void showMyMeetings() {
+        List<Meeting> meetings = meetingService.getMyMeetings(loginMember);
+        outputView.printMyMeetings(meetings);
     }
 
     private void registerMeeting() {
