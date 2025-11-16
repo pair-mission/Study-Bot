@@ -3,11 +3,10 @@ package domain.meeting;
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-import untils.InputParser;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import untils.InputParser;
 
 public class Meeting {
     private final LocalDate date;
@@ -17,7 +16,12 @@ public class Meeting {
     private String topic;
 
     private Meeting(LocalDate date, MeetingTime meetingTime, String topic, String place) {
+        this(null, date, meetingTime, topic, place);
+    }
+
+    private Meeting(Long id, LocalDate date, MeetingTime meetingTime, String topic, String place) {
         validate(date);
+        this.id = id;
         this.date = date;
         this.meetingTime = meetingTime;
         this.topic = topic;
@@ -26,6 +30,10 @@ public class Meeting {
 
     public static Meeting of(LocalDate date, MeetingTime meetingTime, String topic, String place) {
         return new Meeting(date, meetingTime, topic, place);
+    }
+
+    public static Meeting of(Long id, LocalDate date, MeetingTime meetingTime, String topic, String place) {
+        return new Meeting(id, date, meetingTime, topic, place);
     }
 
     public static Meeting toEntity(MeetingCreateDto meetingCreateDto) {
@@ -65,10 +73,7 @@ public class Meeting {
         if (duration > 0) {
             return true;
         }
-        if (date.isEqual(now.toLocalDate()) && meetingTime.isStartTimeAfter(now.toLocalTime())) {
-            return true;
-        }
-        return false;
+        return date.isEqual(now.toLocalDate()) && meetingTime.isStartTimeAfter(now.toLocalTime());
     }
 
     private long getBetweenDays() {
@@ -88,10 +93,7 @@ public class Meeting {
         if (duration < 0) {
             return true;
         }
-        if (date.isEqual(now.toLocalDate()) && meetingTime.isEndTimeBefore(now.toLocalTime())) {
-            return true;
-        }
-        return false;
+        return date.isEqual(now.toLocalDate()) && meetingTime.isEndTimeBefore(now.toLocalTime());
     }
 
     public boolean isSameById(Long id) {
@@ -104,6 +106,14 @@ public class Meeting {
 
     void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public MeetingTime getMeetingTime() {
+        return meetingTime;
     }
 
     public String getTopic() {

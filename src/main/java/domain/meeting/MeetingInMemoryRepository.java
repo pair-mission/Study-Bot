@@ -13,11 +13,10 @@ public class MeetingInMemoryRepository implements MeetingRepository {
     private Long sequence = 0L;
 
     @Override
-    public Meeting save(Meeting meeting) {
+    public void save(Meeting meeting) {
         meeting.setId(sequence);
         meetings.put(sequence, meeting);
         sequence++;
-        return meeting;
     }
 
     @Override

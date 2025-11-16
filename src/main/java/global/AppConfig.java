@@ -1,7 +1,7 @@
 package global;
 
 import controller.MeetingController;
-import domain.meeting.MeetingInMemoryRepository;
+import domain.meeting.MeetingFileRepository;
 import domain.meeting.MeetingRepository;
 import domain.meeting.ParticipantInMemoryRepository;
 import domain.member.MemberFileRepository;
@@ -16,7 +16,7 @@ public class AppConfig {
     private static final AppConfig Instance = new AppConfig();
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final MeetingRepository meetingRepository = new MeetingInMemoryRepository();
+    private final MeetingRepository meetingRepository = new MeetingFileRepository();
     private final MemberRepository memberRepository = new MemberFileRepository();
     private final ParticipantInMemoryRepository participantRepository = new ParticipantInMemoryRepository();
     private final MemberService memberService = new MemberService(memberRepository);
