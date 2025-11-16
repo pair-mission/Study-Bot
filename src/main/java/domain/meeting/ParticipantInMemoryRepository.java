@@ -1,7 +1,9 @@
 package domain.meeting;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ParticipantInMemoryRepository {
     private final Map<Long, MeetingParticipant> participants = new HashMap<>();
@@ -11,5 +13,11 @@ public class ParticipantInMemoryRepository {
         participant.setId(sequence);
         participants.put(sequence, participant);
         sequence++;
+    }
+
+    public List<MeetingParticipant> findAllParticipantsByMeetingId(Long meetingId) {
+        return participants.values().stream()
+                .filter(meetingParticipant -> meetingParticipant.isSameMeetingId(meetingId))
+                .collect(Collectors.toList());
     }
 }

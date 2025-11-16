@@ -94,6 +94,10 @@ public class Meeting {
         return false;
     }
 
+    public boolean isSameById(Long id) {
+        return this.id.equals(id);
+    }
+
     public Long getId() {
         return id;
     }
@@ -108,5 +112,10 @@ public class Meeting {
 
     public String getPlace() {
         return place;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(ID: %d) %s %s / %s / %s", id, date, meetingTime.getStartTime(), topic, place);
     }
 }

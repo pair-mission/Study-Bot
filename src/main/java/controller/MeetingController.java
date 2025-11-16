@@ -2,6 +2,7 @@ package controller;
 
 import domain.member.Member;
 import dto.MeetingCreateDto;
+import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
 import global.exception.DataAccessException;
@@ -37,12 +38,17 @@ public class MeetingController {
     }
 
     public void start() {
-        try {
-            outputView.printMenu();
-            int menuOption = getValidMenu();
-            handleOption(menuOption);
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
+        while (true) {
+            try {
+                outputView.printMenu();
+                int menuOption = getValidMenu();
+                if (menuOption == 11) {
+                    break;
+                }
+                handleOption(menuOption);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 
@@ -50,7 +56,7 @@ public class MeetingController {
         actions.put(1, this::registerMeeting);
 //        actions.put(2, createMeetings());
 //        actions.put(3, createMeetings());
-//        actions.put(4, createMeetings());
+        actions.put(4, this::showAllMeetings);
         actions.put(5, this::showAllMembers);
         actions.put(6, this::registerMember);
 //        actions.put(7, createMeetings());
@@ -60,7 +66,12 @@ public class MeetingController {
         String userInput = inputView.getMeetingCreationInput();
         List<String> tokens = InputParser.parseToTokens(userInput);
         MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(tokens);
-//        meetingService.createMeeting(meetingCreateDto, );
+        meetingService.createMeeting(meetingCreateDto, loginMember);
+    }
+
+    private void showAllMeetings() {
+        List<MeetingInfoDto> allMeetings = meetingService.getAllMeetings();
+        outputView.printAllMeetingInfo(allMeetings);
     }
 
     private void registerMember() {

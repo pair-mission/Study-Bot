@@ -1,6 +1,8 @@
 package view;
 
+import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
+
 import java.util.List;
 
 public class OutputView {
@@ -34,5 +36,12 @@ public class OutputView {
 
     public void printRegisterSuccess(String nickname) {
         System.out.println(nickname + "님 등록이 완료되었습니다.");
+    }
+
+    public void printAllMeetingInfo(List<MeetingInfoDto> meetingInfos) {
+        System.out.println("[전체 모임 목록]");
+        for (MeetingInfoDto meetingInfo : meetingInfos) {
+            System.out.println("-" + meetingInfo.meetingInfo() + " / 참여인원 " + meetingInfo.participantsCount() + "명");
+        }
     }
 }
