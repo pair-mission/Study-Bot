@@ -4,6 +4,7 @@ public enum ErrorMessage {
     // 공통
     BLANK_INPUT("[ERROR] 입력값이 비어있습니다"),
     INVALID_MENU_INPUT("[ERROR] 메뉴 입력값이 유효하지 않습니다."),
+    INVALID_FILE("[ERROR] 파일이 유효하지 않습니다."),
 
     // 모임
     MEETING_NOT_FOUND("[ERROR] 존재하지 않는 모임입니다."),

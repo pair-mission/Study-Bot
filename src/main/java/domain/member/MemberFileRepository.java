@@ -1,8 +1,12 @@
 package domain.member;
 
+import global.exception.DataAccessException;
+import untils.CsvReader;
+
 import java.io.IOException;
 import java.util.List;
-import untils.CsvReader;
+
+import static global.ErrorMessage.INVALID_FILE;
 
 public class MemberFileRepository implements MemberRepository {
     private Long sequence;
@@ -12,7 +16,7 @@ public class MemberFileRepository implements MemberRepository {
             List<Member> members = CsvReader.readCsv();
             this.sequence = readNextSequence(members);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(INVALID_FILE);
         }
     }
 
@@ -21,29 +25,51 @@ public class MemberFileRepository implements MemberRepository {
     }
 
     @Override
-    public void save(Member member) throws IOException {
-        member.setId(sequence);
-        CsvReader.writeCsv(member);
-        ++sequence;
+    public void save(Member member) {
+        try {
+            member.setId(sequence);
+            CsvReader.writeCsv(member);
+            ++sequence;
+        } catch (IOException e) {
+            throw new DataAccessException(INVALID_FILE);
+        }
     }
 
     @Override
-    public List<Member> findAll() throws IOException {
-        return CsvReader.readCsv();
+    public List<Member> findAll() {
+        try {
+            return CsvReader.readCsv();
+        } catch (IOException e) {
+            throw new DataAccessException(INVALID_FILE);
+        }
     }
 
     @Override
     public Member findByNickName(String nickname) {
-        return Member.from("제이");
+        try {
+            return CsvReader.readCsv().stream()
+                    .filter(member -> member.isSameNickname(nickname)).findFirst().orElse(null);
+        } catch (IOException e) {
+            throw new DataAccessException(INVALID_FILE);
+        }
     }
 
     @Override
     public Member findById(long id) {
-        return null;
+        try {
+            return CsvReader.readCsv().stream()
+                    .filter(member -> member.isSameId(id)).findFirst().orElse(null);
+        } catch (IOException e) {
+            throw new DataAccessException(INVALID_FILE);
+        }
     }
 
     @Override
-    public Boolean existsBy(String nickname) throws IOException {
-        return CsvReader.existsCsv(nickname);
+    public Boolean existsBy(String nickname) {
+        try {
+            return CsvReader.existsCsv(nickname);
+        } catch (IOException e) {
+            throw new DataAccessException(INVALID_FILE);
+        }
     }
 }

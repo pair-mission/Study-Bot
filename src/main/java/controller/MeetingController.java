@@ -1,20 +1,21 @@
 package controller;
 
-import static global.ErrorMessage.INVALID_MENU_INPUT;
-
 import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import global.exception.DataAccessException;
 import service.MeetingService;
 import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static global.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MeetingController {
 
@@ -68,7 +69,7 @@ public class MeetingController {
             String newUserInput = InputParser.parseToValidString(userInput);
             Member member = memberService.register(newUserInput);
             outputView.printRegisterSuccess(member.getNickname());
-        } catch (IOException e) {
+        } catch (DataAccessException e) {
             outputView.printErrorMessage(e.getMessage());
         }
 
@@ -78,7 +79,7 @@ public class MeetingController {
         try {
             List<MemberInfoDto> memberInfos = memberService.findAllMember().stream().map(MemberInfoDto::from).toList();
             outputView.printAllMemberInfo(memberInfos);
-        } catch (IOException e) {
+        } catch (DataAccessException e) {
             outputView.printErrorMessage(e.getMessage());
         }
     }

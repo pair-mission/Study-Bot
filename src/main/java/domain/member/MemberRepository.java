@@ -1,16 +1,15 @@
 package domain.member;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface MemberRepository {
-    void save(Member member) throws IOException;
+    void save(Member member);
 
-    List<Member> findAll() throws IOException;
+    List<Member> findAll();
 
-    Member findByNickName(String nickname) throws IOException, ClassNotFoundException;
+    Member findByNickName(String nickname);
 
     Member findById(long id);
 
-    Boolean existsBy(String nickname) throws IOException;
+    Boolean existsBy(String nickname);
 }

@@ -3,7 +3,6 @@ package service;
 import domain.member.Member;
 import domain.member.MemberRepository;
 
-import java.io.IOException;
 import java.util.List;
 
 import static global.ErrorMessage.MEMBER_NOT_FOUND;
@@ -15,7 +14,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member register(String nickname) throws IOException {
+    public Member register(String nickname) {
         boolean existsByNickname = memberRepository.existsBy(nickname);
 
         if (existsByNickname) {
@@ -28,17 +27,13 @@ public class MemberService {
         return member;
     }
 
-    public List<Member> findAllMember() throws IOException {
+    public List<Member> findAllMember() {
         return memberRepository.findAll();
     }
 
     public Member findByNickName(String nickname) {
-        Member member = null;
-        try {
-            member = memberRepository.findByNickName(nickname);
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        Member member;
+        member = memberRepository.findByNickName(nickname);
 
         if (member == null) {
             throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
@@ -48,7 +43,6 @@ public class MemberService {
     }
 
     public Member findById(long id) {
-
         Member member = memberRepository.findById(id);
 
         if (member == null) {
@@ -56,7 +50,6 @@ public class MemberService {
         }
 
         return member;
-
     }
 
 }

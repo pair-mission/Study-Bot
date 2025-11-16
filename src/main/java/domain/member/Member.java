@@ -24,7 +24,11 @@ public class Member implements Serializable {
     }
 
     public boolean isSameNickname(String name) {
-        return true;
+        return nickname.equals(name);
+    }
+
+    public boolean isSameId(Long id) {
+        return this.id.equals(id);
     }
 
     public String getNickname() {
