@@ -17,11 +17,12 @@ public class OutputView {
                 + "3. 모임 삭제\n"
                 + "4. 모임 전체 조회\n"
                 + "5. 멤버 조회\n"
-                + "6. 참여자 등록\n"
-                + "7. 참여자 조회\n"
-                + "8. 출석 체크\n"
-                + "9. 내 모임 조회\n"
-                + "10. 종료");
+                + "6. 멤버 등록\n"
+                + "7. 참여자 등록\n"
+                + "8. 참여자 조회\n"
+                + "9. 출석 체크\n"
+                + "10. 내 모임 조회\n"
+                + "11. 종료");
     }
 
     public void printAllMemberInfo(List<MemberInfoDto> memberInfos) {
@@ -29,5 +30,9 @@ public class OutputView {
         for (MemberInfoDto memberInfo : memberInfos) {
             System.out.println("- " + memberInfo.nickname());
         }
+    }
+
+    public void printRegisterSuccess(String nickname) {
+        System.out.println(nickname + "님 등록이 완료되었습니다.");
     }
 }

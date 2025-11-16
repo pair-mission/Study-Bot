@@ -10,6 +10,7 @@ import domain.member.MemberRepository;
 import domain.member.Role;
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
+import java.io.IOException;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
@@ -30,7 +31,7 @@ public class MeetingService {
         participantRepository.save(participant);
     }
 
-    public void updateMeeting(String nickname, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
+    public void updateMeeting(String nickname, Long meetingId, MeetingUpdateDto meetingUpdateDto) throws IOException {
         if (!memberRepository.existsBy(nickname)) {
             throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
         }

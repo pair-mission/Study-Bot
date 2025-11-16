@@ -12,5 +12,5 @@ public interface MemberRepository {
 
     Member findById(long id);
 
-    Boolean existsBy(String nickname);
+    Boolean existsBy(String nickname) throws IOException;
 }

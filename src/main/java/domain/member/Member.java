@@ -23,15 +23,24 @@ public class Member implements Serializable {
         return new Member(id, nickname);
     }
 
-    void setId(Long id) {
-        this.id = id;
-    }
-
     public boolean isSameNickname(String name) {
         return true;
     }
 
     public String getNickname() {
         return nickname;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return id + "," + nickname;
     }
 }

@@ -1,21 +1,20 @@
 package controller;
 
+import static global.ErrorMessage.INVALID_MENU_INPUT;
+
 import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import service.MeetingService;
 import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static global.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MeetingController {
 
@@ -39,7 +38,6 @@ public class MeetingController {
     public void start() {
         try {
             outputView.printMenu();
-            login(inputView.getUserNickname());
             int menuOption = getValidMenu();
             handleOption(menuOption);
         } catch (IllegalArgumentException e) {
@@ -53,7 +51,7 @@ public class MeetingController {
 //        actions.put(3, createMeetings());
 //        actions.put(4, createMeetings());
         actions.put(5, this::showAllMembers);
-//        actions.put(6, createMeetings());
+        actions.put(6, this::registerMember);
 //        actions.put(7, createMeetings());
     }
 
@@ -62,6 +60,18 @@ public class MeetingController {
         List<String> tokens = InputParser.parseToTokens(userInput);
         MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(tokens);
 //        meetingService.createMeeting(meetingCreateDto, );
+    }
+
+    private void registerMember() {
+        try {
+            String userInput = inputView.getMemberNickname();
+            String newUserInput = InputParser.parseToValidString(userInput);
+            Member member = memberService.register(newUserInput);
+            outputView.printRegisterSuccess(member.getNickname());
+        } catch (IOException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
+
     }
 
     private void showAllMembers() {
@@ -84,6 +94,9 @@ public class MeetingController {
         if (action == null) {
             outputView.printErrorMessage(INVALID_MENU_INPUT.getMessage());
             return;
+        }
+        if (menu != 6) {
+            login(inputView.getUserNickname());
         }
         action.run();
     }
