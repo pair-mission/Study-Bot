@@ -11,7 +11,6 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +80,12 @@ public class MeetingService {
     public List<String> getAllParticipants(Long meetingId) {
         return participantRepository.findAllParticipantsByMeetingId(meetingId).stream()
                 .map(participant -> participant.getMember().getNickname())
+                .toList();
+    }
+
+    public List<Meeting> findByTomarrowMeetings(Long memberId) {
+        return participantRepository.findMeetingsByMember(memberId).stream()
+                .filter(Meeting::isTomorrowMeeting)
                 .toList();
     }
 }

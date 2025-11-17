@@ -3,7 +3,6 @@ package view;
 import domain.meeting.Meeting;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
-
 import java.util.List;
 
 public class OutputView {
@@ -76,4 +75,12 @@ public class OutputView {
             System.out.println(" - " + participant);
         }
     }
+
+    public void printIsTomorrowMeetings(List<Meeting> meetings) {
+        System.out.println("[내일 스터디 리마인드]");
+        for (Meeting meeting : meetings) {
+            System.out.println(" - " + meeting.toString());
+        }
+    }
+
 }

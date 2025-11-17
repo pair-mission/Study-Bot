@@ -3,11 +3,11 @@ package domain.meeting;
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-import untils.InputParser;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import untils.InputParser;
 
 public class Meeting {
     private final LocalDate date;
@@ -120,6 +120,7 @@ public class Meeting {
 
     @Override
     public String toString() {
-        return String.format("(ID: %d) %s %s / %s / %s", id, date, meetingTime.getStartTime(), topic, place);
+        return String.format("(ID: %d) %s %s / %s / %s", id, date,
+                meetingTime.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")), topic, place);
     }
 }

@@ -26,6 +26,7 @@ public class AppConfig {
             outputView);
 
     private AppConfig() {
+        new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
     }
 
     public static AppConfig getInstance() {

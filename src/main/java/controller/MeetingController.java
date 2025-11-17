@@ -1,5 +1,7 @@
 package controller;
 
+import static global.ErrorMessage.INVALID_MENU_INPUT;
+
 import domain.meeting.Meeting;
 import domain.member.Member;
 import dto.MeetingCreateDto;
@@ -8,17 +10,14 @@ import dto.MeetingUpdateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
 import global.exception.DataAccessException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import service.MeetingService;
 import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static global.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MeetingController {
 
@@ -43,6 +42,9 @@ public class MeetingController {
         while (true) {
             try {
                 outputView.printMenu();
+                login(inputView.getUserNickname());
+                List<Meeting> meetings = meetingService.findByTomarrowMeetings(loginMember.getId());
+                outputView.printIsTomorrowMeetings(meetings);
                 int menuOption = getValidMenu();
                 if (menuOption == 11) {
                     break;
