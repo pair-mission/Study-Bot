@@ -32,4 +32,15 @@ public class InputView {
         System.out.println("\n삭제할 모임의 ID 를 입력해주세요.");
         return Console.readLine();
     }
+
+    public String getParticipantRegisterInput() {
+        System.out.println("\n참여할 모임의 ID를 입력하세요.");
+        return Console.readLine();
+    }
+
+    public String getParticipantMemberInput() {
+        System.out.println("\n참여자를 조회할 모임의 ID를 입력하세요.");
+        return Console.readLine();
+    }
+
 }

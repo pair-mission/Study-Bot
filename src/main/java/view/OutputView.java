@@ -3,6 +3,7 @@ package view;
 import domain.meeting.Meeting;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
+
 import java.util.List;
 
 public class OutputView {
@@ -62,6 +63,17 @@ public class OutputView {
 
         for (Meeting meeting : myMeetings) {
             System.out.println(meeting.toString());
+        }
+    }
+
+    public void printParticipantSuccess() {
+        System.out.println("참여 완료되었습니다.");
+    }
+
+    public void printAllParticipants(List<String> participantNicknames) {
+        System.out.println("[참여자 목록]");
+        for (String participant : participantNicknames) {
+            System.out.println(" - " + participant);
         }
     }
 }

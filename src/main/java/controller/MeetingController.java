@@ -1,7 +1,5 @@
 package controller;
 
-import static global.ErrorMessage.INVALID_MENU_INPUT;
-
 import domain.meeting.Meeting;
 import domain.member.Member;
 import dto.MeetingCreateDto;
@@ -10,14 +8,17 @@ import dto.MeetingUpdateDto;
 import dto.MemberInfoDto;
 import global.InputValidator;
 import global.exception.DataAccessException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import service.MeetingService;
 import service.MemberService;
 import untils.InputParser;
 import view.InputView;
 import view.OutputView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static global.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MeetingController {
 
@@ -60,7 +61,8 @@ public class MeetingController {
         actions.put(4, this::showAllMeetings);
         actions.put(5, this::showAllMembers);
         actions.put(6, this::registerMember);
-//        actions.put(7, createMeetings());
+        actions.put(7, this::registerParticipant);
+        actions.put(8, this::showParticipants);
         actions.put(10, this::showMyMeetings);
     }
 
@@ -97,6 +99,20 @@ public class MeetingController {
     private void showAllMeetings() {
         List<MeetingInfoDto> allMeetings = meetingService.getAllMeetings();
         outputView.printAllMeetingInfo(allMeetings);
+    }
+
+    private void registerParticipant() {
+        String meetingIdInput = inputView.getParticipantRegisterInput();
+        long meetingId = InputParser.parseToLong(meetingIdInput);
+        meetingService.createParticipant(meetingId, loginMember);
+        outputView.printParticipantSuccess();
+    }
+
+    private void showParticipants() {
+        String participantMemberInput = inputView.getParticipantMemberInput();
+        long meetingId = InputParser.parseToLong(participantMemberInput);
+        List<String> participantNicknames = meetingService.getAllParticipants(meetingId);
+        outputView.printAllParticipants(participantNicknames);
     }
 
     private void registerMember() {
