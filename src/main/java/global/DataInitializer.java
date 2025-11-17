@@ -1,10 +1,13 @@
 package global;
 
-import domain.meeting.*;
+import domain.meeting.Meeting;
+import domain.meeting.MeetingParticipant;
+import domain.meeting.MeetingRepository;
+import domain.meeting.MeetingTime;
+import domain.meeting.ParticipantInMemoryRepository;
 import domain.member.Member;
 import domain.member.MemberRepository;
 import domain.member.Role;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -22,13 +25,13 @@ public class DataInitializer {
         Meeting meeting2 = Meeting.of(1L, LocalDate.now().plusDays(1L),
                 MeetingTime.of(start, end), "코테", "디스코드");
 
-        MeetingParticipant meetingParticipant1 = MeetingParticipant.toEntity(
+        MeetingParticipant meetingParticipant1 = MeetingParticipant.of(
                 Role.HOST,
                 member1,
                 meeting1
         );
 
-        MeetingParticipant meetingParticipant2 = MeetingParticipant.toEntity(
+        MeetingParticipant meetingParticipant2 = MeetingParticipant.of(
                 Role.HOST,
                 member2,
                 meeting2

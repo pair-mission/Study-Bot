@@ -11,7 +11,6 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class MeetingService {
         Member member = memberRepository.findByNickName(nickname);
         Meeting meeting = Meeting.toEntity(meetingCreateDto);
         meetingRepository.save(meeting);
-        MeetingParticipant participant = MeetingParticipant.toEntity(Role.HOST, member, meeting);
+        MeetingParticipant participant = MeetingParticipant.of(Role.HOST, member, meeting);
         participantRepository.save(participant);
     }
 
@@ -77,7 +76,7 @@ public class MeetingService {
     public void createParticipant(Long meetingId, String nickname) {
         Member member = memberRepository.findByNickName(nickname);
         Meeting meeting = meetingRepository.findById(meetingId);
-        MeetingParticipant participant = MeetingParticipant.toEntity(Role.MEMBER, member, meeting);
+        MeetingParticipant participant = MeetingParticipant.of(Role.MEMBER, member, meeting);
         participantRepository.save(participant);
     }
 

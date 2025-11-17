@@ -15,7 +15,7 @@ public class MeetingParticipant {
         this.meeting = meeting;
     }
 
-    public static MeetingParticipant toEntity(Role role, Member member, Meeting meeting) {
+    public static MeetingParticipant of(Role role, Member member, Meeting meeting) {
         return new MeetingParticipant(role, member, meeting);
     }
 

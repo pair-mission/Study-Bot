@@ -123,4 +123,5 @@ public class Meeting {
         return String.format("(ID: %d) %s %s / %s / %s", id, date,
                 meetingTime.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")), topic, place);
     }
+    
 }
