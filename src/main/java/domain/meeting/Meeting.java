@@ -21,7 +21,7 @@ public class Meeting {
     }
 
     private Meeting(Long id, LocalDate date, MeetingTime meetingTime, String topic, String place) {
-        validate(date);
+        validate(date, meetingTime, topic, place);
         this.id = id;
         this.date = date;
         this.meetingTime = meetingTime;
@@ -46,8 +46,21 @@ public class Meeting {
         );
     }
 
-    private void validate(LocalDate date) {
+    private void validate(LocalDate date, MeetingTime meetingTime, String topic, String place) {
+        validateNullOrEmpty(date, meetingTime, topic, place);
         validateDate(date);
+    }
+
+    private void validateNullOrEmpty(LocalDate date, MeetingTime meetingTime, String... values) {
+        if (date == null || meetingTime == null) {
+            throw new IllegalArgumentException(ErrorMessage.NULL_OR_EMPTY.getMessage());
+        }
+
+        for (String value : values) {
+            if (value == null || value.isEmpty()) {
+                throw new IllegalArgumentException(ErrorMessage.NULL_OR_EMPTY.getMessage());
+            }
+        }
     }
 
     private void validateDate(LocalDate date) {
@@ -123,5 +136,5 @@ public class Meeting {
         return String.format("(ID: %d) %s %s / %s / %s", id, date,
                 meetingTime.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")), topic, place);
     }
-    
+
 }

@@ -21,7 +21,10 @@ public enum ErrorMessage {
     INVALID_TIME_PATTERN("[ERROR] 입력 시간의 형식이 올바르지 않습니다."),
 
     // 숫자
-    INVALID_NUMBER_FORMAT("[ERROR] 숫자 형식이 올바르지 않습니다.");
+    INVALID_NUMBER_FORMAT("[ERROR] 숫자 형식이 올바르지 않습니다."),
+    
+    // 도메인
+    NULL_OR_EMPTY("[ERRROR] NULL 이거나 EMPTY 일 수 없습니다.");
 
     private final String message;
 
