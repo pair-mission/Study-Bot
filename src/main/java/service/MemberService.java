@@ -2,6 +2,8 @@ package service;
 
 import domain.member.Member;
 import domain.member.MemberRepository;
+import global.InputValidator;
+import untils.InputParser;
 
 import java.util.List;
 
@@ -32,8 +34,10 @@ public class MemberService {
     }
 
     public Member findByNickName(String nickname) {
-        Member member;
-        member = memberRepository.findByNickName(nickname);
+        InputValidator.validateBlankInput(nickname);
+        String trimmedNickname = InputParser.parseToValidString(nickname);
+
+        Member member = memberRepository.findByNickName(trimmedNickname);
 
         if (member == null) {
             throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());

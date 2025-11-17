@@ -11,6 +11,7 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.ErrorMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,18 +27,18 @@ public class MeetingService {
         this.participantRepository = participantRepository;
     }
 
-    public void createMeeting(MeetingCreateDto meetingCreateDto, Member member) {
+    public void createMeeting(MeetingCreateDto meetingCreateDto, String nickname) {
+        Member member = memberRepository.findByNickName(nickname);
         Meeting meeting = Meeting.toEntity(meetingCreateDto);
         meetingRepository.save(meeting);
         MeetingParticipant participant = MeetingParticipant.toEntity(Role.HOST, member, meeting);
         participantRepository.save(participant);
     }
 
-    public void updateMeeting(Member member, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
+    public void updateMeeting(String nickname, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
+        Member member = memberRepository.findByNickName(nickname);
         this.isHost(member, meetingId);
-
         Meeting meeting = meetingRepository.findById(meetingId);
-
         meeting.compareAndChange(meetingUpdateDto);
     }
 
@@ -54,8 +55,9 @@ public class MeetingService {
         return meetingInfos;
     }
 
-    public void deleteMeeting(Long meetingId, Member hostMember) {
-        this.isHost(hostMember, meetingId);
+    public void deleteMeeting(Long meetingId, String nickname) {
+        Member host = memberRepository.findByNickName(nickname);
+        this.isHost(host, meetingId);
         meetingRepository.delete(meetingId);
     }
 
@@ -67,11 +69,13 @@ public class MeetingService {
         return true;
     }
 
-    public List<Meeting> getMyMeetings(Member member) {
+    public List<Meeting> getMyMeetings(String nickname) {
+        Member member = memberRepository.findByNickName(nickname);
         return participantRepository.findMeetingsByMember(member.getId());
     }
 
-    public void createParticipant(Long meetingId, Member member) {
+    public void createParticipant(Long meetingId, String nickname) {
+        Member member = memberRepository.findByNickName(nickname);
         Meeting meeting = meetingRepository.findById(meetingId);
         MeetingParticipant participant = MeetingParticipant.toEntity(Role.MEMBER, member, meeting);
         participantRepository.save(participant);
@@ -83,7 +87,7 @@ public class MeetingService {
                 .toList();
     }
 
-    public List<Meeting> findByTomarrowMeetings(Long memberId) {
+    public List<Meeting> findByTomorrowMeetings(Long memberId) {
         return participantRepository.findMeetingsByMember(memberId).stream()
                 .filter(Meeting::isTomorrowMeeting)
                 .toList();

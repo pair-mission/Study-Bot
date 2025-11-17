@@ -34,4 +34,12 @@ public class InputParser {
         }
     }
 
+    public static int parseToInt(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_FORMAT.getMessage());
+        }
+    }
+
 }

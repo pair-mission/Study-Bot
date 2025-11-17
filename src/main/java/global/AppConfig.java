@@ -1,6 +1,9 @@
 package global;
 
+import controller.AppController;
+import controller.ExitController;
 import controller.MeetingController;
+import controller.MemberController;
 import domain.meeting.MeetingInMemoryRepository;
 import domain.meeting.MeetingRepository;
 import domain.meeting.ParticipantInMemoryRepository;
@@ -10,6 +13,9 @@ import service.MeetingService;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppConfig {
 
@@ -22,11 +28,25 @@ public class AppConfig {
     private final MemberService memberService = new MemberService(memberRepository);
     private final MeetingService meetingService = new MeetingService(meetingRepository, memberRepository,
             participantRepository);
-    private final MeetingController meetingController = new MeetingController(memberService, meetingService, inputView,
+    private final MeetingController meetingController = new MeetingController(meetingService, inputView,
             outputView);
+    private final MemberController memberController = new MemberController(inputView, outputView, memberService);
+    private final ExitController exitController = new ExitController();
+
+    private final Map<Menu, AppController> controllers = new HashMap<>();
 
     private AppConfig() {
         new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
+        controllers.put(Menu.MEETING_REGISTER, meetingController);
+        controllers.put(Menu.MEETING_UPDATE, meetingController);
+        controllers.put(Menu.MEETING_DELETE, meetingController);
+        controllers.put(Menu.MEETING_LIST, meetingController);
+        controllers.put(Menu.MEMBER_REGISTER, memberController);
+        controllers.put(Menu.MEMBER_LIST, memberController);
+        controllers.put(Menu.PARTICIPANT_REGISTER, meetingController);
+        controllers.put(Menu.PARTICIPANT_LIST, meetingController);
+        controllers.put(Menu.MY_MEETING_LIST, meetingController);
+        controllers.put(Menu.EXIT, exitController);
     }
 
     public static AppConfig getInstance() {
@@ -40,29 +60,9 @@ public class AppConfig {
     public OutputView outputView() {
         return outputView;
     }
-
-    public MeetingRepository meetingRepository() {
-        return meetingRepository;
-    }
-
-    public MemberRepository memberRepository() {
-        return memberRepository;
-    }
-
-    public ParticipantInMemoryRepository participantRepository() {
-        return participantRepository;
-    }
-
-    public MemberService memberService() {
-        return memberService;
-    }
-
-    public MeetingService meetingService() {
-        return meetingService;
-    }
-
-    public MeetingController meetingController() {
-        return meetingController;
+    
+    public AppController getController(Menu option) {
+        return controllers.get(option);
     }
 
 }
