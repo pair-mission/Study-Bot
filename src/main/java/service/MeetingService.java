@@ -34,10 +34,10 @@ public class MeetingService {
         participantRepository.save(participant);
     }
 
-    public void updateMeeting(String nickname, Long meetingId, MeetingUpdateDto meetingUpdateDto) {
+    public void updateMeeting(String nickname, MeetingUpdateDto meetingUpdateDto) {
         Member member = memberRepository.findByNickName(nickname);
-        this.isHost(member, meetingId);
-        Meeting meeting = meetingRepository.findById(meetingId);
+        this.isHost(member, meetingUpdateDto.meetingId());
+        Meeting meeting = meetingRepository.findById(meetingUpdateDto.meetingId());
         meeting.compareAndChange(meetingUpdateDto);
     }
 

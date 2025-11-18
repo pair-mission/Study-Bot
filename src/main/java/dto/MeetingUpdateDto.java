@@ -1,12 +1,22 @@
 package dto;
 
+import java.util.List;
 import java.util.Optional;
+import untils.InputParser;
 
 public record MeetingUpdateDto(
+        Long meetingId,
         Optional<String> topic,
         Optional<String> place
 ) {
-    public static MeetingUpdateDto from(String newTopic, String newPlace) {
-        return new MeetingUpdateDto(Optional.of(newTopic), Optional.of(newPlace));
+    public static MeetingUpdateDto from(String userInput) {
+        
+        List<String> tokens = InputParser.parseToTokens(userInput);
+        
+        Long meetingId = InputParser.parseToLong(tokens.get(0));
+        String topic = tokens.get(1);
+        String place = tokens.get(2);
+        
+        return new MeetingUpdateDto(meetingId, Optional.of(topic), Optional.of(place));
     }
 }
