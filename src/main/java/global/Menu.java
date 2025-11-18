@@ -2,6 +2,8 @@ package global;
 
 import java.util.Arrays;
 
+import static global.ErrorMessage.INVALID_MENU_INPUT;
+
 public enum Menu {
     MEETING_REGISTER(1, false),
     MEETING_UPDATE(2, false),
@@ -32,6 +34,8 @@ public enum Menu {
 
     public static Menu findByOption(int option) {
         return Arrays.stream(Menu.values())
-                .filter(menu -> menu.getOption() == option).findFirst().orElse(null);
+                .filter(menu -> menu.getOption() == option)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_MENU_INPUT.getMessage()));
     }
 }

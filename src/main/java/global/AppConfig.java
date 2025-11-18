@@ -1,9 +1,6 @@
 package global;
 
-import controller.AppController;
-import controller.ExitController;
-import controller.MeetingController;
-import controller.MemberController;
+import controller.*;
 import domain.meeting.MeetingInMemoryRepository;
 import domain.meeting.MeetingRepository;
 import domain.meeting.ParticipantInMemoryRepository;
@@ -32,8 +29,8 @@ public class AppConfig {
             outputView);
     private final MemberController memberController = new MemberController(inputView, outputView, memberService);
     private final ExitController exitController = new ExitController();
-
     private final Map<Menu, AppController> controllers = new HashMap<>();
+    private final MainController mainController = new MainController(inputView, outputView, controllers);
 
     private AppConfig() {
         new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
@@ -60,9 +57,13 @@ public class AppConfig {
     public OutputView outputView() {
         return outputView;
     }
-    
+
     public AppController getController(Menu option) {
         return controllers.get(option);
+    }
+
+    public MainController getMainController() {
+        return mainController;
     }
 
 }
