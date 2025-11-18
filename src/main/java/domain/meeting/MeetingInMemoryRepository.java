@@ -1,12 +1,8 @@
 package domain.meeting;
 
-import static global.ErrorMessage.MEETING_NOT_FOUND;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import static global.enums.ErrorMessage.MEETING_NOT_FOUND;
 
 public class MeetingInMemoryRepository implements MeetingRepository {
     private final Map<Long, Meeting> meetings = new HashMap<>();
@@ -14,8 +10,8 @@ public class MeetingInMemoryRepository implements MeetingRepository {
 
     @Override
     public void save(Meeting meeting) {
-        meeting.setId(sequence);
-        meetings.put(sequence, meeting);
+        Meeting newMeeting = Meeting.of(sequence, meeting);
+        meetings.put(sequence, newMeeting);
         sequence++;
     }
 

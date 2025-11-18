@@ -1,11 +1,12 @@
 package domain.meeting;
 
-import global.ErrorMessage;
+import global.enums.ErrorMessage;
 import global.exception.DataAccessException;
+import global.utils.CsvReader;
+import global.utils.parser.MeetingParser;
+
 import java.io.IOException;
 import java.util.List;
-import untils.CsvReader;
-import untils.MeetingParser;
 
 public class MeetingFileRepository implements MeetingRepository {
 
@@ -29,9 +30,9 @@ public class MeetingFileRepository implements MeetingRepository {
     @Override
     public void save(Meeting meeting) {
         try {
-            meeting.setId(sequence);
-            CsvReader.writeCsv(meeting, MEETING_FILE_PATH, new MeetingParser());
-            ++sequence;
+            Meeting newMeeting = Meeting.of(sequence, meeting);
+            CsvReader.writeCsv(newMeeting, MEETING_FILE_PATH, new MeetingParser());
+            sequence++;
         } catch (IOException e) {
             throw new DataAccessException(ErrorMessage.INVALID_FILE);
         }

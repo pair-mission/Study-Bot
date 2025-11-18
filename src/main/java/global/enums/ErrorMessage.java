@@ -1,4 +1,4 @@
-package global;
+package global.enums;
 
 public enum ErrorMessage {
     // 공통
@@ -22,7 +22,7 @@ public enum ErrorMessage {
 
     // 숫자
     INVALID_NUMBER_FORMAT("[ERROR] 숫자 형식이 올바르지 않습니다."),
-    
+
     // 도메인
     NULL_OR_EMPTY("[ERRROR] NULL 이거나 EMPTY 일 수 없습니다.");
 

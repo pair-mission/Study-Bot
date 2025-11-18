@@ -2,12 +2,13 @@ package domain.meeting;
 
 import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
-import global.ErrorMessage;
+import global.enums.ErrorMessage;
+import global.utils.parser.InputParser;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import untils.InputParser;
 
 public class Meeting {
     private final LocalDate date;
@@ -34,6 +35,15 @@ public class Meeting {
     }
 
     public static Meeting of(Long id, LocalDate date, MeetingTime meetingTime, String topic, String place) {
+        return new Meeting(id, date, meetingTime, topic, place);
+    }
+
+    public static Meeting of(Long id, Meeting meeting) {
+        LocalDate date = meeting.getDate();
+        MeetingTime meetingTime = meeting.getMeetingTime();
+        String topic = meeting.getTopic();
+        String place = meeting.getPlace();
+
         return new Meeting(id, date, meetingTime, topic, place);
     }
 
@@ -109,10 +119,6 @@ public class Meeting {
 
     public Long getId() {
         return id;
-    }
-
-    void setId(Long id) {
-        this.id = id;
     }
 
     public LocalDate getDate() {

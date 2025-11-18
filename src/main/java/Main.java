@@ -1,5 +1,5 @@
 import controller.MainController;
-import global.AppConfig;
+import global.config.AppConfig;
 
 public class Main {
     public static void main(String[] args) {

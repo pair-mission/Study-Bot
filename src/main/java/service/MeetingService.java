@@ -1,16 +1,17 @@
 package service;
 
 import domain.meeting.Meeting;
-import domain.meeting.MeetingParticipant;
 import domain.meeting.MeetingRepository;
-import domain.meeting.ParticipantInMemoryRepository;
 import domain.member.Member;
 import domain.member.MemberRepository;
 import domain.member.Role;
+import domain.participant.MeetingParticipant;
+import domain.participant.ParticipantInMemoryRepository;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
-import global.ErrorMessage;
+import global.enums.ErrorMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -39,10 +39,6 @@ public class Member implements Serializable {
         return id;
     }
 
-    void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
         return id + "," + nickname;

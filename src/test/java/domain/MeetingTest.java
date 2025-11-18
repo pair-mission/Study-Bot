@@ -1,18 +1,19 @@
 package domain;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import domain.meeting.Meeting;
 import domain.meeting.MeetingTime;
-import global.ErrorMessage;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.stream.Stream;
+import global.enums.ErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MeetingTest {
 

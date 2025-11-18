@@ -1,4 +1,6 @@
-package domain.meeting;
+package domain.participant;
+
+import domain.meeting.Meeting;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +12,8 @@ public class ParticipantInMemoryRepository {
     private Long sequence = 0L;
 
     public void save(MeetingParticipant participant) {
-        participant.setId(sequence);
-        participants.put(sequence, participant);
+        MeetingParticipant newParticipant = MeetingParticipant.of(sequence, participant);
+        participants.put(sequence, newParticipant);
         sequence++;
     }
 

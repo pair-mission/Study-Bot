@@ -1,12 +1,13 @@
 package domain.member;
 
-import static global.ErrorMessage.INVALID_FILE;
-
 import global.exception.DataAccessException;
+import global.utils.CsvReader;
+import global.utils.parser.MemberParser;
+
 import java.io.IOException;
 import java.util.List;
-import untils.CsvReader;
-import untils.MemberParser;
+
+import static global.enums.ErrorMessage.INVALID_FILE;
 
 public class MemberFileRepository implements MemberRepository {
     private static final String MEMBER_FILE_PATH = "src/main/resources/members.csv";
@@ -28,9 +29,9 @@ public class MemberFileRepository implements MemberRepository {
     @Override
     public void save(Member member) {
         try {
-            member.setId(sequence);
-            CsvReader.writeCsv(member, MEMBER_FILE_PATH, new MemberParser());
-            ++sequence;
+            Member newMember = Member.of(sequence, member.getNickname());
+            CsvReader.writeCsv(newMember, MEMBER_FILE_PATH, new MemberParser());
+            sequence++;
         } catch (IOException e) {
             throw new DataAccessException(INVALID_FILE);
         }

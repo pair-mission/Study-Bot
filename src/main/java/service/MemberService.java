@@ -2,12 +2,12 @@ package service;
 
 import domain.member.Member;
 import domain.member.MemberRepository;
-import global.InputValidator;
-import untils.InputParser;
+import global.utils.InputValidator;
+import global.utils.parser.InputParser;
 
 import java.util.List;
 
-import static global.ErrorMessage.MEMBER_NOT_FOUND;
+import static global.enums.ErrorMessage.MEMBER_NOT_FOUND;
 
 public class MemberService {
     private final MemberRepository memberRepository;

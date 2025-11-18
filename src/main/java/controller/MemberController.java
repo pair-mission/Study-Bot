@@ -3,8 +3,8 @@ package controller;
 import domain.member.Member;
 import dto.MemberInfoDto;
 import global.exception.DataAccessException;
+import global.utils.parser.InputParser;
 import service.MemberService;
-import untils.InputParser;
 import view.InputView;
 import view.OutputView;
 
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static global.ErrorMessage.INVALID_MENU_INPUT;
+import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
 
 public class MemberController implements AppController {
 

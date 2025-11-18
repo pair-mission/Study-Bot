@@ -1,7 +1,7 @@
-package untils;
+package global.utils.parser;
 
 import domain.meeting.MeetingTime;
-import global.ErrorMessage;
+import global.enums.ErrorMessage;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

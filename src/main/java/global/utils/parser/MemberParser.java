@@ -1,6 +1,7 @@
-package untils;
+package global.utils.parser;
 
 import domain.member.Member;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 

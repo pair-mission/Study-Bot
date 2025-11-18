@@ -1,7 +1,7 @@
 package controller;
 
-import global.Menu;
-import untils.InputParser;
+import global.enums.Menu;
+import global.utils.parser.InputParser;
 import view.InputView;
 import view.OutputView;
 

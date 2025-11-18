@@ -1,11 +1,12 @@
-package global;
+package global.config;
 
 import controller.*;
 import domain.meeting.MeetingInMemoryRepository;
 import domain.meeting.MeetingRepository;
-import domain.meeting.ParticipantInMemoryRepository;
 import domain.member.MemberInMemoryRepository;
 import domain.member.MemberRepository;
+import domain.participant.ParticipantInMemoryRepository;
+import global.enums.Menu;
 import service.MeetingService;
 import service.MemberService;
 import view.InputView;

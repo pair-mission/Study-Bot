@@ -1,9 +1,9 @@
-package global;
+package global.utils;
 
-import static global.ErrorMessage.BLANK_INPUT;
-import static global.ErrorMessage.INVALID_DATE_PATTERN;
-import static global.Pattern.DATE_PATTERN;
-import static global.Pattern.TIME_PATTERN;
+import static global.enums.ErrorMessage.BLANK_INPUT;
+import static global.enums.ErrorMessage.INVALID_DATE_PATTERN;
+import static global.enums.Pattern.DATE_PATTERN;
+import static global.enums.Pattern.TIME_PATTERN;
 
 public class InputValidator {
 

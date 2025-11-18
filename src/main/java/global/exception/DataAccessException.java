@@ -1,6 +1,6 @@
 package global.exception;
 
-import global.ErrorMessage;
+import global.enums.ErrorMessage;
 
 public class DataAccessException extends RuntimeException {
 

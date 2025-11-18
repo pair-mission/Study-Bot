@@ -1,7 +1,7 @@
 package view;
 
 import camp.nextstep.edu.missionutils.Console;
-import global.InputValidator;
+import global.utils.InputValidator;
 
 public class InputView {
     public String getUserNickname() {

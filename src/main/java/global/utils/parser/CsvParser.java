@@ -1,4 +1,4 @@
-package untils;
+package global.utils.parser;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

@@ -10,8 +10,8 @@ public class MemberInMemoryRepository implements MemberRepository {
 
     @Override
     public void save(Member member) {
-        member.setId(sequence);
-        members.put(sequence, member);
+        Member newMember = Member.of(sequence, member.getNickname());
+        members.put(sequence, newMember);
         sequence++;
     }
 
