@@ -2,7 +2,6 @@ package domain.participant;
 
 import domain.meeting.Meeting;
 import domain.member.Member;
-import domain.member.Role;
 
 public class MeetingParticipant {
     private Long id;

@@ -1,4 +1,4 @@
-package domain.member;
+package domain.participant;
 
 public enum Role {
     HOST, MEMBER

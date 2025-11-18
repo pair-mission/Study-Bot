@@ -1,22 +1,24 @@
 package controller;
 
-import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
-
-import domain.member.Member;
-import java.util.HashMap;
-import java.util.Map;
+import global.Session;
 import view.InputView;
 import view.OutputView;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
 
 public abstract class AppController {
     protected final Map<Integer, Runnable> actions;
     protected final InputView inputView;
     protected final OutputView outputView;
-    protected Member loginMember;
+    protected final Session session;
 
-    public AppController(InputView inputView, OutputView outputView) {
+    public AppController(InputView inputView, OutputView outputView, Session session) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.session = session;
         this.actions = new HashMap<>();
         registerAction();
     }
@@ -31,4 +33,5 @@ public abstract class AppController {
         }
         action.run();
     }
+
 }

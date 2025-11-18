@@ -1,42 +1,37 @@
 package service;
 
 import domain.meeting.Meeting;
-import domain.meeting.MeetingRepository;
 import domain.member.Member;
-import domain.member.MemberRepository;
-import domain.member.Role;
 import domain.participant.MeetingParticipant;
-import domain.participant.ParticipantInMemoryRepository;
+import domain.participant.Role;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
+import repository.meeting.MeetingRepository;
+import repository.participant.ParticipantInMemoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
-    private final MemberRepository memberRepository;
     private final ParticipantInMemoryRepository participantRepository;
 
-    public MeetingService(MeetingRepository meetingRepository, MemberRepository memberRepository,
+    public MeetingService(MeetingRepository meetingRepository,
                           ParticipantInMemoryRepository participantRepository) {
         this.meetingRepository = meetingRepository;
-        this.memberRepository = memberRepository;
         this.participantRepository = participantRepository;
     }
 
-    public void createMeeting(MeetingCreateDto meetingCreateDto, String nickname) {
-        Member member = memberRepository.findByNickName(nickname);
+    public void createMeeting(MeetingCreateDto meetingCreateDto, Member member) {
         Meeting meeting = Meeting.toEntity(meetingCreateDto);
         meetingRepository.save(meeting);
         MeetingParticipant participant = MeetingParticipant.of(Role.HOST, member, meeting);
         participantRepository.save(participant);
     }
 
-    public void updateMeeting(String nickname, MeetingUpdateDto meetingUpdateDto) {
-        Member member = memberRepository.findByNickName(nickname);
+    public void updateMeeting(MeetingUpdateDto meetingUpdateDto, Member member) {
         this.isHost(member, meetingUpdateDto.meetingId());
         Meeting meeting = meetingRepository.findById(meetingUpdateDto.meetingId());
         meeting.compareAndChange(meetingUpdateDto);
@@ -55,27 +50,22 @@ public class MeetingService {
         return meetingInfos;
     }
 
-    public void deleteMeeting(Long meetingId, String nickname) {
-        Member host = memberRepository.findByNickName(nickname);
-        this.isHost(host, meetingId);
+    public void deleteMeeting(Long meetingId, Member member) {
+        this.isHost(member, meetingId);
         meetingRepository.delete(meetingId);
     }
 
-
-    private boolean isHost(Member hostMember, Long meetingId) {
+    private void isHost(Member hostMember, Long meetingId) {
         if (!participantRepository.isHost(hostMember.getId(), meetingId)) { // 모임장인지 확인
             throw new IllegalArgumentException(ErrorMessage.NOT_HOST.getMessage());
         }
-        return true;
     }
 
-    public List<Meeting> getMyMeetings(String nickname) {
-        Member member = memberRepository.findByNickName(nickname);
+    public List<Meeting> getMyMeetings(Member member) {
         return participantRepository.findMeetingsByMember(member.getId());
     }
 
-    public void createParticipant(Long meetingId, String nickname) {
-        Member member = memberRepository.findByNickName(nickname);
+    public void createParticipant(Long meetingId, Member member) {
         Meeting meeting = meetingRepository.findById(meetingId);
         MeetingParticipant participant = MeetingParticipant.of(Role.MEMBER, member, meeting);
         participantRepository.save(participant);

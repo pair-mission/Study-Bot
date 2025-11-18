@@ -1,6 +1,7 @@
-package domain.participant;
+package repository.participant;
 
 import domain.meeting.Meeting;
+import domain.participant.MeetingParticipant;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +12,11 @@ public class ParticipantInMemoryRepository {
     private final Map<Long, MeetingParticipant> participants = new HashMap<>();
     private Long sequence = 0L;
 
-    public void save(MeetingParticipant participant) {
+    public MeetingParticipant save(MeetingParticipant participant) {
         MeetingParticipant newParticipant = MeetingParticipant.of(sequence, participant);
         participants.put(sequence, newParticipant);
         sequence++;
+        return newParticipant;
     }
 
     public List<MeetingParticipant> findAllParticipantsByMeetingId(Long meetingId) {

@@ -1,21 +1,24 @@
 package controller;
 
 import domain.meeting.Meeting;
+import domain.member.Member;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
+import global.Session;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class MeetingController extends AppController {
 
     private final MeetingService meetingService;
 
-    public MeetingController(MeetingService meetingService, InputView inputView, OutputView outputView) {
-        super(inputView, outputView);
+    public MeetingController(MeetingService meetingService, InputView inputView, OutputView outputView, Session session) {
+        super(inputView, outputView, session);
         this.meetingService = meetingService;
     }
 
@@ -31,35 +34,38 @@ public class MeetingController extends AppController {
     }
 
     private void showMyMeetings() {
-        String userNickname = inputView.getUserNickname();
-        List<Meeting> meetings = meetingService.getMyMeetings(userNickname);
+        Member loginMember = session.getLoginMember();
+        List<Meeting> meetings = meetingService.getMyMeetings(loginMember);
         outputView.printMyMeetings(meetings);
     }
 
     private void registerMeeting() {
+        Member loginMember = session.getLoginMember();
         String userInput = inputView.getMeetingCreationInput();
-
         MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(userInput);
 
-        meetingService.createMeeting(meetingCreateDto, loginMember.getNickname());
+        meetingService.createMeeting(meetingCreateDto, loginMember);
         outputView.printMeetingRegisterSuccess();
     }
 
     private void updateMeeting() {
-        // TODO 내 모임 조회 먼저 보여줘야함
-        String userInput = inputView.getMeetingUpdateInput();
+        Member loginMember = session.getLoginMember();
+        List<Meeting> myMeetings = meetingService.getMyMeetings(loginMember);
+        outputView.printMyMeetings(myMeetings);
 
+        String userInput = inputView.getMeetingUpdateInput();
         MeetingUpdateDto meetingUpdateDto = MeetingUpdateDto.from(userInput);
 
-        meetingService.updateMeeting(loginMember.getNickname(), meetingUpdateDto);
+        meetingService.updateMeeting(meetingUpdateDto, loginMember);
         outputView.printMeetingUpdateSuccess();
     }
 
     private void deleteMeeting() {
+        Member loginMember = session.getLoginMember();
         String userInput = inputView.getMeetingDeleteInput();
         Long meetingId = Long.parseLong(userInput);
 
-        meetingService.deleteMeeting(meetingId, loginMember.getNickname());
+        meetingService.deleteMeeting(meetingId, loginMember);
         outputView.printMeetingDeleteMessage();
     }
 
@@ -69,10 +75,11 @@ public class MeetingController extends AppController {
     }
 
     private void registerParticipant() {
+        Member loginMember = session.getLoginMember();
         String meetingIdInput = inputView.getParticipantRegisterInput();
         long meetingId = InputParser.parseToLong(meetingIdInput);
 
-        meetingService.createParticipant(meetingId, loginMember.getNickname());
+        meetingService.createParticipant(meetingId, loginMember);
         outputView.printParticipantSuccess();
     }
 

@@ -1,9 +1,11 @@
-package domain.member;
+package repository.member;
+
+import domain.member.Member;
 
 import java.util.List;
 
 public interface MemberRepository {
-    void save(Member member);
+    Member save(Member member);
 
     List<Member> findAll();
 

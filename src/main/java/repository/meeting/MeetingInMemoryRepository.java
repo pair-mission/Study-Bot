@@ -1,4 +1,6 @@
-package domain.meeting;
+package repository.meeting;
+
+import domain.meeting.Meeting;
 
 import java.util.*;
 
@@ -9,10 +11,11 @@ public class MeetingInMemoryRepository implements MeetingRepository {
     private Long sequence = 0L;
 
     @Override
-    public void save(Meeting meeting) {
+    public Meeting save(Meeting meeting) {
         Meeting newMeeting = Meeting.of(sequence, meeting);
         meetings.put(sequence, newMeeting);
         sequence++;
+        return newMeeting;
     }
 
     @Override

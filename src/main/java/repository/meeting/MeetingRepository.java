@@ -1,9 +1,11 @@
-package domain.meeting;
+package repository.meeting;
+
+import domain.meeting.Meeting;
 
 import java.util.List;
 
 public interface MeetingRepository {
-    void save(Meeting meeting);
+    Meeting save(Meeting meeting);
 
     List<Meeting> findAll();
 

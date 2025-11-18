@@ -1,13 +1,14 @@
 package service;
 
-import static global.enums.ErrorMessage.MEMBER_NOT_FOUND;
-
 import domain.member.Member;
-import domain.member.MemberRepository;
 import global.enums.ErrorMessage;
 import global.utils.InputValidator;
 import global.utils.parser.InputParser;
+import repository.member.MemberRepository;
+
 import java.util.List;
+
+import static global.enums.ErrorMessage.MEMBER_NOT_FOUND;
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -23,10 +24,9 @@ public class MemberService {
             throw new IllegalArgumentException(ErrorMessage.MEMBER_ALREADY_EXISTS.getMessage());
         }
 
-        Member member = Member.from(nickname);
-        memberRepository.save(member);
+        Member newMember = memberRepository.save(Member.from(nickname));
 
-        return member;
+        return newMember;
     }
 
     public List<Member> findAllMember() {

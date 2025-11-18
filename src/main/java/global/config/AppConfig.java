@@ -1,38 +1,36 @@
 package global.config;
 
-import controller.AppController;
-import controller.ExitController;
-import controller.MainController;
-import controller.MeetingController;
-import controller.MemberController;
-import domain.meeting.MeetingInMemoryRepository;
-import domain.meeting.MeetingRepository;
-import domain.member.MemberInMemoryRepository;
-import domain.member.MemberRepository;
-import domain.participant.ParticipantInMemoryRepository;
+import controller.*;
+import global.Session;
 import global.enums.Menu;
-import java.util.HashMap;
-import java.util.Map;
+import repository.meeting.MeetingInMemoryRepository;
+import repository.meeting.MeetingRepository;
+import repository.member.MemberInMemoryRepository;
+import repository.member.MemberRepository;
+import repository.participant.ParticipantInMemoryRepository;
 import service.MeetingService;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AppConfig {
 
     private static final AppConfig Instance = new AppConfig();
+    private final Session session = new Session();
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final MeetingRepository meetingRepository = new MeetingInMemoryRepository();
     private final MemberRepository memberRepository = new MemberInMemoryRepository();
     private final ParticipantInMemoryRepository participantRepository = new ParticipantInMemoryRepository();
     private final MemberService memberService = new MemberService(memberRepository);
-    private final MemberController memberController = new MemberController(memberService, inputView, outputView);
-    private final MeetingService meetingService = new MeetingService(meetingRepository, memberRepository,
-            participantRepository);
+    private final MemberController memberController = new MemberController(memberService, inputView, outputView, session);
+    private final MeetingService meetingService = new MeetingService(meetingRepository, participantRepository);
     private final MeetingController meetingController = new MeetingController(meetingService, inputView,
-            outputView);
-    private final ExitController exitController = new ExitController(inputView, outputView);
+            outputView, session);
+    private final ExitController exitController = new ExitController(inputView, outputView, session);
     private final Map<Menu, AppController> controllers = new HashMap<>();
     private final MainController mainController = new MainController(inputView, outputView, controllers);
 

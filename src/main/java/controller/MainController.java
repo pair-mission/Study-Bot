@@ -2,9 +2,10 @@ package controller;
 
 import global.enums.Menu;
 import global.utils.parser.InputParser;
-import java.util.Map;
 import view.InputView;
 import view.OutputView;
+
+import java.util.Map;
 
 public class MainController {
 
@@ -19,7 +20,6 @@ public class MainController {
     }
 
     public void run() {
-
         processLoginOrRegister();
 
         Menu menu;

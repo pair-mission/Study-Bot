@@ -1,13 +1,13 @@
 package global.config;
 
 import domain.meeting.Meeting;
-import domain.meeting.MeetingRepository;
 import domain.meeting.MeetingTime;
 import domain.member.Member;
-import domain.member.MemberRepository;
-import domain.member.Role;
 import domain.participant.MeetingParticipant;
-import domain.participant.ParticipantInMemoryRepository;
+import domain.participant.Role;
+import repository.meeting.MeetingRepository;
+import repository.member.MemberRepository;
+import repository.participant.ParticipantInMemoryRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

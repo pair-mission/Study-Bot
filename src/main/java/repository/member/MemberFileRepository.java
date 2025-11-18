@@ -1,5 +1,6 @@
-package domain.member;
+package repository.member;
 
+import domain.member.Member;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MemberParser;
@@ -27,11 +28,11 @@ public class MemberFileRepository implements MemberRepository {
     }
 
     @Override
-    public void save(Member member) {
+    public Member save(Member member) {
         try {
-            Member newMember = Member.of(sequence, member.getNickname());
+            Member newMember = Member.of(sequence++, member.getNickname());
             CsvReader.writeCsv(newMember, MEMBER_FILE_PATH, new MemberParser());
-            sequence++;
+            return newMember;
         } catch (IOException e) {
             throw new DataAccessException(INVALID_FILE);
         }

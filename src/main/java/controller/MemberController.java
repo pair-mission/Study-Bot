@@ -2,19 +2,21 @@ package controller;
 
 import domain.member.Member;
 import dto.MemberInfoDto;
+import global.Session;
 import global.exception.DataAccessException;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class MemberController extends AppController {
 
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService, InputView inputView, OutputView outputView) {
-        super(inputView, outputView);
+    public MemberController(MemberService memberService, InputView inputView, OutputView outputView, Session session) {
+        super(inputView, outputView, session);
         this.memberService = memberService;
     }
 
@@ -47,6 +49,7 @@ public class MemberController extends AppController {
 
     public void login() {
         String userNickname = inputView.getUserNickname();
-        loginMember = memberService.findByNickName(userNickname);
+        Member member = memberService.findByNickName(userNickname);
+        session.login(member);
     }
 }
