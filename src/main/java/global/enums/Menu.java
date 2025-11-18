@@ -1,8 +1,8 @@
 package global.enums;
 
-import java.util.Arrays;
-
 import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
+
+import java.util.Arrays;
 
 public enum Menu {
     MEETING_REGISTER(1, false),
@@ -14,7 +14,8 @@ public enum Menu {
     PARTICIPANT_REGISTER(7, false),
     PARTICIPANT_LIST(8, false),
     MY_MEETING_LIST(10, false),
-    EXIT(11, true);
+    EXIT(11, true),
+    LOGIN(0, false);
 
     private final int option;
     private final boolean isExit;
@@ -24,18 +25,18 @@ public enum Menu {
         this.isExit = isExit;
     }
 
+    public static Menu findByOption(int option) {
+        return Arrays.stream(Menu.values())
+                .filter(menu -> menu.getOption() == option)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_MENU_INPUT.getMessage()));
+    }
+
     public int getOption() {
         return option;
     }
 
     public boolean isNotExit() {
         return !isExit;
-    }
-
-    public static Menu findByOption(int option) {
-        return Arrays.stream(Menu.values())
-                .filter(menu -> menu.getOption() == option)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_MENU_INPUT.getMessage()));
     }
 }

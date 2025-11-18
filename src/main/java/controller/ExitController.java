@@ -1,15 +1,16 @@
 package controller;
 
-public class ExitController implements AppController {
+import view.InputView;
+import view.OutputView;
 
-    @Override
-    public void controlAction(int menuOption) {
-        handleOption(menuOption);
+public class ExitController extends AppController {
+
+    public ExitController(InputView inputView, OutputView outputView) {
+        super(inputView, outputView);
     }
 
     @Override
-    public void handleOption(int menuOption) {
-        System.out.println("프로그램을 종료합니다.");
+    protected void registerAction() {
+        actions.put(11, outputView::printExit);
     }
-
 }

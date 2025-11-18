@@ -12,9 +12,7 @@ public class OutputView {
     }
 
     public void printMenu() {
-        System.out.println("안녕하세요. 스터디봇입니다.\n"
-                + "\n"
-                + "1. 모임 등록\n"
+        System.out.println(" [메뉴 목록]\n1. 모임 등록\n"
                 + "2. 모임 수정\n"
                 + "3. 모임 삭제\n"
                 + "4. 모임 전체 조회\n"
@@ -83,4 +81,7 @@ public class OutputView {
         }
     }
 
+    public void printExit() {
+        System.out.println("프로그램을 종료합니다.");
+    }
 }

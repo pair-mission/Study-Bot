@@ -2,10 +2,9 @@ package controller;
 
 import global.enums.Menu;
 import global.utils.parser.InputParser;
+import java.util.Map;
 import view.InputView;
 import view.OutputView;
-
-import java.util.Map;
 
 public class MainController {
 
@@ -20,13 +19,34 @@ public class MainController {
     }
 
     public void run() {
+
+        processLoginOrRegister();
+
         Menu menu;
         do {
             outputView.printMenu();
             menu = getValidMenu();
             AppController controller = controllers.get(menu);
-            controller.controlAction(menu.getOption());
+            controller.handleOption(menu.getOption());
         } while (menu.isNotExit());
+    }
+
+    private void processLoginOrRegister() {
+        MemberController memberController = (MemberController) controllers.get(Menu.LOGIN);
+
+        while (true) {
+            try {
+                handleLoginOrRegister(memberController);
+                break;
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void handleLoginOrRegister(MemberController memberController) {
+        int option = InputParser.parseToInt(inputView.getLoginInput());
+        memberController.handleOption(option);
     }
 
     public Menu getValidMenu() {

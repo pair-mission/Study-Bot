@@ -4,52 +4,28 @@ import domain.member.Member;
 import dto.MemberInfoDto;
 import global.exception.DataAccessException;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class MemberController extends AppController {
 
-import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
-
-public class MemberController implements AppController {
-
-    private final InputView inputView;
-    private final OutputView outputView;
     private final MemberService memberService;
-    private final Map<Integer, Runnable> actions;
 
-    public MemberController(InputView inputView, OutputView outputView, MemberService memberService) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    public MemberController(MemberService memberService, InputView inputView, OutputView outputView) {
+        super(inputView, outputView);
         this.memberService = memberService;
-        this.actions = new HashMap<>();
-        registerAction();
     }
 
-    private void registerAction() {
+    @Override
+    protected void registerAction() {
+        actions.put(1, this::login);
+        actions.put(2, this::registerMember);
         actions.put(5, this::showAllMembers);
-        actions.put(6, this::registerMember);
     }
 
-    @Override
-    public void controlAction(int option) {
-        handleOption(option);
-    }
-
-    @Override
-    public void handleOption(int option) {
-        Runnable action = actions.get(option);
-        if (action == null) {
-            outputView.printErrorMessage(INVALID_MENU_INPUT.getMessage());
-            return;
-        }
-        action.run();
-    }
-
-    private void registerMember() {
+    public void registerMember() {
         try {
             String userInput = inputView.getMemberNickname();
             String newUserInput = InputParser.parseToValidString(userInput);
@@ -67,5 +43,10 @@ public class MemberController implements AppController {
         } catch (DataAccessException e) {
             outputView.printErrorMessage(e.getMessage());
         }
+    }
+
+    public void login() {
+        String userNickname = inputView.getUserNickname();
+        loginMember = memberService.findByNickName(userNickname);
     }
 }

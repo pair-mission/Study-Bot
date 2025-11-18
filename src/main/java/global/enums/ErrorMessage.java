@@ -9,6 +9,7 @@ public enum ErrorMessage {
     // 모임
     MEETING_NOT_FOUND("[ERROR] 존재하지 않는 모임입니다."),
     MEMBER_NOT_FOUND("[ERROR] 존재하지 않는 멤버입니다."),
+    MEMBER_ALREADY_EXISTS("[ERROR] 해당 이름으로 가입할 수 없습니다."),
     SEARCH_NOT_FOUND("[ERROR] 조회 결과가 없습니다."),
     NOT_HOST("[ERROR] 모임장이 아닙니다."),
 

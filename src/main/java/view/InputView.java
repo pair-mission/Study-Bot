@@ -4,6 +4,14 @@ import camp.nextstep.edu.missionutils.Console;
 import global.utils.InputValidator;
 
 public class InputView {
+
+    public String getLoginInput() {
+        System.out.println("\n안녕하세요. 스터디봇입니다.\n1. 로그인\n2. 멤버 등록");
+        String input = Console.readLine();
+        InputValidator.validateBlankInput(input);
+        return input;
+    }
+
     public String getUserNickname() {
         System.out.print("\n닉네임을 입력하세요: ");
         String input = Console.readLine();

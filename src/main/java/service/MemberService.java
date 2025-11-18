@@ -1,13 +1,13 @@
 package service;
 
+import static global.enums.ErrorMessage.MEMBER_NOT_FOUND;
+
 import domain.member.Member;
 import domain.member.MemberRepository;
+import global.enums.ErrorMessage;
 import global.utils.InputValidator;
 import global.utils.parser.InputParser;
-
 import java.util.List;
-
-import static global.enums.ErrorMessage.MEMBER_NOT_FOUND;
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -20,7 +20,7 @@ public class MemberService {
         boolean existsByNickname = memberRepository.existsBy(nickname);
 
         if (existsByNickname) {
-            throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
+            throw new IllegalArgumentException(ErrorMessage.MEMBER_ALREADY_EXISTS.getMessage());
         }
 
         Member member = Member.from(nickname);

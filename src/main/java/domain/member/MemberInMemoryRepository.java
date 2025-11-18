@@ -13,6 +13,8 @@ public class MemberInMemoryRepository implements MemberRepository {
         Member newMember = Member.of(sequence, member.getNickname());
         members.put(sequence, newMember);
         sequence++;
+
+
     }
 
     @Override
@@ -22,7 +24,7 @@ public class MemberInMemoryRepository implements MemberRepository {
 
     @Override
     public Boolean existsBy(String nickname) {
-        return members.containsKey(nickname);
+        return members.values().stream().anyMatch(member -> member.getNickname().equals(nickname));
     }
 
     @Override

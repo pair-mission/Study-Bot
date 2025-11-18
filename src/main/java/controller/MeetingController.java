@@ -5,32 +5,22 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
-
-public class MeetingController implements AppController {
+public class MeetingController extends AppController {
 
     private final MeetingService meetingService;
-    private final InputView inputView;
-    private final OutputView outputView;
-    private final Map<Integer, Runnable> actions;
 
     public MeetingController(MeetingService meetingService, InputView inputView, OutputView outputView) {
+        super(inputView, outputView);
         this.meetingService = meetingService;
-        this.inputView = inputView;
-        this.outputView = outputView;
-        this.actions = new HashMap<>();
-        registerAction();
     }
 
-    private void registerAction() {
+    @Override
+    protected void registerAction() {
         actions.put(1, this::registerMeeting);
         actions.put(2, this::updateMeeting);
         actions.put(3, this::deleteMeeting);
@@ -40,21 +30,6 @@ public class MeetingController implements AppController {
         actions.put(10, this::showMyMeetings);
     }
 
-    @Override
-    public void controlAction(int option) {
-        handleOption(option);
-    }
-
-    @Override
-    public void handleOption(int option) {
-        Runnable action = actions.get(option);
-        if (action == null) {
-            outputView.printErrorMessage(INVALID_MENU_INPUT.getMessage());
-            return;
-        }
-        action.run();
-    }
-
     private void showMyMeetings() {
         String userNickname = inputView.getUserNickname();
         List<Meeting> meetings = meetingService.getMyMeetings(userNickname);
@@ -62,32 +37,29 @@ public class MeetingController implements AppController {
     }
 
     private void registerMeeting() {
-        String userNickname = inputView.getUserNickname();
         String userInput = inputView.getMeetingCreationInput();
 
         MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(userInput);
 
-        meetingService.createMeeting(meetingCreateDto, userNickname);
+        meetingService.createMeeting(meetingCreateDto, loginMember.getNickname());
         outputView.printMeetingRegisterSuccess();
     }
 
     private void updateMeeting() {
         // TODO 내 모임 조회 먼저 보여줘야함
-        String userNickname = inputView.getUserNickname();
         String userInput = inputView.getMeetingUpdateInput();
 
         MeetingUpdateDto meetingUpdateDto = MeetingUpdateDto.from(userInput);
 
-        meetingService.updateMeeting(userNickname, meetingUpdateDto);
+        meetingService.updateMeeting(loginMember.getNickname(), meetingUpdateDto);
         outputView.printMeetingUpdateSuccess();
     }
 
     private void deleteMeeting() {
-        String userNickname = inputView.getUserNickname();
         String userInput = inputView.getMeetingDeleteInput();
         Long meetingId = Long.parseLong(userInput);
 
-        meetingService.deleteMeeting(meetingId, userNickname);
+        meetingService.deleteMeeting(meetingId, loginMember.getNickname());
         outputView.printMeetingDeleteMessage();
     }
 
@@ -97,11 +69,10 @@ public class MeetingController implements AppController {
     }
 
     private void registerParticipant() {
-        String userNickname = inputView.getUserNickname();
         String meetingIdInput = inputView.getParticipantRegisterInput();
         long meetingId = InputParser.parseToLong(meetingIdInput);
 
-        meetingService.createParticipant(meetingId, userNickname);
+        meetingService.createParticipant(meetingId, loginMember.getNickname());
         outputView.printParticipantSuccess();
     }
 
