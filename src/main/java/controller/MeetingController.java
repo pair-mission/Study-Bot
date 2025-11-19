@@ -7,19 +7,23 @@ import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.Session;
 import global.utils.parser.InputParser;
+import java.util.List;
+import service.AttendanceService;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
 
-import java.util.List;
-
 public class MeetingController extends AppController {
 
     private final MeetingService meetingService;
+    private final AttendanceService attendanceService;
 
-    public MeetingController(MeetingService meetingService, InputView inputView, OutputView outputView, Session session) {
+    public MeetingController(MeetingService meetingService, AttendanceService attendanceService, InputView inputView,
+                             OutputView outputView,
+                             Session session) {
         super(inputView, outputView, session);
         this.meetingService = meetingService;
+        this.attendanceService = attendanceService;
     }
 
     @Override
@@ -30,7 +34,26 @@ public class MeetingController extends AppController {
         actions.put(4, this::showAllMeetings);
         actions.put(7, this::registerParticipant);
         actions.put(8, this::showParticipants);
-        actions.put(10, this::showMyMeetings);
+        actions.put(9, this::showMyMeetings);
+        actions.put(10, this::registerAttendance);
+    }
+
+
+    private void registerAttendance() {
+        Member loginMember = session.getLoginMember();
+
+        List<Meeting> myMeetings = meetingService.getMyMeetings(loginMember);
+        outputView.printMyMeetings(myMeetings);
+
+        String meetingInput = inputView.getAttendanceInput();
+        Long meetingId = InputParser.parseToLong(meetingInput);
+        try {
+            attendanceService.createAttendance(meetingId, loginMember);
+            outputView.printAttendanceSuccess();
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
+
     }
 
     private void showMyMeetings() {

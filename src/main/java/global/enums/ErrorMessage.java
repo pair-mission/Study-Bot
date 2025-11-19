@@ -10,8 +10,10 @@ public enum ErrorMessage {
     MEETING_NOT_FOUND("[ERROR] 존재하지 않는 모임입니다."),
     MEMBER_NOT_FOUND("[ERROR] 존재하지 않는 멤버입니다."),
     MEMBER_ALREADY_EXISTS("[ERROR] 해당 이름으로 가입할 수 없습니다."),
+    ATTENDANCE_UNAVAILABLE("[ERROR] 모임 시작 10분 전 후만 출석할 수 있습니다."),
     SEARCH_NOT_FOUND("[ERROR] 조회 결과가 없습니다."),
     NOT_HOST("[ERROR] 모임장이 아닙니다."),
+    MEMBER_NOT_PARTICIPANT("[ERROR] 참여 중인 모임이 아닙니다."),
 
     // 날짜
     INVALID_DATE("[ERROR] 입력 날짜는 현재날짜보다 이후여야합니다."),

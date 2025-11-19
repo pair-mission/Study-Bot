@@ -4,7 +4,6 @@ import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
 import global.utils.parser.InputParser;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class Meeting {
     private final LocalDate date;
     private final MeetingTime meetingTime;
-    private Long id;
+    private final Long id;
     private String place;
     private String topic;
 
@@ -91,6 +90,14 @@ public class Meeting {
             return true;
         }
         return date.isEqual(now.toLocalDate()) && meetingTime.isStartTimeAfter(now.toLocalTime());
+    }
+
+    public boolean isAttendanceAvailable() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = LocalDateTime.of(date, meetingTime.getStartTime()).minusMinutes(10); // 출석 시작 시간
+        LocalDateTime end = LocalDateTime.of(date, meetingTime.getStartTime()).plusMinutes(10); // 출석 종료 시간
+
+        return now.isBefore(end) && now.isAfter(start);
     }
 
     private long getBetweenDays() {

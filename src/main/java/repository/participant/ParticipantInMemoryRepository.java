@@ -2,7 +2,6 @@ package repository.participant;
 
 import domain.meeting.Meeting;
 import domain.participant.MeetingParticipant;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,5 +33,13 @@ public class ParticipantInMemoryRepository {
     public List<Meeting> findMeetingsByMember(Long id) {
         return participants.values().stream().filter(participants -> participants.isSameMemberId(id))
                 .map(MeetingParticipant::getMeeting).toList();
+    }
+
+    public MeetingParticipant findParticipantsByMeetingIdAndMemberId(Long meetingId, Long memberId) {
+        return participants.values().stream()
+                .filter(participants -> participants.getMember().isSameId(memberId) && participants.getMeeting()
+                        .isSameById(meetingId))
+                .findFirst()
+                .orElse(null);
     }
 }

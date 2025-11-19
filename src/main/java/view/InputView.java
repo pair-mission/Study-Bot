@@ -68,4 +68,12 @@ public class InputView {
         return input;
     }
 
+    public String getAttendanceInput() {
+        System.out.println("\n 출석할 모임의 ID를 입력하세요.");
+        String input = Console.readLine();
+        InputValidator.validateBlankInput(input);
+        return input;
+    }
+
+
 }

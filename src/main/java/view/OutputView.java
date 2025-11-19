@@ -20,8 +20,8 @@ public class OutputView {
                 + "6. 멤버 등록\n"
                 + "7. 참여자 등록\n"
                 + "8. 참여자 조회\n"
-                + "9. 출석 체크\n"
-                + "10. 내 모임 조회\n"
+                + "9. 내 모임 조회\n"
+                + "10. 출석 체크\n"
                 + "11. 종료");
     }
 
@@ -83,5 +83,9 @@ public class OutputView {
 
     public void printExit() {
         System.out.println("프로그램을 종료합니다.");
+    }
+
+    public void printAttendanceSuccess() {
+        System.out.println("출석이 완료되었습니다.");
     }
 }

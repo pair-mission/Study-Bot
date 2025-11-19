@@ -13,7 +13,8 @@ public enum Menu {
     MEMBER_REGISTER(6, false),
     PARTICIPANT_REGISTER(7, false),
     PARTICIPANT_LIST(8, false),
-    MY_MEETING_LIST(10, false),
+    MY_MEETING_LIST(9, false),
+    ATTENDANCE_CHECK(10, false),
     EXIT(11, true),
     LOGIN(0, false);
 
