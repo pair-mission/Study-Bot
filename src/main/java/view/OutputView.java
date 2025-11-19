@@ -4,7 +4,6 @@ import domain.meeting.Meeting;
 import dto.MeetingAttendanceDto;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
-
 import java.util.List;
 
 public class OutputView {
@@ -25,6 +24,7 @@ public class OutputView {
                 + "9. 내 모임 조회\n"
                 + "10. 출석 체크\n"
                 + "11. 출석 기록 조회\n"
+                + "12. 나의 다음 모임 조회\n"
                 + "14. 종료");
     }
 
@@ -97,5 +97,10 @@ public class OutputView {
         for (MeetingAttendanceDto meetingAttendance : attendanceHistory) {
             System.out.println(" - " + meetingAttendance.meeting() + " / 현재 출석자: " + meetingAttendance.attenders());
         }
+    }
+
+    public void printMyNextMeeting(Meeting myNextMeeting) {
+        System.out.println("[다가오는 모임]");
+        System.out.println(myNextMeeting.toString());
     }
 }

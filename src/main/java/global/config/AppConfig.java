@@ -1,8 +1,14 @@
 package global.config;
 
-import controller.*;
+import controller.AppController;
+import controller.ExitController;
+import controller.MainController;
+import controller.MeetingController;
+import controller.MemberController;
 import global.Session;
 import global.enums.Menu;
+import java.util.HashMap;
+import java.util.Map;
 import repository.attendance.AttendanceInMemoryRepository;
 import repository.attendance.AttendanceRepository;
 import repository.meeting.MeetingInMemoryRepository;
@@ -15,9 +21,6 @@ import service.MeetingService;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AppConfig {
 
@@ -55,6 +58,7 @@ public class AppConfig {
         controllers.put(Menu.MY_MEETING_LIST, meetingController);
         controllers.put(Menu.ATTENDANCE_CHECK, meetingController);
         controllers.put(Menu.ATTENDANCE_HISTORY, meetingController);
+        controllers.put(Menu.MY_NEXT_MEETING, meetingController);
         controllers.put(Menu.EXIT, exitController);
         controllers.put(Menu.LOGIN, memberController);
     }

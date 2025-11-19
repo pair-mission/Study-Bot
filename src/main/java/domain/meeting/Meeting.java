@@ -124,6 +124,10 @@ public class Meeting {
         return this.id.equals(id);
     }
 
+    public LocalDateTime getStartTime() {
+        return LocalDateTime.of(date, meetingTime.getStartTime());
+    }
+
     public Long getId() {
         return id;
     }

@@ -8,12 +8,11 @@ import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.Session;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.List;
 
 public class MeetingController extends AppController {
 
@@ -39,8 +38,17 @@ public class MeetingController extends AppController {
         actions.put(9, this::showMyMeetings);
         actions.put(10, this::registerAttendance);
         actions.put(11, this::showAttendanceHistory);
+        actions.put(12, this::showMyNextMeetings);
     }
 
+
+    private void showMyNextMeetings() {
+        Member loginMember = session.getLoginMember();
+
+        Meeting myNextMeeting = meetingService.getMyNextMeeting(loginMember.getId());
+
+        outputView.printMyNextMeeting(myNextMeeting);
+    }
 
     private void registerAttendance() {
         Member loginMember = session.getLoginMember();

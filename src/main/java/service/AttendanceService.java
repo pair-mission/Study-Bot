@@ -7,11 +7,10 @@ import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
-import repository.attendance.AttendanceRepository;
-import repository.participant.ParticipantInMemoryRepository;
-
 import java.util.ArrayList;
 import java.util.List;
+import repository.attendance.AttendanceRepository;
+import repository.participant.ParticipantInMemoryRepository;
 
 public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
@@ -50,7 +49,8 @@ public class AttendanceService {
         List<MeetingAttendanceDto> result = new ArrayList<>();
 
         for (Meeting meeting : meetings) {
-            List<MeetingParticipant> allParticipants = participantInMemoryRepository.findAllParticipantsByMeetingId(meeting.getId());
+            List<MeetingParticipant> allParticipants = participantInMemoryRepository.findAllParticipantsByMeetingId(
+                    meeting.getId());
             List<String> attenderNames = attendanceRepository.findAttendersByParticipants(allParticipants).stream()
                     .map(attendance -> attendance.getParticipant().getMember().getNickname()).toList();
 

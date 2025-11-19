@@ -8,11 +8,12 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import repository.meeting.MeetingRepository;
 import repository.participant.ParticipantInMemoryRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
@@ -87,4 +88,13 @@ public class MeetingService {
         return meetingRepository.findAll();
     }
 
+    public Meeting getMyNextMeeting(Long memberId) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return participantRepository.findMeetingsByMember(memberId).stream()
+                .filter(meeting -> meeting.getStartTime().isAfter(now))
+                .min(Comparator.comparing(Meeting::getStartTime))
+                .orElse(null);
+    }
 }
