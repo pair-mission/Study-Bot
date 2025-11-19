@@ -1,8 +1,10 @@
 package view;
 
 import domain.meeting.Meeting;
+import dto.MeetingAttendanceDto;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
+
 import java.util.List;
 
 public class OutputView {
@@ -22,7 +24,8 @@ public class OutputView {
                 + "8. 참여자 조회\n"
                 + "9. 내 모임 조회\n"
                 + "10. 출석 체크\n"
-                + "11. 종료");
+                + "11. 출석 기록 조회\n"
+                + "14. 종료");
     }
 
     public void printAllMemberInfo(List<MemberInfoDto> memberInfos) {
@@ -87,5 +90,12 @@ public class OutputView {
 
     public void printAttendanceSuccess() {
         System.out.println("출석이 완료되었습니다.");
+    }
+
+    public void printAttendanceHistory(List<MeetingAttendanceDto> attendanceHistory) {
+        System.out.println("[출석 기록]");
+        for (MeetingAttendanceDto meetingAttendance : attendanceHistory) {
+            System.out.println(" - " + meetingAttendance.meeting() + " / 현재 출석자: " + meetingAttendance.attenders());
+        }
     }
 }

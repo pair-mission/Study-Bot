@@ -1,6 +1,8 @@
 package repository.attendance;
 
 import domain.attendance.Attendance;
+import domain.participant.MeetingParticipant;
+
 import java.util.List;
 
 public interface AttendanceRepository {
@@ -11,5 +13,6 @@ public interface AttendanceRepository {
 
     Attendance findById(long id);
 
+    List<Attendance> findAttendersByParticipants(List<MeetingParticipant> participants);
 
 }

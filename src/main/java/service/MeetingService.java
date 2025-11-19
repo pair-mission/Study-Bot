@@ -82,4 +82,9 @@ public class MeetingService {
                 .filter(Meeting::isTomorrowMeeting)
                 .toList();
     }
+
+    public List<Meeting> findAllMeetings() {
+        return meetingRepository.findAll();
+    }
+
 }

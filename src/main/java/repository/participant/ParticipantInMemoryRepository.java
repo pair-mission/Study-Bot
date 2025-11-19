@@ -2,6 +2,8 @@ package repository.participant;
 
 import domain.meeting.Meeting;
 import domain.participant.MeetingParticipant;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,5 +43,9 @@ public class ParticipantInMemoryRepository {
                         .isSameById(meetingId))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<MeetingParticipant> findAll() {
+        return new ArrayList<>(participants.values());
     }
 }

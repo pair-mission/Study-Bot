@@ -1,8 +1,8 @@
 package global.enums;
 
-import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
-
 import java.util.Arrays;
+
+import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
 
 public enum Menu {
     MEETING_REGISTER(1, false),
@@ -15,7 +15,8 @@ public enum Menu {
     PARTICIPANT_LIST(8, false),
     MY_MEETING_LIST(9, false),
     ATTENDANCE_CHECK(10, false),
-    EXIT(11, true),
+    ATTENDANCE_HISTORY(11, false),
+    EXIT(14, true),
     LOGIN(0, false);
 
     private final int option;

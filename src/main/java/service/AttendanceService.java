@@ -5,9 +5,13 @@ import domain.attendance.AttendanceStatus;
 import domain.meeting.Meeting;
 import domain.member.Member;
 import domain.participant.MeetingParticipant;
+import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
 import repository.attendance.AttendanceRepository;
 import repository.participant.ParticipantInMemoryRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
@@ -39,5 +43,21 @@ public class AttendanceService {
 
         return attendanceRepository.save(attendance);
 
+    }
+
+    public List<MeetingAttendanceDto> findAllAttendance(List<Meeting> meetings) {
+
+        List<MeetingAttendanceDto> result = new ArrayList<>();
+
+        for (Meeting meeting : meetings) {
+            List<MeetingParticipant> allParticipants = participantInMemoryRepository.findAllParticipantsByMeetingId(meeting.getId());
+            List<String> attenderNames = attendanceRepository.findAttendersByParticipants(allParticipants).stream()
+                    .map(attendance -> attendance.getParticipant().getMember().getNickname()).toList();
+
+            MeetingAttendanceDto attendanceDto = MeetingAttendanceDto.of(meeting, attenderNames);
+            result.add(attendanceDto);
+        }
+
+        return result;
     }
 }

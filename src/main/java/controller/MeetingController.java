@@ -2,16 +2,18 @@ package controller;
 
 import domain.meeting.Meeting;
 import domain.member.Member;
+import dto.MeetingAttendanceDto;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.Session;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class MeetingController extends AppController {
 
@@ -36,6 +38,7 @@ public class MeetingController extends AppController {
         actions.put(8, this::showParticipants);
         actions.put(9, this::showMyMeetings);
         actions.put(10, this::registerAttendance);
+        actions.put(11, this::showAttendanceHistory);
     }
 
 
@@ -53,7 +56,12 @@ public class MeetingController extends AppController {
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
         }
+    }
 
+    private void showAttendanceHistory() {
+        List<Meeting> allMeetings = meetingService.findAllMeetings();
+        List<MeetingAttendanceDto> attendanceHistory = attendanceService.findAllAttendance(allMeetings);
+        outputView.printAttendanceHistory(attendanceHistory);
     }
 
     private void showMyMeetings() {

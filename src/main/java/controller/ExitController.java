@@ -4,6 +4,8 @@ import global.Session;
 import view.InputView;
 import view.OutputView;
 
+import static global.enums.Menu.EXIT;
+
 public class ExitController extends AppController {
 
     public ExitController(InputView inputView, OutputView outputView, Session session) {
@@ -12,6 +14,6 @@ public class ExitController extends AppController {
 
     @Override
     protected void registerAction() {
-        actions.put(11, outputView::printExit);
+        actions.put(EXIT.getOption(), outputView::printExit);
     }
 }
