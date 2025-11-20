@@ -4,7 +4,7 @@ import domain.meeting.Meeting;
 import dto.MeetingAttendanceDto;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
-
+import global.enums.MainMenu;
 import java.util.List;
 
 public class OutputView {
@@ -14,20 +14,10 @@ public class OutputView {
     }
 
     public void printMenu() {
-        System.out.println(" [메뉴 목록]\n1. 모임 등록\n"
-                + "2. 모임 수정\n"
-                + "3. 모임 삭제\n"
-                + "4. 모임 전체 조회\n"
-                + "5. 멤버 조회\n"
-                + "6. 멤버 등록\n"
-                + "7. 참여자 등록\n"
-                + "8. 참여자 조회\n"
-                + "9. 내 모임 조회\n"
-                + "10. 출석 체크\n"
-                + "11. 출석 기록 조회\n"
-                + "12. 나의 다음 모임 조회\n"
-                + "13. 알림 설정\n"
-                + "14. 종료");
+        System.out.println(" \n[메뉴 목록] ");
+        for (MainMenu menu : MainMenu.values()) {
+            System.out.println(menu.getMessage());
+        }
     }
 
     public void printAllMemberInfo(List<MemberInfoDto> memberInfos) {

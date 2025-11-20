@@ -1,10 +1,10 @@
 package controller;
 
+import static global.enums.MainMenu.EXIT;
+
 import global.Session;
 import view.InputView;
 import view.OutputView;
-
-import static global.enums.Menu.EXIT;
 
 public class ExitController extends AppController {
 
@@ -14,6 +14,6 @@ public class ExitController extends AppController {
 
     @Override
     protected void registerAction() {
-        actions.put(EXIT.getOption(), outputView::printExit);
+        actions.put(EXIT, outputView::printExit);
     }
 }

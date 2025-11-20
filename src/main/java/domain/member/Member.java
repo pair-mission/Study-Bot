@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Member implements Serializable {
     private final String nickname;
-    private Long id;
+    private final Long id;
     private int remindDay; // 일 단위
 
     private Member(String nickname) {
@@ -14,7 +14,7 @@ public class Member implements Serializable {
     private Member(Long id, String nickname) {
         this.id = id;
         this.nickname = nickname;
-        this.remindDay = 2;
+        this.remindDay = 1;
     }
 
     public static Member from(String nickname) {

@@ -7,7 +7,6 @@ import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
-import java.util.ArrayList;
 import java.util.List;
 import repository.attendance.AttendanceRepository;
 import repository.participant.ParticipantInMemoryRepository;
@@ -46,18 +45,19 @@ public class AttendanceService {
 
     public List<MeetingAttendanceDto> findAllAttendance(List<Meeting> meetings) {
 
-        List<MeetingAttendanceDto> result = new ArrayList<>();
+        return meetings.stream()
+                .map(this::createAttendanceDto)
+                .toList();
+    }
 
-        for (Meeting meeting : meetings) {
-            List<MeetingParticipant> allParticipants = participantInMemoryRepository.findAllParticipantsByMeetingId(
-                    meeting.getId());
-            List<String> attenderNames = attendanceRepository.findAttendersByParticipants(allParticipants).stream()
-                    .map(attendance -> attendance.getParticipant().getMember().getNickname()).toList();
+    private MeetingAttendanceDto createAttendanceDto(Meeting meeting) {
+        List<MeetingParticipant> allParticipants =
+                participantInMemoryRepository.findAllParticipantsByMeetingId(meeting.getId());
 
-            MeetingAttendanceDto attendanceDto = MeetingAttendanceDto.of(meeting, attenderNames);
-            result.add(attendanceDto);
-        }
+        List<String> attenderNames = attendanceRepository.findAttendersByParticipants(allParticipants).stream()
+                .map(attendance -> attendance.getParticipant().getMember().getNickname())
+                .toList();
 
-        return result;
+        return MeetingAttendanceDto.of(meeting, attenderNames);
     }
 }

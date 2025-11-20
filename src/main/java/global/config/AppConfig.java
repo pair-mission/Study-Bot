@@ -1,8 +1,12 @@
 package global.config;
 
-import controller.*;
+import controller.AppController;
+import controller.ExitController;
+import controller.MainController;
+import controller.MeetingController;
+import controller.MemberController;
 import global.Session;
-import global.enums.Menu;
+import java.util.List;
 import repository.attendance.AttendanceInMemoryRepository;
 import repository.attendance.AttendanceRepository;
 import repository.meeting.MeetingInMemoryRepository;
@@ -15,9 +19,6 @@ import service.MeetingService;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AppConfig {
 
@@ -39,26 +40,18 @@ public class AppConfig {
             inputView,
             outputView, session);
     private final ExitController exitController = new ExitController(inputView, outputView, session);
-    private final Map<Menu, AppController> controllers = new HashMap<>();
-    private final MainController mainController = new MainController(inputView, outputView, controllers);
+    private final MainController mainController;
 
     private AppConfig() {
         new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
-        controllers.put(Menu.MEETING_REGISTER, meetingController);
-        controllers.put(Menu.MEETING_UPDATE, meetingController);
-        controllers.put(Menu.MEETING_DELETE, meetingController);
-        controllers.put(Menu.MEETING_LIST, meetingController);
-        controllers.put(Menu.MEMBER_REGISTER, memberController);
-        controllers.put(Menu.MEMBER_LIST, memberController);
-        controllers.put(Menu.PARTICIPANT_REGISTER, meetingController);
-        controllers.put(Menu.PARTICIPANT_LIST, meetingController);
-        controllers.put(Menu.MY_MEETING_LIST, meetingController);
-        controllers.put(Menu.ATTENDANCE_CHECK, meetingController);
-        controllers.put(Menu.ATTENDANCE_HISTORY, meetingController);
-        controllers.put(Menu.MY_NEXT_MEETING, meetingController);
-        controllers.put(Menu.REMIND_UPDATE, memberController);
-        controllers.put(Menu.EXIT, exitController);
-        controllers.put(Menu.LOGIN, memberController);
+
+        List<AppController> allControllers = List.of(
+                memberController,
+                meetingController,
+                exitController
+        );
+
+        mainController = new MainController(inputView, outputView, allControllers);
     }
 
     public static AppConfig getInstance() {
@@ -67,6 +60,14 @@ public class AppConfig {
 
     public MainController getMainController() {
         return mainController;
+    }
+
+    public MemberController getMemberController() {
+        return memberController;
+    }
+
+    public MeetingController getMeetingController() {
+        return meetingController;
     }
 
 }

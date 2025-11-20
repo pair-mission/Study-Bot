@@ -7,13 +7,13 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.Session;
+import global.enums.MainMenu;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.List;
 
 public class MeetingController extends AppController {
 
@@ -30,17 +30,16 @@ public class MeetingController extends AppController {
 
     @Override
     protected void registerAction() {
-        actions.put(0, this::showRemindMeetings);
-        actions.put(1, this::registerMeeting);
-        actions.put(2, this::updateMeeting);
-        actions.put(3, this::deleteMeeting);
-        actions.put(4, this::showAllMeetings);
-        actions.put(7, this::registerParticipant);
-        actions.put(8, this::showParticipants);
-        actions.put(9, this::showMyMeetings);
-        actions.put(10, this::registerAttendance);
-        actions.put(11, this::showAttendanceHistory);
-        actions.put(12, this::showMyNextMeetings);
+        actions.put(MainMenu.MEETING_REGISTER, this::registerMeeting);
+        actions.put(MainMenu.MEETING_UPDATE, this::updateMeeting);
+        actions.put(MainMenu.MEETING_DELETE, this::deleteMeeting);
+        actions.put(MainMenu.MEETING_LIST, this::showAllMeetings);
+        actions.put(MainMenu.PARTICIPANT_LIST, this::showParticipants);
+        actions.put(MainMenu.PARTICIPANT_REGISTER, this::registerParticipant);
+        actions.put(MainMenu.MY_MEETING_LIST, this::showMyMeetings);
+        actions.put(MainMenu.ATTENDANCE_CHECK, this::registerAttendance);
+        actions.put(MainMenu.ATTENDANCE_HISTORY, this::showAttendanceHistory);
+        actions.put(MainMenu.MY_NEXT_MEETING, this::showMyNextMeetings);
     }
 
     private void showMyNextMeetings() {
@@ -132,8 +131,9 @@ public class MeetingController extends AppController {
 
     public void showRemindMeetings() {
         Member loginMember = session.getLoginMember();
-        List<Meeting> remindMeetings = meetingService.findRemindMeetings(loginMember.getId(), loginMember.getRemindDay());
+        List<Meeting> remindMeetings = meetingService.findRemindMeetings(loginMember.getId(),
+                loginMember.getRemindDay());
         outputView.printRemindMeetings(remindMeetings);
     }
-    
+
 }

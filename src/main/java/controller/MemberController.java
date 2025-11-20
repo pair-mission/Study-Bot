@@ -3,13 +3,13 @@ package controller;
 import domain.member.Member;
 import dto.MemberInfoDto;
 import global.Session;
+import global.enums.MainMenu;
 import global.exception.DataAccessException;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.List;
 
 public class MemberController extends AppController {
 
@@ -22,10 +22,8 @@ public class MemberController extends AppController {
 
     @Override
     protected void registerAction() {
-        actions.put(1, this::login);
-        actions.put(2, this::registerMember);
-        actions.put(5, this::showAllMembers);
-        actions.put(13, this::updateRemindDay);
+        actions.put(MainMenu.MEMBER_LIST, this::showAllMembers);
+        actions.put(MainMenu.REMIND_UPDATE, this::updateRemindDay);
     }
 
     public void registerMember() {

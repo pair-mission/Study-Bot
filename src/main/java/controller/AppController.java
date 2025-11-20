@@ -1,16 +1,17 @@
 package controller;
 
+import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
+
 import global.Session;
+import global.enums.MainMenu;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import view.InputView;
 import view.OutputView;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static global.enums.ErrorMessage.INVALID_MENU_INPUT;
-
 public abstract class AppController {
-    protected final Map<Integer, Runnable> actions;
+    protected final Map<MainMenu, Runnable> actions;
     protected final InputView inputView;
     protected final OutputView outputView;
     protected final Session session;
@@ -25,13 +26,17 @@ public abstract class AppController {
 
     protected abstract void registerAction();
 
-    void handleOption(int menuOption) {
-        Runnable action = actions.get(menuOption);
+    void handleOption(MainMenu menu) {
+        Runnable action = actions.get(menu);
         if (action == null) {
             outputView.printErrorMessage(INVALID_MENU_INPUT.getMessage());
             return;
         }
         action.run();
+    }
+
+    Set<MainMenu> getSupportMenus() {
+        return actions.keySet();
     }
 
 }
