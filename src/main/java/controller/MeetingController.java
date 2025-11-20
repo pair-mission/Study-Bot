@@ -9,13 +9,14 @@ import dto.MeetingUpdateDto;
 import global.Session;
 import global.enums.MainMenu;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
 
-public class MeetingController extends AppController {
+import java.util.List;
+
+public class MeetingController extends AppController implements RemindHandler {
 
     private final MeetingService meetingService;
     private final AttendanceService attendanceService;
@@ -40,6 +41,14 @@ public class MeetingController extends AppController {
         actions.put(MainMenu.ATTENDANCE_CHECK, this::registerAttendance);
         actions.put(MainMenu.ATTENDANCE_HISTORY, this::showAttendanceHistory);
         actions.put(MainMenu.MY_NEXT_MEETING, this::showMyNextMeetings);
+    }
+
+    @Override
+    public void showRemindMeetings() {
+        Member loginMember = session.getLoginMember();
+        List<Meeting> remindMeetings = meetingService.findRemindMeetings(loginMember.getId(),
+                loginMember.getRemindDay());
+        outputView.printRemindMeetings(remindMeetings);
     }
 
     private void showMyNextMeetings() {
@@ -127,13 +136,6 @@ public class MeetingController extends AppController {
         long meetingId = InputParser.parseToLong(participantMemberInput);
         List<String> participantNicknames = meetingService.getAllParticipants(meetingId);
         outputView.printAllParticipants(participantNicknames);
-    }
-
-    public void showRemindMeetings() {
-        Member loginMember = session.getLoginMember();
-        List<Meeting> remindMeetings = meetingService.findRemindMeetings(loginMember.getId(),
-                loginMember.getRemindDay());
-        outputView.printRemindMeetings(remindMeetings);
     }
 
 }

@@ -6,12 +6,13 @@ import global.Session;
 import global.enums.MainMenu;
 import global.exception.DataAccessException;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
 
-public class MemberController extends AppController {
+import java.util.List;
+
+public class MemberController extends AppController implements AuthHandler {
 
     private final MemberService memberService;
 
@@ -26,6 +27,7 @@ public class MemberController extends AppController {
         actions.put(MainMenu.REMIND_UPDATE, this::updateRemindDay);
     }
 
+    @Override
     public void registerMember() {
         try {
             String userInput = inputView.getMemberNickname();
@@ -37,6 +39,13 @@ public class MemberController extends AppController {
         }
     }
 
+    @Override
+    public void login() {
+        String userNickname = inputView.getUserNickname();
+        Member member = memberService.findByNickName(userNickname);
+        session.login(member);
+    }
+
     private void showAllMembers() {
         try {
             List<MemberInfoDto> memberInfos = memberService.findAllMember().stream().map(MemberInfoDto::from).toList();
@@ -44,12 +53,6 @@ public class MemberController extends AppController {
         } catch (DataAccessException e) {
             outputView.printErrorMessage(e.getMessage());
         }
-    }
-
-    public void login() {
-        String userNickname = inputView.getUserNickname();
-        Member member = memberService.findByNickName(userNickname);
-        session.login(member);
     }
 
     private void updateRemindDay() {

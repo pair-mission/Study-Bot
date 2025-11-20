@@ -1,24 +1,30 @@
 package controller;
 
-import global.config.AppConfig;
 import global.enums.AuthMenu;
 import global.enums.MainMenu;
 import global.utils.parser.InputParser;
+import view.InputView;
+import view.OutputView;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import view.InputView;
-import view.OutputView;
 
 public class MainController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final AuthHandler authHandler;
+    private final RemindHandler remindHandler;
     private final Map<MainMenu, AppController> controllers;
 
-    public MainController(InputView inputView, OutputView outputView, List<AppController> appControllers) {
+    public MainController(InputView inputView, OutputView outputView,
+                          List<AppController> appControllers,
+                          AuthHandler authHandler, RemindHandler remindHandler) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.authHandler = authHandler;
+        this.remindHandler = remindHandler;
         this.controllers = new HashMap<>();
         initializeControllers(appControllers);
     }
@@ -44,12 +50,9 @@ public class MainController {
     }
 
     private void processLoginOrRegister() {
-        MemberController memberController = AppConfig.getInstance().getMemberController();
-        MeetingController meetingController = AppConfig.getInstance().getMeetingController();
-
         while (true) {
             try {
-                handleLoginOrRegister(memberController, meetingController);
+                handleLoginOrRegister(authHandler, remindHandler);
                 break;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
@@ -57,19 +60,18 @@ public class MainController {
         }
     }
 
-    private void handleLoginOrRegister(MemberController memberController, MeetingController meetingController) {
+    private void handleLoginOrRegister(AuthHandler authHandler, RemindHandler remindHandler) {
         AuthMenu menu = AuthMenu.findByOption(InputParser.parseToInt(inputView.getLoginInput()));
 
         if (menu == AuthMenu.LOGIN) {
-            memberController.login();
-            meetingController.showRemindMeetings();
+            authHandler.login();
+            remindHandler.showRemindMeetings();
         }
 
         if (menu == AuthMenu.MEMBER_REGISTER) {
-            memberController.registerMember();
-            memberController.login();
+            authHandler.registerMember();
+            authHandler.login();
         }
-        
     }
 
     public MainMenu getValidMenu() {

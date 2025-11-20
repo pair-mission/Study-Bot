@@ -7,9 +7,10 @@ import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
-import java.util.List;
 import repository.attendance.AttendanceRepository;
 import repository.participant.ParticipantInMemoryRepository;
+
+import java.util.List;
 
 public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
@@ -22,32 +23,34 @@ public class AttendanceService {
     }
 
 
-    public Attendance createAttendance(Long meetingId, Member loginMember) {
+    public void createAttendance(Long meetingId, Member loginMember) {
 
-        MeetingParticipant participant = participantInMemoryRepository.findParticipantsByMeetingIdAndMemberId(meetingId,
-                loginMember.getId());
+        MeetingParticipant participant = participantInMemoryRepository.findParticipantsByMeetingIdAndMemberId(meetingId, loginMember.getId());
 
-        if (participant == null) {
-            throw new IllegalArgumentException(ErrorMessage.MEMBER_NOT_PARTICIPANT.getMessage());
-        }
-
-        Meeting meeting = participant.getMeeting();
-
-        if (!meeting.isAttendanceAvailable()) {
-            throw new IllegalArgumentException(ErrorMessage.ATTENDANCE_UNAVAILABLE.getMessage());
-        }
+        validateIsNotParticipant(participant);
+        validateIsAttendanceAvailable(participant.getMeeting());
 
         Attendance attendance = Attendance.of(participant, AttendanceStatus.ATTENDANCE);
 
-        return attendanceRepository.save(attendance);
-
+        attendanceRepository.save(attendance);
     }
 
     public List<MeetingAttendanceDto> findAllAttendance(List<Meeting> meetings) {
-
         return meetings.stream()
                 .map(this::createAttendanceDto)
                 .toList();
+    }
+
+    private void validateIsNotParticipant(MeetingParticipant participant) {
+        if (participant == null) {
+            throw new IllegalArgumentException(ErrorMessage.MEMBER_NOT_PARTICIPANT.getMessage());
+        }
+    }
+
+    private void validateIsAttendanceAvailable(Meeting meeting) {
+        if (!meeting.isAttendanceAvailable()) {
+            throw new IllegalArgumentException(ErrorMessage.ATTENDANCE_UNAVAILABLE.getMessage());
+        }
     }
 
     private MeetingAttendanceDto createAttendanceDto(Meeting meeting) {

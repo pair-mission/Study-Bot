@@ -1,12 +1,7 @@
 package global.config;
 
-import controller.AppController;
-import controller.ExitController;
-import controller.MainController;
-import controller.MeetingController;
-import controller.MemberController;
+import controller.*;
 import global.Session;
-import java.util.List;
 import repository.attendance.AttendanceInMemoryRepository;
 import repository.attendance.AttendanceRepository;
 import repository.meeting.MeetingInMemoryRepository;
@@ -20,29 +15,58 @@ import service.MemberService;
 import view.InputView;
 import view.OutputView;
 
+import java.util.List;
+
 public class AppConfig {
 
     private static final AppConfig Instance = new AppConfig();
-    private final Session session = new Session();
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
-    private final MeetingRepository meetingRepository = new MeetingInMemoryRepository();
-    private final MemberRepository memberRepository = new MemberInMemoryRepository();
-    private final AttendanceRepository attendanceRepository = new AttendanceInMemoryRepository();
-    private final ParticipantInMemoryRepository participantRepository = new ParticipantInMemoryRepository();
-    private final MemberService memberService = new MemberService(memberRepository);
-    private final MemberController memberController = new MemberController(memberService, inputView, outputView,
-            session);
-    private final AttendanceService attendanceService = new AttendanceService(attendanceRepository,
-            participantRepository);
-    private final MeetingService meetingService = new MeetingService(meetingRepository, participantRepository);
-    private final MeetingController meetingController = new MeetingController(meetingService, attendanceService,
-            inputView,
-            outputView, session);
-    private final ExitController exitController = new ExitController(inputView, outputView, session);
+
+    // common
+    private final Session session;
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final AuthHandler authHandler;
+    private final RemindHandler remindHandler;
+
+    // repository
+    private final MeetingRepository meetingRepository;
+    private final MemberRepository memberRepository;
+    private final AttendanceRepository attendanceRepository;
+    private final ParticipantInMemoryRepository participantRepository;
+
+    // service
+    private final MemberService memberService;
+    private final AttendanceService attendanceService;
+    private final MeetingService meetingService;
+
+    // controller
+    private final MemberController memberController;
+    private final MeetingController meetingController;
+    private final ExitController exitController;
     private final MainController mainController;
 
     private AppConfig() {
+
+        session = new Session();
+        inputView = new InputView();
+        outputView = new OutputView();
+
+        memberRepository = new MemberInMemoryRepository();
+        meetingRepository = new MeetingInMemoryRepository();
+        attendanceRepository = new AttendanceInMemoryRepository();
+        participantRepository = new ParticipantInMemoryRepository();
+
+        memberService = new MemberService(memberRepository);
+        meetingService = new MeetingService(meetingRepository, participantRepository);
+        attendanceService = new AttendanceService(attendanceRepository, participantRepository);
+
+        memberController = new MemberController(memberService, inputView, outputView, session);
+        meetingController = new MeetingController(meetingService, attendanceService, inputView, outputView, session);
+        exitController = new ExitController(inputView, outputView, session);
+        authHandler = memberController;
+        remindHandler = meetingController;
+
+
         new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
 
         List<AppController> allControllers = List.of(
@@ -51,7 +75,7 @@ public class AppConfig {
                 exitController
         );
 
-        mainController = new MainController(inputView, outputView, allControllers);
+        mainController = new MainController(inputView, outputView, allControllers, authHandler, remindHandler);
     }
 
     public static AppConfig getInstance() {
@@ -60,14 +84,6 @@ public class AppConfig {
 
     public MainController getMainController() {
         return mainController;
-    }
-
-    public MemberController getMemberController() {
-        return memberController;
-    }
-
-    public MeetingController getMeetingController() {
-        return meetingController;
     }
 
 }
