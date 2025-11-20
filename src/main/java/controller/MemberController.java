@@ -25,6 +25,7 @@ public class MemberController extends AppController {
         actions.put(1, this::login);
         actions.put(2, this::registerMember);
         actions.put(5, this::showAllMembers);
+        actions.put(13, this::updateRemindDay);
     }
 
     public void registerMember() {
@@ -52,4 +53,13 @@ public class MemberController extends AppController {
         Member member = memberService.findByNickName(userNickname);
         session.login(member);
     }
+
+    private void updateRemindDay() {
+        String remindDayInput = inputView.getRemindDay();
+        int remindDay = InputParser.parseToInt(remindDayInput);
+        Member loginMember = session.getLoginMember();
+        loginMember.updateRemindDay(remindDay);
+        outputView.printRemindUpdateSuccess(loginMember.getRemindDay());
+    }
+
 }

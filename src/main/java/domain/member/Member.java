@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Member implements Serializable {
     private final String nickname;
     private Long id;
+    private int remindDay; // 일 단위
 
     private Member(String nickname) {
         this(null, nickname);
@@ -13,6 +14,7 @@ public class Member implements Serializable {
     private Member(Long id, String nickname) {
         this.id = id;
         this.nickname = nickname;
+        this.remindDay = 2;
     }
 
     public static Member from(String nickname) {
@@ -31,12 +33,20 @@ public class Member implements Serializable {
         return this.id.equals(id);
     }
 
+    public void updateRemindDay(int remindDay) {
+        this.remindDay = remindDay;
+    }
+
     public String getNickname() {
         return nickname;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public int getRemindDay() {
+        return remindDay;
     }
 
     @Override

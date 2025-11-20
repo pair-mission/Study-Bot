@@ -4,6 +4,7 @@ import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
 import global.utils.parser.InputParser;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -106,9 +107,9 @@ public class Meeting {
         return Duration.between(now, startDateTime).toDays();
     }
 
-    public boolean isTomorrowMeeting() {
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        return this.date.isEqual(tomorrow);
+    public boolean isRemindMeeting(int remindDays) {
+        LocalDate startDate = LocalDate.now().plusDays(remindDays);
+        return this.date.isEqual(startDate);
     }
 
     public boolean isMeetingOver() {

@@ -33,10 +33,12 @@ public class MainController {
 
     private void processLoginOrRegister() {
         MemberController memberController = (MemberController) controllers.get(Menu.LOGIN);
+        MeetingController meetingController = (MeetingController) controllers.get(Menu.MEETING_LIST);
 
         while (true) {
             try {
                 handleLoginOrRegister(memberController);
+                meetingController.showRemindMeetings();
                 break;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());

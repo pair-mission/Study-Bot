@@ -4,6 +4,7 @@ import domain.meeting.Meeting;
 import dto.MeetingAttendanceDto;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
+
 import java.util.List;
 
 public class OutputView {
@@ -25,6 +26,7 @@ public class OutputView {
                 + "10. 출석 체크\n"
                 + "11. 출석 기록 조회\n"
                 + "12. 나의 다음 모임 조회\n"
+                + "13. 알림 설정\n"
                 + "14. 종료");
     }
 
@@ -77,8 +79,8 @@ public class OutputView {
         }
     }
 
-    public void printIsTomorrowMeetings(List<Meeting> meetings) {
-        System.out.println("[내일 스터디 리마인드]");
+    public void printRemindMeetings(List<Meeting> meetings) {
+        System.out.println("[스터디 리마인드]");
         for (Meeting meeting : meetings) {
             System.out.println(" - " + meeting.toString());
         }
@@ -102,5 +104,10 @@ public class OutputView {
     public void printMyNextMeeting(Meeting myNextMeeting) {
         System.out.println("[다가오는 모임]");
         System.out.println(myNextMeeting.toString());
+    }
+
+    public void printRemindUpdateSuccess(int updatedRemindDay) {
+        System.out.println("리마인드 설정이 완료되었습니다.");
+        System.out.println("현재 리마인드 설정: " + updatedRemindDay + "일 전 알림");
     }
 }

@@ -8,11 +8,12 @@ import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.Session;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class MeetingController extends AppController {
 
@@ -29,6 +30,7 @@ public class MeetingController extends AppController {
 
     @Override
     protected void registerAction() {
+        actions.put(0, this::showRemindMeetings);
         actions.put(1, this::registerMeeting);
         actions.put(2, this::updateMeeting);
         actions.put(3, this::deleteMeeting);
@@ -40,7 +42,6 @@ public class MeetingController extends AppController {
         actions.put(11, this::showAttendanceHistory);
         actions.put(12, this::showMyNextMeetings);
     }
-
 
     private void showMyNextMeetings() {
         Member loginMember = session.getLoginMember();
@@ -128,4 +129,11 @@ public class MeetingController extends AppController {
         List<String> participantNicknames = meetingService.getAllParticipants(meetingId);
         outputView.printAllParticipants(participantNicknames);
     }
+
+    public void showRemindMeetings() {
+        Member loginMember = session.getLoginMember();
+        List<Meeting> remindMeetings = meetingService.findRemindMeetings(loginMember.getId(), loginMember.getRemindDay());
+        outputView.printRemindMeetings(remindMeetings);
+    }
+    
 }

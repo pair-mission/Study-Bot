@@ -82,5 +82,10 @@ public class InputView {
         return input;
     }
 
-
+    public String getRemindDay() {
+        System.out.println("\n[일정 리마인드 설정]\n모임 시작하기 며칠 전에 알려드릴까요?");
+        String input = Console.readLine();
+        InputValidator.validateBlankInput(input);
+        return input;
+    }
 }

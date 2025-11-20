@@ -8,12 +8,13 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
+import repository.meeting.MeetingRepository;
+import repository.participant.ParticipantInMemoryRepository;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import repository.meeting.MeetingRepository;
-import repository.participant.ParticipantInMemoryRepository;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
@@ -78,9 +79,9 @@ public class MeetingService {
                 .toList();
     }
 
-    public List<Meeting> findByTomorrowMeetings(Long memberId) {
+    public List<Meeting> findRemindMeetings(Long memberId, int remindDays) {
         return participantRepository.findMeetingsByMember(memberId).stream()
-                .filter(Meeting::isTomorrowMeeting)
+                .filter(meeting -> meeting.isRemindMeeting(remindDays))
                 .toList();
     }
 
