@@ -1,14 +1,14 @@
 package repository.member;
 
+import static global.enums.ErrorMessage.INVALID_FILE;
+
 import domain.member.Member;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MemberParser;
-
 import java.io.IOException;
 import java.util.List;
-
-import static global.enums.ErrorMessage.INVALID_FILE;
+import java.util.Optional;
 
 public class MemberFileRepository implements MemberRepository {
     private static final String MEMBER_FILE_PATH = "src/main/resources/members.csv";
@@ -48,20 +48,20 @@ public class MemberFileRepository implements MemberRepository {
     }
 
     @Override
-    public Member findByNickName(String nickname) {
+    public Optional<Member> findByNickName(String nickname) {
         try {
             return CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser()).stream()
-                    .filter(member -> member.isSameNickname(nickname)).findFirst().orElse(null);
+                    .filter(member -> member.isSameNickname(nickname)).findFirst();
         } catch (IOException e) {
             throw new DataAccessException(INVALID_FILE);
         }
     }
 
     @Override
-    public Member findById(long id) {
+    public Optional<Member> findById(long id) {
         try {
             return CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser()).stream()
-                    .filter(member -> member.isSameId(id)).findFirst().orElse(null);
+                    .filter(member -> member.isSameId(id)).findFirst();
         } catch (IOException e) {
             throw new DataAccessException(INVALID_FILE);
         }

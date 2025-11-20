@@ -1,10 +1,10 @@
 package repository.member;
 
 import domain.member.Member;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class MemberInMemoryRepository implements MemberRepository {
     private final Map<Long, Member> members = new HashMap<>();
@@ -30,13 +30,13 @@ public class MemberInMemoryRepository implements MemberRepository {
     }
 
     @Override
-    public Member findByNickName(String nickname) {
+    public Optional<Member> findByNickName(String nickname) {
         return members.values().stream()
-                .filter(member -> member.isSameNickname(nickname)).findFirst().orElse(null);
+                .filter(member -> member.isSameNickname(nickname)).findFirst();
     }
 
     @Override
-    public Member findById(long id) {
-        return members.get(id);
+    public Optional<Member> findById(long id) {
+        return Optional.ofNullable(members.get(id));
     }
 }

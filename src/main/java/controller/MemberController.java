@@ -6,11 +6,10 @@ import global.Session;
 import global.enums.MainMenu;
 import global.exception.DataAccessException;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.List;
 
 public class MemberController extends AppController implements AuthHandler {
 
@@ -31,7 +30,7 @@ public class MemberController extends AppController implements AuthHandler {
     public void registerMember() {
         try {
             String userInput = inputView.getMemberNickname();
-            String newUserInput = InputParser.parseToValidString(userInput);
+            String newUserInput = InputParser.parseToNonBlank(userInput);
             Member member = memberService.register(newUserInput);
             outputView.printRegisterSuccess(member.getNickname());
         } catch (DataAccessException e) {
@@ -42,13 +41,14 @@ public class MemberController extends AppController implements AuthHandler {
     @Override
     public void login() {
         String userNickname = inputView.getUserNickname();
-        Member member = memberService.findByNickName(userNickname);
+        String trimmedNickname = InputParser.parseToNonBlank(userNickname);
+        Member member = memberService.findByNickName(trimmedNickname);
         session.login(member);
     }
 
     private void showAllMembers() {
         try {
-            List<MemberInfoDto> memberInfos = memberService.findAllMember().stream().map(MemberInfoDto::from).toList();
+            List<MemberInfoDto> memberInfos = memberService.findAllMember();
             outputView.printAllMemberInfo(memberInfos);
         } catch (DataAccessException e) {
             outputView.printErrorMessage(e.getMessage());

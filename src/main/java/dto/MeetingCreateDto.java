@@ -1,7 +1,7 @@
 package dto;
 
+import global.utils.InputValidator;
 import global.utils.parser.InputParser;
-
 import java.util.List;
 
 public record MeetingCreateDto(
@@ -18,11 +18,16 @@ public record MeetingCreateDto(
     public static MeetingCreateDto from(String userInput) {
 
         List<String> tokens = InputParser.parseToTokens(userInput);
+
         String date = tokens.get(0);
         String startTime = tokens.get(1);
         String endTime = tokens.get(2);
-        String topic = tokens.get(3);
-        String place = tokens.get(4);
+        String topic = InputParser.parseToNonBlank(tokens.get(3));
+        String place = InputParser.parseToNonBlank(tokens.get(4));
+
+        InputValidator.validateDate(date);
+        InputValidator.validateTime(startTime);
+        InputValidator.validateTime(endTime);
 
         return new MeetingCreateDto(date, startTime, endTime, topic, place);
     }

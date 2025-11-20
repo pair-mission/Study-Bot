@@ -2,7 +2,6 @@ package global.utils.parser;
 
 import domain.meeting.MeetingTime;
 import global.enums.ErrorMessage;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -22,7 +21,7 @@ public class InputParser {
         return Arrays.stream(input.split(",")).map(String::trim).toList();
     }
 
-    public static String parseToValidString(String input) {
+    public static String parseToNonBlank(String input) {
         return input.replaceAll("\\s+", "");
     }
 

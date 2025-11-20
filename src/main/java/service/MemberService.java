@@ -1,14 +1,10 @@
 package service;
 
 import domain.member.Member;
+import dto.MemberInfoDto;
 import global.enums.ErrorMessage;
-import global.utils.InputValidator;
-import global.utils.parser.InputParser;
-import repository.member.MemberRepository;
-
 import java.util.List;
-
-import static global.enums.ErrorMessage.MEMBER_NOT_FOUND;
+import repository.member.MemberRepository;
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -18,42 +14,34 @@ public class MemberService {
     }
 
     public Member register(String nickname) {
+
+        validateExists(nickname);
+
+        return memberRepository.save(Member.from(nickname));
+    }
+
+    private void validateExists(String nickname) {
         boolean existsByNickname = memberRepository.existsBy(nickname);
 
         if (existsByNickname) {
             throw new IllegalArgumentException(ErrorMessage.MEMBER_ALREADY_EXISTS.getMessage());
         }
-
-        Member newMember = memberRepository.save(Member.from(nickname));
-
-        return newMember;
     }
 
-    public List<Member> findAllMember() {
-        return memberRepository.findAll();
+    public List<MemberInfoDto> findAllMember() {
+        return memberRepository.findAll().stream().map(MemberInfoDto::from).toList();
     }
 
     public Member findByNickName(String nickname) {
-        InputValidator.validateBlankInput(nickname);
-        String trimmedNickname = InputParser.parseToValidString(nickname);
 
-        Member member = memberRepository.findByNickName(trimmedNickname);
-
-        if (member == null) {
-            throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
-        }
-
-        return member;
+        return memberRepository.findByNickName(nickname)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEMBER_NOT_FOUND.getMessage()));
     }
 
     public Member findById(long id) {
-        Member member = memberRepository.findById(id);
 
-        if (member == null) {
-            throw new IllegalArgumentException(MEMBER_NOT_FOUND.getMessage());
-        }
-
-        return member;
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEMBER_NOT_FOUND.getMessage()));
     }
 
 }
