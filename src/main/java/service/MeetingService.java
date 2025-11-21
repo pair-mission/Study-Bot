@@ -8,12 +8,13 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
+import repository.meeting.MeetingRepository;
+import repository.participant.ParticipantInMemoryRepository;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import repository.meeting.MeetingRepository;
-import repository.participant.ParticipantInMemoryRepository;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
@@ -72,11 +73,20 @@ public class MeetingService {
     public void createParticipant(Long meetingId, Member member) {
         Meeting meeting = meetingRepository.findById(meetingId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEETING_NOT_FOUND.getMessage()));
+
+        participantRepository.findParticipantByMeetingIdAndMemberId(meeting.getId(), member.getId())
+                .ifPresent(participant -> {
+                    throw new IllegalArgumentException(ErrorMessage.ALREADY_PARTICIPANT.getMessage());
+                });
+
         MeetingParticipant participant = MeetingParticipant.of(Role.MEMBER, member, meeting);
+
         participantRepository.save(participant);
     }
 
     public List<String> getAllParticipants(Long meetingId) {
+        meetingRepository.findById(meetingId).orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEETING_NOT_FOUND.getMessage()));
+
         return participantRepository.findAllParticipantsByMeetingId(meetingId).stream()
                 .map(participant -> participant.getMember().getNickname())
                 .toList();

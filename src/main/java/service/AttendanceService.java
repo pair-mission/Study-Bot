@@ -25,7 +25,8 @@ public class AttendanceService {
 
     public void createAttendance(Long meetingId, Member loginMember) {
 
-        MeetingParticipant participant = participantInMemoryRepository.findParticipantsByMeetingIdAndMemberId(meetingId, loginMember.getId());
+        MeetingParticipant participant = participantInMemoryRepository.findParticipantByMeetingIdAndMemberId(meetingId, loginMember.getId())
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.ALREADY_PARTICIPANT.getMessage()));
 
         validateIsNotParticipant(participant);
         validateIsAttendanceAvailable(participant.getMeeting());

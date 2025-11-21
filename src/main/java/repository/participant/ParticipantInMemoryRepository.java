@@ -3,10 +3,7 @@ package repository.participant;
 import domain.meeting.Meeting;
 import domain.participant.MeetingParticipant;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParticipantInMemoryRepository {
@@ -37,12 +34,11 @@ public class ParticipantInMemoryRepository {
                 .map(MeetingParticipant::getMeeting).toList();
     }
 
-    public MeetingParticipant findParticipantsByMeetingIdAndMemberId(Long meetingId, Long memberId) {
+    public Optional<MeetingParticipant> findParticipantByMeetingIdAndMemberId(Long meetingId, Long memberId) {
         return participants.values().stream()
                 .filter(participants -> participants.getMember().isSameId(memberId) && participants.getMeeting()
                         .isSameById(meetingId))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public List<MeetingParticipant> findAll() {

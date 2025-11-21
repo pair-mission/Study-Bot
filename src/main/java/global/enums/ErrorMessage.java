@@ -14,6 +14,7 @@ public enum ErrorMessage {
     SEARCH_NOT_FOUND("[ERROR] 조회 결과가 없습니다."),
     NOT_HOST("[ERROR] 모임장이 아닙니다."),
     MEMBER_NOT_PARTICIPANT("[ERROR] 참여 중인 모임이 아닙니다."),
+    ALREADY_PARTICIPANT("[ERROR] 이미 참여 중인 모임입니다."),
 
     // 날짜
     INVALID_DATE("[ERROR] 입력 날짜는 현재날짜보다 이후여야합니다."),

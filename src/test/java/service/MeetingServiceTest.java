@@ -101,22 +101,21 @@ public class MeetingServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorMessage.NOT_HOST.getMessage());
     }
-
-    // TODO 추가 구현 필요. 예외 발생 안하고 있음.
+    
     @Test
     @DisplayName("참여자 등록 - 이미 참여 중인 경우 예외가 발생한다.")
     void testRegisterParticipantWhenAlreadyExist() {
         // given
         // member가 meeting에 참여한 상태일 때
         Member member = memberRepository.save(Member.from("제이"));
-        MeetingParticipant participant = MeetingParticipant.of(Role.MEMBER, host, meeting);
+        MeetingParticipant participant = MeetingParticipant.of(Role.MEMBER, member, meeting);
         participantInMemoryRepository.save(participant);
 
         // when, then
         // 다시 참여하려는 경우 예외 발생해야함
         assertThatThrownBy(() -> meetingService.createParticipant(meeting.getId(), member))
-                .isInstanceOf(IllegalArgumentException.class);
-//                .hasMessageContaining(ErrorMessage.???.getMessage()); // ErrorMessage 없음
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.ALREADY_PARTICIPANT.getMessage());
     }
 
     @Test
@@ -132,7 +131,6 @@ public class MeetingServiceTest {
                 .hasMessageContaining(ErrorMessage.MEETING_NOT_FOUND.getMessage());
     }
 
-    // TODO getAllParticipants 수정해야함
     @Test
     @DisplayName("참여자 조회 - 조회하는 모임이 존재하지 않을 경우 예외가 발생한다.")
     void testGetParticipantsWhenMeetingNotFound() {
