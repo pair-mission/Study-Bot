@@ -2,6 +2,7 @@ package global.utils;
 
 import static global.enums.ErrorMessage.BLANK_INPUT;
 import static global.enums.ErrorMessage.INVALID_DATE_PATTERN;
+import static global.enums.ErrorMessage.INVALID_TIME_PATTERN;
 import static global.enums.Pattern.DATE_PATTERN;
 import static global.enums.Pattern.TIME_PATTERN;
 
@@ -31,7 +32,7 @@ public class InputValidator {
 
     private static void validateTimePattern(String timeInput) {
         if (!timeInput.matches(TIME_PATTERN.getValue())) {
-            throw new IllegalArgumentException(INVALID_DATE_PATTERN.getMessage());
+            throw new IllegalArgumentException(INVALID_TIME_PATTERN.getMessage());
         }
     }
 }

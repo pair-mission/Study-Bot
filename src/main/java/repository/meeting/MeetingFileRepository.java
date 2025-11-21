@@ -5,9 +5,9 @@ import global.enums.ErrorMessage;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MeetingParser;
-
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class MeetingFileRepository implements MeetingRepository {
 
@@ -50,8 +50,8 @@ public class MeetingFileRepository implements MeetingRepository {
     }
 
     @Override
-    public Meeting findById(Long id) {
-        return null;
+    public Optional<Meeting> findById(Long id) {
+        return Optional.empty();
     }
 
     @Override

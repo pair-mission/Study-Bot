@@ -20,7 +20,7 @@ public enum ErrorMessage {
     INVALID_DATE_PATTERN("[ERROR] 입력 날짜의 형식이 올바르지 않습니다."),
 
     // 시간
-    INVALID_ENDTIME("[ERROR] 종료 시간은 시작 시작 이후여야 합니다."),
+    INVALID_ENDTIME("[ERROR] 종료 시간은 시작 시간 이후여야 합니다."),
     INVALID_TIME_PATTERN("[ERROR] 입력 시간의 형식이 올바르지 않습니다."),
 
     // 숫자

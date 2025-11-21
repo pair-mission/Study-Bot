@@ -8,13 +8,12 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
-import repository.meeting.MeetingRepository;
-import repository.participant.ParticipantInMemoryRepository;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import repository.meeting.MeetingRepository;
+import repository.participant.ParticipantInMemoryRepository;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
@@ -34,8 +33,9 @@ public class MeetingService {
     }
 
     public void updateMeeting(MeetingUpdateDto meetingUpdateDto, Member member) {
+        Meeting meeting = meetingRepository.findById(meetingUpdateDto.meetingId())
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEETING_NOT_FOUND.getMessage()));
         this.isHost(member, meetingUpdateDto.meetingId());
-        Meeting meeting = meetingRepository.findById(meetingUpdateDto.meetingId());
         meeting.compareAndChange(meetingUpdateDto);
     }
 
@@ -53,7 +53,9 @@ public class MeetingService {
     }
 
     public void deleteMeeting(Long meetingId, Member member) {
-        this.isHost(member, meetingId);
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEETING_NOT_FOUND.getMessage()));
+        this.isHost(member, meeting.getId());
         meetingRepository.delete(meetingId);
     }
 
@@ -68,7 +70,8 @@ public class MeetingService {
     }
 
     public void createParticipant(Long meetingId, Member member) {
-        Meeting meeting = meetingRepository.findById(meetingId);
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEETING_NOT_FOUND.getMessage()));
         MeetingParticipant participant = MeetingParticipant.of(Role.MEMBER, member, meeting);
         participantRepository.save(participant);
     }

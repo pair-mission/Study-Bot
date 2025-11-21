@@ -1,5 +1,6 @@
 package domain.meeting;
 
+import global.enums.ErrorMessage;
 import java.time.LocalTime;
 
 public class MeetingTime {
@@ -18,7 +19,7 @@ public class MeetingTime {
 
     private static void validate(LocalTime startTime, LocalTime endTime) {
         if (endTime.isBefore(startTime)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ENDTIME.getMessage());
         }
     }
 

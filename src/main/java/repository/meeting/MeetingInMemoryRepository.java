@@ -1,10 +1,11 @@
 package repository.meeting;
 
 import domain.meeting.Meeting;
-
-import java.util.*;
-
-import static global.enums.ErrorMessage.MEETING_NOT_FOUND;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class MeetingInMemoryRepository implements MeetingRepository {
     private final Map<Long, Meeting> meetings = new HashMap<>();
@@ -24,9 +25,9 @@ public class MeetingInMemoryRepository implements MeetingRepository {
     }
 
     @Override
-    public Meeting findById(Long id) {
-        return Optional.ofNullable(meetings.get(id))
-                .orElseThrow(() -> new IllegalArgumentException(MEETING_NOT_FOUND.getMessage()));
+    public Optional<Meeting> findById(Long id) {
+        return Optional.ofNullable(meetings.get(id));
+
     }
 
     @Override

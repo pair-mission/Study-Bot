@@ -1,19 +1,18 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import domain.meeting.Meeting;
 import domain.meeting.MeetingTime;
 import global.enums.ErrorMessage;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MeetingTest {
 
@@ -53,4 +52,16 @@ class MeetingTest {
                 .hasMessageContaining(ErrorMessage.INVALID_DATE.getMessage());
     }
 
+    @Test
+    @DisplayName("모임의 종료 시간이 시작 시간보다 빠를 경우 예외가 발생한다")
+    void 모임의_종료시간이_시작시간보다_빠르다() {
+
+        LocalTime startTime = LocalTime.of(8, 0);
+        LocalTime endTime = LocalTime.of(7, 0);
+
+        assertThatThrownBy(() -> MeetingTime.of(startTime, endTime))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_ENDTIME.getMessage());
+
+    }
 }
