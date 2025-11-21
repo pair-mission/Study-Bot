@@ -6,6 +6,8 @@ import static global.enums.ErrorMessage.INVALID_TIME_PATTERN;
 import static global.enums.Pattern.DATE_PATTERN;
 import static global.enums.Pattern.TIME_PATTERN;
 
+import global.enums.ErrorMessage;
+
 public class InputValidator {
 
     public static void validateBlankInput(String input) {
@@ -35,4 +37,11 @@ public class InputValidator {
             throw new IllegalArgumentException(INVALID_TIME_PATTERN.getMessage());
         }
     }
+
+    public static void validateNegativeNumber(int number) {
+        if (number < 0) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_FORMAT.getMessage());
+        }
+    }
+
 }

@@ -7,10 +7,9 @@ import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
+import java.util.List;
 import repository.attendance.AttendanceRepository;
 import repository.participant.ParticipantInMemoryRepository;
-
-import java.util.List;
 
 public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
@@ -25,10 +24,12 @@ public class AttendanceService {
 
     public void createAttendance(Long meetingId, Member loginMember) {
 
-        MeetingParticipant participant = participantInMemoryRepository.findParticipantByMeetingIdAndMemberId(meetingId, loginMember.getId())
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.ALREADY_PARTICIPANT.getMessage()));
+        MeetingParticipant participant = participantInMemoryRepository.findParticipantByMeetingIdAndMemberId(meetingId,
+                        loginMember.getId())
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEMBER_NOT_PARTICIPANT.getMessage()));
 
         validateIsNotParticipant(participant);
+        validateAlreadyAttended(participant);
         validateIsAttendanceAvailable(participant.getMeeting());
 
         Attendance attendance = Attendance.of(participant, AttendanceStatus.ATTENDANCE);
@@ -40,6 +41,13 @@ public class AttendanceService {
         return meetings.stream()
                 .map(this::createAttendanceDto)
                 .toList();
+    }
+
+    private void validateAlreadyAttended(MeetingParticipant participant) {
+        attendanceRepository.findByMeetingParticipant(participant)
+                .ifPresent(attendance -> {
+                    throw new IllegalArgumentException(ErrorMessage.ALREADY_ATTENDED.getMessage());
+                });
     }
 
     private void validateIsNotParticipant(MeetingParticipant participant) {

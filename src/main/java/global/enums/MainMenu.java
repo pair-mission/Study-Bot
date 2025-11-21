@@ -45,7 +45,7 @@ public enum MainMenu {
         return message;
     }
 
-    public boolean isNotExit() {
-        return !isExit;
+    public boolean isExit() {
+        return isExit;
     }
 }

@@ -2,8 +2,8 @@ package repository.attendance;
 
 import domain.attendance.Attendance;
 import domain.participant.MeetingParticipant;
-
 import java.util.List;
+import java.util.Optional;
 
 public interface AttendanceRepository {
 
@@ -15,4 +15,5 @@ public interface AttendanceRepository {
 
     List<Attendance> findAttendersByParticipants(List<MeetingParticipant> participants);
 
+    Optional<Attendance> findByMeetingParticipant(MeetingParticipant participant);
 }

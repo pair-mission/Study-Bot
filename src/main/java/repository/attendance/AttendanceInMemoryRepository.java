@@ -2,10 +2,10 @@ package repository.attendance;
 
 import domain.attendance.Attendance;
 import domain.participant.MeetingParticipant;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AttendanceInMemoryRepository implements AttendanceRepository {
@@ -40,5 +40,11 @@ public class AttendanceInMemoryRepository implements AttendanceRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<Attendance> findByMeetingParticipant(MeetingParticipant participant) {
+        return attendances.values().stream()
+                .filter(attendance -> attendance.getParticipant().getId().equals(participant.getId()))
+                .findFirst();
+    }
 }
 

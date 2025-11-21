@@ -3,12 +3,11 @@ package controller;
 import global.enums.AuthMenu;
 import global.enums.MainMenu;
 import global.utils.parser.InputParser;
-import view.InputView;
-import view.OutputView;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import view.InputView;
+import view.OutputView;
 
 public class MainController {
 
@@ -40,13 +39,20 @@ public class MainController {
     public void run() {
         processLoginOrRegister();
 
-        MainMenu menu;
-        do {
-            outputView.printMenu();
-            menu = getValidMenu();
-            AppController controller = controllers.get(menu);
-            controller.handleOption(menu);
-        } while (menu.isNotExit());
+        while (true) {
+            try {
+                outputView.printMenu();
+                MainMenu menu = getValidMenu();
+                AppController controller = controllers.get(menu);
+                controller.handleOption(menu);
+
+                if (menu.isExit()) {
+                    break;
+                }
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private void processLoginOrRegister() {
