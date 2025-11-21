@@ -2,7 +2,6 @@ package global.utils.parser;
 
 import domain.meeting.Meeting;
 import domain.meeting.MeetingTime;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -26,7 +25,7 @@ public class MeetingParser implements CsvParser<Meeting> {
             br.write("id,date,startTime,endTime,topic,place\n");
         }
 
-        br.write(meeting.getId() + "," +
+        br.write("\n" + meeting.getId() + "," +
                 meeting.getDate() + "," +
                 meeting.getMeetingTime().getStartTime() + "," +
                 meeting.getMeetingTime().getEndTime() + "," +

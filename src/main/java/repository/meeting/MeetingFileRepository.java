@@ -51,7 +51,13 @@ public class MeetingFileRepository implements MeetingRepository {
 
     @Override
     public Optional<Meeting> findById(Long id) {
-        return Optional.empty();
+        try {
+            return CsvReader.readCsv(MEETING_FILE_PATH, new MeetingParser()).stream()
+                    .filter(meeting -> meeting.isSameById(id))
+                    .findFirst();
+        } catch (IOException e) {
+            throw new DataAccessException(ErrorMessage.INVALID_FILE);
+        }
     }
 
     @Override
