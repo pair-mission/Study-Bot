@@ -26,7 +26,7 @@ public class MeetingParser implements CsvParser<Meeting> {
             br.write("id,date,startTime,endTime,topic,place\n");
         }
 
-        br.write("\n" + meeting.getId() + "," +
+        br.write(meeting.getId() + "," +
                 meeting.getDate() + "," +
                 meeting.getMeetingTime().getStartTime() + "," +
                 meeting.getMeetingTime().getEndTime() + "," +
@@ -36,6 +36,11 @@ public class MeetingParser implements CsvParser<Meeting> {
         );
 
         br.flush();
+
+    }
+
+    @Override
+    public void update(Meeting meeting, BufferedWriter writer, String[] csv) {
 
     }
 }

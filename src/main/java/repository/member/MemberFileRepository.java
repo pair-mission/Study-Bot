@@ -1,14 +1,15 @@
 package repository.member;
 
-import static global.enums.ErrorMessage.INVALID_FILE;
-
 import domain.member.Member;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MemberParser;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import static global.enums.ErrorMessage.INVALID_FILE;
 
 public class MemberFileRepository implements MemberRepository {
     private static final String MEMBER_FILE_PATH = "src/main/resources/members.csv";
@@ -67,10 +68,20 @@ public class MemberFileRepository implements MemberRepository {
         }
     }
 
+
     @Override
     public Boolean existsBy(String nickname) {
         try {
             return CsvReader.existsCsv(nickname);
+        } catch (IOException e) {
+            throw new DataAccessException(INVALID_FILE);
+        }
+    }
+
+    @Override
+    public void update(Member member) {
+        try {
+            CsvReader.updateCsv(member, MEMBER_FILE_PATH, new MemberParser());
         } catch (IOException e) {
             throw new DataAccessException(INVALID_FILE);
         }

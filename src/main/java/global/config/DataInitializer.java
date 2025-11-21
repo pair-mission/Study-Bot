@@ -49,12 +49,12 @@ public class DataInitializer {
         memberRepository.save(member1);
         memberRepository.save(member2);
 
-        meetingRepository.save(meeting1);
-        meetingRepository.save(meeting2);
-        meetingRepository.save(meeting3);
-
-        participantInMemoryRepository.save(meetingParticipant1);
-        participantInMemoryRepository.save(meetingParticipant2);
-        participantInMemoryRepository.save(meetingParticipant3);
+//        meetingRepository.save(meeting1);
+//        meetingRepository.save(meeting2);
+//        meetingRepository.save(meeting3);
+//
+//        participantInMemoryRepository.save(meetingParticipant1);
+//        participantInMemoryRepository.save(meetingParticipant2);
+//        participantInMemoryRepository.save(meetingParticipant3);
     }
 }

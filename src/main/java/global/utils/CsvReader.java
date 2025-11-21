@@ -38,6 +38,43 @@ public class CsvReader {
 
     }
 
+    public static <T> void updateCsv(T t, String filePath, CsvParser<T> parser) throws IOException {
+        File originFile = new File(filePath);
+        File newFile = new File(filePath + ".txt");
+
+
+        try (BufferedReader br = new BufferedReader(new FileReader(originFile));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(newFile))) {
+
+            String header = br.readLine();
+            if (header != null) {
+                bw.write(header);
+                bw.newLine();
+            }
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] csv = line.split(",");
+                parser.update(t, bw, csv); // 수정 대상이면 수정된 내용으로, 아니면 그대로 write
+                bw.flush();
+            }
+        }
+
+
+        if (!originFile.delete()) {
+            System.out.println("기존 csv 파일 실패");
+        }
+
+        if (!newFile.renameTo(originFile)) {
+            System.out.println("임시 파일 이름 변경 실패!");
+        }
+
+//        originFile.renameTo(newFile);
+//        originFile.delete();
+
+
+    }
+
     public static boolean existsCsv(String nickname) throws IOException {
         File csv = new File("src/main/resources/members.csv");
         BufferedReader br = new BufferedReader(new FileReader(csv));

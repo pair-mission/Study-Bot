@@ -4,9 +4,9 @@ import controller.*;
 import global.Session;
 import repository.attendance.AttendanceInMemoryRepository;
 import repository.attendance.AttendanceRepository;
-import repository.meeting.MeetingInMemoryRepository;
+import repository.meeting.MeetingFileRepository;
 import repository.meeting.MeetingRepository;
-import repository.member.MemberInMemoryRepository;
+import repository.member.MemberFileRepository;
 import repository.member.MemberRepository;
 import repository.participant.ParticipantInMemoryRepository;
 import service.AttendanceService;
@@ -51,8 +51,8 @@ public class AppConfig {
         inputView = new InputView();
         outputView = new OutputView();
 
-        memberRepository = new MemberInMemoryRepository();
-        meetingRepository = new MeetingInMemoryRepository();
+        memberRepository = new MemberFileRepository();
+        meetingRepository = new MeetingFileRepository();
         attendanceRepository = new AttendanceInMemoryRepository();
         participantRepository = new ParticipantInMemoryRepository();
 
@@ -65,7 +65,6 @@ public class AppConfig {
         exitController = new ExitController(inputView, outputView, session);
         authHandler = memberController;
         remindHandler = meetingController;
-
 
         new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
 

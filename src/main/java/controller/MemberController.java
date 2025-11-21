@@ -7,10 +7,11 @@ import global.enums.MainMenu;
 import global.exception.DataAccessException;
 import global.utils.InputValidator;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class MemberController extends AppController implements AuthHandler {
 
@@ -61,7 +62,7 @@ public class MemberController extends AppController implements AuthHandler {
         int remindDay = InputParser.parseToInt(remindDayInput);
         InputValidator.validateNegativeNumber(remindDay);
         Member loginMember = session.getLoginMember();
-        loginMember.updateRemindDay(remindDay);
+        memberService.updateRemindDay(loginMember, remindDay);
         outputView.printRemindUpdateSuccess(loginMember.getRemindDay());
     }
 

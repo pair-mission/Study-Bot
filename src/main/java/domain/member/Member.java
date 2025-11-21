@@ -8,13 +8,13 @@ public class Member implements Serializable {
     private int remindDay; // 일 단위
 
     private Member(String nickname) {
-        this(null, nickname);
+        this(null, nickname, 1);
     }
 
-    private Member(Long id, String nickname) {
+    private Member(Long id, String nickname, int remindDay) {
         this.id = id;
         this.nickname = nickname;
-        this.remindDay = 1;
+        this.remindDay = remindDay;
     }
 
     public static Member from(String nickname) {
@@ -22,7 +22,11 @@ public class Member implements Serializable {
     }
 
     public static Member of(Long id, String nickname) {
-        return new Member(id, nickname);
+        return new Member(id, nickname, 1);
+    }
+
+    public static Member of(Long id, String nickname, int remindDay) {
+        return new Member(id, nickname, remindDay);
     }
 
     public boolean isSameNickname(String name) {

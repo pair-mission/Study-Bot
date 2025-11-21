@@ -1,6 +1,7 @@
 package repository.member;
 
 import domain.member.Member;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ public interface MemberRepository {
     Optional<Member> findByNickName(String nickname);
 
     Optional<Member> findById(long id);
+
+    void update(Member member);
 
     Boolean existsBy(String nickname);
 }

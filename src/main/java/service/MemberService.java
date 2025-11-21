@@ -3,8 +3,9 @@ package service;
 import domain.member.Member;
 import dto.MemberInfoDto;
 import global.enums.ErrorMessage;
-import java.util.List;
 import repository.member.MemberRepository;
+
+import java.util.List;
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -42,6 +43,11 @@ public class MemberService {
 
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.MEMBER_NOT_FOUND.getMessage()));
+    }
+
+    public void updateRemindDay(Member member, int remindDay) {
+        member.updateRemindDay(remindDay);
+        memberRepository.update(member);
     }
 
 }
