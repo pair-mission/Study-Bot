@@ -1,12 +1,15 @@
 package repository.participant;
 
-import domain.meeting.Meeting;
 import domain.participant.MeetingParticipant;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ParticipantInMemoryRepository implements ParticipantRepository {
+
     private final Map<Long, MeetingParticipant> participants = new HashMap<>();
     private Long sequence = 0L;
 
@@ -38,9 +41,8 @@ public class ParticipantInMemoryRepository implements ParticipantRepository {
     }
 
     @Override
-    public List<Meeting> findMeetingsByMember(Long memberId) {
-        return participants.values().stream().filter(participants -> participants.isSameMemberId(memberId))
-                .map(MeetingParticipant::getMeeting).toList();
+    public List<MeetingParticipant> findMeetingsByMember(Long memberId) {
+        return participants.values().stream().filter(participants -> participants.isSameMemberId(memberId)).toList();
     }
 
     @Override

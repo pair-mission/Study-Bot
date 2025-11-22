@@ -1,24 +1,22 @@
 package repository.member;
 
+import static global.enums.ErrorMessage.INVALID_FILE;
+
 import domain.member.Member;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MemberParser;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static global.enums.ErrorMessage.INVALID_FILE;
-
 public class MemberFileRepository implements MemberRepository {
 
     public static final String MEMBER_FILE_PATH = "src/main/resources/members.csv";
-
+    private final Map<Long, Member> members = new HashMap<>();
     private Long sequence;
-    private Map<Long, Member> members = new HashMap<>();
 
     public MemberFileRepository() {
         try {
@@ -67,7 +65,4 @@ public class MemberFileRepository implements MemberRepository {
         return Optional.ofNullable(members.get(id));
     }
 
-    @Override
-    public void update(Member member) {
-    }
 }

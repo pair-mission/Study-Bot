@@ -4,13 +4,13 @@ import dto.MeetingCreateDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
 import global.utils.parser.InputParser;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Meeting {
+
     private final LocalDate date;
     private final MeetingTime meetingTime;
     private final Long id;

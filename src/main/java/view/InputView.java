@@ -6,7 +6,17 @@ import global.utils.InputValidator;
 public class InputView {
 
     public String getLoginInput() {
-        System.out.println("\n안녕하세요. 스터디봇입니다.\n1. 로그인\n2. 멤버 등록");
+        System.out.println("""
+                                  ▗▖     ▗▖
+                      ▐▌          ▐▌     ▐▌         ▐▌
+                ▗▟██▖▐███ ▐▌ ▐▌ ▟█▟▌▝█ █▌▐▙█▙  ▟█▙ ▐███
+                ▐▙▄▖▘ ▐▌  ▐▌ ▐▌▐▛ ▜▌ █▖█ ▐▛ ▜▌▐▛ ▜▌ ▐▌
+                 ▀▀█▖ ▐▌  ▐▌ ▐▌▐▌ ▐▌ ▐█▛ ▐▌ ▐▌▐▌ ▐▌ ▐▌
+                ▐▄▄▟▌ ▐▙▄ ▐▙▄█▌▝█▄█▌  █▌ ▐█▄█▘▝█▄█▘ ▐▙▄
+                 ▀▀▀   ▀▀  ▀▀▝▘ ▝▀▝▘  █  ▝▘▀▘  ▝▀▘   ▀▀
+                                     █▌
+                """);
+        System.out.println("안녕하세요. 스터디봇입니다.\n1. 로그인\n2. 멤버 등록");
         return readNonBlankLine();
     }
 

@@ -1,0 +1,97 @@
+@startuml
+!theme vibrant
+title Study-Bot Architecture Overview
+
+' 레이아웃/선 정리
+left to right direction
+skinparam linetype ortho
+
+package "User Interface (View)" as View {
+    class InputView
+    class OutputView
+}
+
+package "Application Flow (Controller)" as Ctrl {
+
+    abstract class AppController
+    class MainController
+    class MeetingController
+    class MemberController
+    class ExitController
+}
+
+package "Business Logic (Service)" as Service {
+    class MeetingService
+    class MemberService
+    class AttendanceService
+}
+
+package "Data Access (Repository)" as Repo {
+    class MeetingRepository
+    class MemberRepository
+    class AttendanceRepository
+    class ParticipantRepository
+}
+
+package "Data Storage" {
+    class "CSV/JSON Files" as FileStore
+}
+
+note top of MainController
+  애플리케이션의 메인 루프를 관리합니다.
+  사용자 입력을 받아 적절한 하위 컨트롤러
+  (Meeting, Member 등)로 작업을 위임합니다.
+end note
+
+note top of MeetingController
+  미팅(스터디) 관련 요청을 처리합니다.
+  (생성, 조회, 수정, 삭제 등)
+  Service 계층에 비즈니스 로직을 위임하고
+  View를 통해 결과를 출력합니다.
+end note
+
+note top of MeetingService
+  미팅, 출결과 관련된 핵심 비즈니스 로직을
+  담당합니다. Repository를 통해 데이터에
+  접근하여 로직을 수행합니다.
+end note
+
+note right of MeetingRepository
+  파일(meeting.csv)에서 미팅 정보를
+  읽고 쓰는 역할을 담당합니다.
+end note
+
+' === Dependencies ===
+Main ..> MainController : runs
+
+' MainController는 AppController(추상 타입)에만 의존
+MainController --> AppController : controllers
+
+' View는 AppController에만 연결 (상속 받은 컨트롤러들은 암시적으로 사용)
+AppController --> InputView
+AppController --> OutputView
+
+' 상속 관계
+AppController <|-- MeetingController
+AppController <|-- MemberController
+AppController <|-- ExitController
+
+' 컨트롤러 -> 서비스
+MeetingController ..> MeetingService
+MeetingController ..> AttendanceService
+
+MemberController ..> MemberService
+
+' 서비스 -> 리포지토리
+MeetingService ..> MeetingRepository
+MeetingService ..> ParticipantRepository
+
+MemberService ..> MemberRepository
+
+AttendanceService ..> AttendanceRepository
+AttendanceService ..> ParticipantRepository
+
+' 리포지토리 전체가 파일 저장소를 사용
+Repo ..> FileStore
+
+@enduml

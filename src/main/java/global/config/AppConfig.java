@@ -1,22 +1,25 @@
 package global.config;
 
-import controller.*;
+import controller.AppController;
+import controller.AuthHandler;
+import controller.ControllerContext;
+import controller.ExitController;
+import controller.MainController;
+import controller.MeetingController;
+import controller.MemberController;
+import controller.RemindHandler;
 import global.Session;
+import java.util.List;
 import repository.attendance.AttendanceInMemoryRepository;
 import repository.attendance.AttendanceRepository;
-import repository.meeting.MeetingFileRepository;
 import repository.meeting.MeetingRepository;
-import repository.member.MemberFileRepository;
 import repository.member.MemberRepository;
-import repository.participant.ParticipantFileRepository;
 import repository.participant.ParticipantRepository;
 import service.AttendanceService;
 import service.MeetingService;
 import service.MemberService;
 import view.InputView;
 import view.OutputView;
-
-import java.util.List;
 
 public class AppConfig {
 
@@ -45,29 +48,31 @@ public class AppConfig {
     private final MeetingController meetingController;
     private final ExitController exitController;
     private final MainController mainController;
+    private final ControllerContext controllerContext;
 
     private AppConfig() {
 
         session = new Session();
         inputView = new InputView();
         outputView = new OutputView();
+        controllerContext = new ControllerContext(inputView, outputView, session);
 
-        memberRepository = new MemberFileRepository();
-        meetingRepository = new MeetingFileRepository();
-        participantRepository = new ParticipantFileRepository(memberRepository, meetingRepository);
+        RepositoryConfig repositoryConfig = new RepositoryConfig();
+        meetingRepository = repositoryConfig.getMeetingRepository();
+        memberRepository = repositoryConfig.getMemberRepository();
+        participantRepository = repositoryConfig.getParticipantRepository();
         attendanceRepository = new AttendanceInMemoryRepository();
 
         memberService = new MemberService(memberRepository);
         meetingService = new MeetingService(meetingRepository, participantRepository);
         attendanceService = new AttendanceService(attendanceRepository, participantRepository);
 
-        memberController = new MemberController(memberService, inputView, outputView, session);
-        meetingController = new MeetingController(meetingService, attendanceService, inputView, outputView, session);
-        exitController = new ExitController(inputView, outputView, session, participantRepository, memberRepository, meetingRepository);
+        memberController = new MemberController(memberService, controllerContext);
+        meetingController = new MeetingController(meetingService, attendanceService, controllerContext);
+        exitController = new ExitController(controllerContext, participantRepository, memberRepository,
+                meetingRepository);
         authHandler = memberController;
         remindHandler = meetingController;
-
-//        new DataInitializer().initializeMemory(memberRepository, meetingRepository, participantRepository);
 
         List<AppController> allControllers = List.of(
                 memberController,
@@ -85,5 +90,4 @@ public class AppConfig {
     public MainController getMainController() {
         return mainController;
     }
-
 }

@@ -2,6 +2,7 @@ package repository.attendance;
 
 import domain.attendance.Attendance;
 import domain.participant.MeetingParticipant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ public class AttendanceInMemoryRepository implements AttendanceRepository {
 
     @Override
     public Attendance save(Attendance attendance) {
-
         Attendance newAttendance = Attendance.of(sequence, attendance);
         attendances.put(sequence, newAttendance);
         sequence++;
@@ -25,12 +25,12 @@ public class AttendanceInMemoryRepository implements AttendanceRepository {
 
     @Override
     public List<Attendance> findAll() {
-        return List.of();
+        return new ArrayList<>(attendances.values());
     }
 
     @Override
     public Attendance findById(long id) {
-        return null;
+        return attendances.get(id);
     }
 
     @Override

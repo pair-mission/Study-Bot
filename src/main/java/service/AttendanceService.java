@@ -7,12 +7,12 @@ import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
+import java.util.List;
 import repository.attendance.AttendanceRepository;
 import repository.participant.ParticipantRepository;
 
-import java.util.List;
-
 public class AttendanceService {
+
     private final AttendanceRepository attendanceRepository;
     private final ParticipantRepository participantInMemoryRepository;
 

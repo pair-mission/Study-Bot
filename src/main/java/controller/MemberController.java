@@ -2,23 +2,19 @@ package controller;
 
 import domain.member.Member;
 import dto.MemberInfoDto;
-import global.Session;
 import global.enums.MainMenu;
 import global.exception.DataAccessException;
 import global.utils.InputValidator;
 import global.utils.parser.InputParser;
-import service.MemberService;
-import view.InputView;
-import view.OutputView;
-
 import java.util.List;
+import service.MemberService;
 
 public class MemberController extends AppController implements AuthHandler {
 
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService, InputView inputView, OutputView outputView, Session session) {
-        super(inputView, outputView, session);
+    public MemberController(MemberService memberService, ControllerContext context) {
+        super(context);
         this.memberService = memberService;
     }
 
@@ -62,6 +58,7 @@ public class MemberController extends AppController implements AuthHandler {
         int remindDay = InputParser.parseToInt(remindDayInput);
         InputValidator.validateNegativeNumber(remindDay);
         Member loginMember = session.getLoginMember();
+
         memberService.updateRemindDay(loginMember, remindDay);
         outputView.printRemindUpdateSuccess(loginMember.getRemindDay());
     }

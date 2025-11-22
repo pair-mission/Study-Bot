@@ -4,10 +4,11 @@ import domain.meeting.Meeting;
 import domain.member.Member;
 
 public class MeetingParticipant {
-    private Long id;
+
     private final Role role;
     private final Member member;
     private final Meeting meeting;
+    private final Long id;
 
     private MeetingParticipant(Role role, Member member, Meeting meeting) {
         this(null, role, member, meeting);

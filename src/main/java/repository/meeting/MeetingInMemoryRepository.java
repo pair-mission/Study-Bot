@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class MeetingInMemoryRepository implements MeetingRepository {
+
     private final Map<Long, Meeting> meetings = new HashMap<>();
     private Long sequence = 0L;
 
@@ -27,7 +28,6 @@ public class MeetingInMemoryRepository implements MeetingRepository {
     @Override
     public Optional<Meeting> findById(Long id) {
         return Optional.ofNullable(meetings.get(id));
-
     }
 
     @Override

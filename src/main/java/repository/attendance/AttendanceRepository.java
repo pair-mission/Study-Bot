@@ -16,4 +16,5 @@ public interface AttendanceRepository {
     List<Attendance> findAttendersByParticipants(List<MeetingParticipant> participants);
 
     Optional<Attendance> findByMeetingParticipant(MeetingParticipant participant);
+
 }

@@ -6,25 +6,20 @@ import dto.MeetingAttendanceDto;
 import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
-import global.Session;
 import global.enums.MainMenu;
 import global.utils.parser.InputParser;
+import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
-import view.InputView;
-import view.OutputView;
-
-import java.util.List;
 
 public class MeetingController extends AppController implements RemindHandler {
 
     private final MeetingService meetingService;
     private final AttendanceService attendanceService;
 
-    public MeetingController(MeetingService meetingService, AttendanceService attendanceService, InputView inputView,
-                             OutputView outputView,
-                             Session session) {
-        super(inputView, outputView, session);
+    public MeetingController(MeetingService meetingService, AttendanceService attendanceService,
+                             ControllerContext context) {
+        super(context);
         this.meetingService = meetingService;
         this.attendanceService = attendanceService;
     }
@@ -53,9 +48,7 @@ public class MeetingController extends AppController implements RemindHandler {
 
     private void showMyNextMeetings() {
         Member loginMember = session.getLoginMember();
-
         Meeting myNextMeeting = meetingService.getMyNextMeeting(loginMember.getId());
-
         outputView.printMyNextMeeting(myNextMeeting);
     }
 
@@ -67,6 +60,7 @@ public class MeetingController extends AppController implements RemindHandler {
 
         String meetingInput = inputView.getAttendanceInput();
         Long meetingId = InputParser.parseToLong(meetingInput);
+
         try {
             attendanceService.createAttendance(meetingId, loginMember);
             outputView.printAttendanceSuccess();

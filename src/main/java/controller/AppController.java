@@ -11,15 +11,16 @@ import view.InputView;
 import view.OutputView;
 
 public abstract class AppController {
+
     protected final Map<MainMenu, Runnable> actions;
     protected final InputView inputView;
     protected final OutputView outputView;
     protected final Session session;
 
-    public AppController(InputView inputView, OutputView outputView, Session session) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-        this.session = session;
+    public AppController(ControllerContext context) {
+        this.inputView = context.getInputView();
+        this.outputView = context.getOutputView();
+        this.session = context.getSession();
         this.actions = new HashMap<>();
         registerAction();
     }

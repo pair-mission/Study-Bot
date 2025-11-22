@@ -4,6 +4,7 @@ import global.enums.ErrorMessage;
 import java.time.LocalTime;
 
 public class MeetingTime {
+
     private final LocalTime startTime;
     private final LocalTime endTime;
 

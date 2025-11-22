@@ -1,7 +1,6 @@
 package global.utils.parser;
 
 import domain.member.Member;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -37,7 +36,6 @@ public class MemberParser implements CsvParser<Member> {
 
         writer.write(csv[0] + "," + csv[1] + "," + newRemindDay + "\n");
         writer.flush();
-
     }
 
 }

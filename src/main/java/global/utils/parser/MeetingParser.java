@@ -2,12 +2,12 @@ package global.utils.parser;
 
 import domain.meeting.Meeting;
 import domain.meeting.MeetingTime;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 
 public class MeetingParser implements CsvParser<Meeting> {
+
     @Override
     public Meeting parse(String[] csv) {
         Long id = Long.parseLong(csv[0]);

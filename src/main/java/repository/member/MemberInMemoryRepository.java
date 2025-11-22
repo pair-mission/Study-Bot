@@ -1,16 +1,15 @@
 package repository.member;
 
 import domain.member.Member;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class MemberInMemoryRepository implements MemberRepository {
+
     private final Map<Long, Member> members = new HashMap<>();
     private Long sequence = 0L;
-
 
     @Override
     public Member save(Member member) {
@@ -41,8 +40,4 @@ public class MemberInMemoryRepository implements MemberRepository {
         return Optional.ofNullable(members.get(id));
     }
 
-    @Override
-    public void update(Member member) {
-
-    }
 }

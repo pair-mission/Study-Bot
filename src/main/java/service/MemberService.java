@@ -3,11 +3,11 @@ package service;
 import domain.member.Member;
 import dto.MemberInfoDto;
 import global.enums.ErrorMessage;
+import java.util.List;
 import repository.member.MemberRepository;
 
-import java.util.List;
-
 public class MemberService {
+
     private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository) {
@@ -47,7 +47,6 @@ public class MemberService {
 
     public void updateRemindDay(Member member, int remindDay) {
         member.updateRemindDay(remindDay);
-        memberRepository.update(member);
     }
 
 }

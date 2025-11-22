@@ -8,15 +8,15 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
-import repository.meeting.MeetingRepository;
-import repository.participant.ParticipantRepository;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import repository.meeting.MeetingRepository;
+import repository.participant.ParticipantRepository;
 
 public class MeetingService {
+    
     private final MeetingRepository meetingRepository;
     private final ParticipantRepository participantRepository;
 
@@ -67,7 +67,8 @@ public class MeetingService {
     }
 
     public List<Meeting> getMyMeetings(Member member) {
-        return participantRepository.findMeetingsByMember(member.getId());
+        return participantRepository.findMeetingsByMember(member.getId())
+                .stream().map(MeetingParticipant::getMeeting).toList();
     }
 
     public void createParticipant(Long meetingId, Member member) {
@@ -95,6 +96,7 @@ public class MeetingService {
 
     public List<Meeting> findRemindMeetings(Long memberId, int remindDays) {
         return participantRepository.findMeetingsByMember(memberId).stream()
+                .map(MeetingParticipant::getMeeting)
                 .filter(meeting -> meeting.isRemindMeeting(remindDays))
                 .toList();
     }
@@ -108,6 +110,7 @@ public class MeetingService {
         LocalDateTime now = LocalDateTime.now();
 
         return participantRepository.findMeetingsByMember(memberId).stream()
+                .map(MeetingParticipant::getMeeting)
                 .filter(meeting -> meeting.getStartTime().isAfter(now))
                 .min(Comparator.comparing(Meeting::getStartTime))
                 .orElse(null);

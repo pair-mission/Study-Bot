@@ -5,16 +5,11 @@ import domain.meeting.MeetingTime;
 import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import domain.participant.Role;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import repository.meeting.MeetingRepository;
 import repository.member.MemberRepository;
 import repository.participant.ParticipantRepository;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-// 1. 레포지토리들이 인 메모리인 경우
-// 2. 레포지토리들이 파일인 경우
-// 3. 레포지토리 종류가 섞인 경우
 
 public class DataInitializer {
 
@@ -22,7 +17,8 @@ public class DataInitializer {
     private final MeetingRepository meetingRepository;
     private final ParticipantRepository participantRepository;
 
-    public DataInitializer(MemberRepository memberRepository, MeetingRepository meetingRepository, ParticipantRepository participantRepository) {
+    public DataInitializer(MemberRepository memberRepository, MeetingRepository meetingRepository,
+                           ParticipantRepository participantRepository) {
         this.memberRepository = memberRepository;
         this.meetingRepository = meetingRepository;
         this.participantRepository = participantRepository;

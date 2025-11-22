@@ -1,27 +1,29 @@
 package repository.participant;
 
-import domain.meeting.Meeting;
+import static global.enums.ErrorMessage.INVALID_FILE;
+
 import domain.participant.MeetingParticipant;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.ParticipantParser;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import repository.meeting.MeetingRepository;
 import repository.member.MemberRepository;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static global.enums.ErrorMessage.INVALID_FILE;
 
 public class ParticipantFileRepository implements ParticipantRepository {
 
     public static final String PARTICIPANT_FILE_PATH = "src/main/resources/participants.csv";
 
-    private Long sequence;
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
-    private Map<Long, MeetingParticipant> participants = new HashMap<>();
+    private final Map<Long, MeetingParticipant> participants = new HashMap<>();
+    private Long sequence;
 
     public ParticipantFileRepository(MemberRepository memberRepository, MeetingRepository meetingRepository) {
         this.memberRepository = memberRepository;
@@ -73,9 +75,8 @@ public class ParticipantFileRepository implements ParticipantRepository {
     }
 
     @Override
-    public List<Meeting> findMeetingsByMember(Long memberId) {
-        return participants.values().stream().filter(participants -> participants.isSameMemberId(memberId))
-                .map(MeetingParticipant::getMeeting).toList();
+    public List<MeetingParticipant> findMeetingsByMember(Long memberId) {
+        return participants.values().stream().filter(participants -> participants.isSameMemberId(memberId)).toList();
     }
 
     @Override
