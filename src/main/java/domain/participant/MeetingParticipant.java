@@ -32,6 +32,10 @@ public class MeetingParticipant {
         return new MeetingParticipant(id, role, member, meeting);
     }
 
+    public static MeetingParticipant of(Long id, Role role, Member member, Meeting meeting) {
+        return new MeetingParticipant(id, role, member, meeting);
+    }
+
     public boolean isSameMeetingId(Long meetingId) {
         return meeting.isSameById(meetingId);
     }

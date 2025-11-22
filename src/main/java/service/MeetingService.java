@@ -8,19 +8,20 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
+import repository.meeting.MeetingRepository;
+import repository.participant.ParticipantRepository;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import repository.meeting.MeetingRepository;
-import repository.participant.ParticipantInMemoryRepository;
 
 public class MeetingService {
     private final MeetingRepository meetingRepository;
-    private final ParticipantInMemoryRepository participantRepository;
+    private final ParticipantRepository participantRepository;
 
     public MeetingService(MeetingRepository meetingRepository,
-                          ParticipantInMemoryRepository participantRepository) {
+                          ParticipantRepository participantRepository) {
         this.meetingRepository = meetingRepository;
         this.participantRepository = participantRepository;
     }

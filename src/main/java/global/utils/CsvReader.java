@@ -1,12 +1,8 @@
 package global.utils;
 
 import global.utils.parser.CsvParser;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +63,20 @@ public class CsvReader {
 
 //        originFile.renameTo(newFile);
 //        originFile.delete();
+
+    }
+
+    public static <T> void updateAllCsv(List<T> t, String filePath, CsvParser<T> parser) throws IOException {
+        File newFile = new File(filePath + ".txt");
+
+        for (T item : t) {
+            writeCsv(item, newFile.getPath(), parser);
+        }
+
+        File originalFile = new File(filePath);
+
+        originalFile.delete();
+        newFile.renameTo(originalFile);
 
     }
 

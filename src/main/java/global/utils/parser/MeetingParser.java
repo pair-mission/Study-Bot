@@ -2,6 +2,7 @@ package global.utils.parser;
 
 import domain.meeting.Meeting;
 import domain.meeting.MeetingTime;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public class MeetingParser implements CsvParser<Meeting> {
     public void write(Meeting meeting, BufferedWriter br, boolean isEmptyFile) throws IOException {
 
         if (isEmptyFile) {
-            br.write("id,date,startTime,endTime,topic,place\n");
+            br.write("id,date,startTime,endTime,topic,place");
         }
 
         br.write("\n" + meeting.getId() + "," +

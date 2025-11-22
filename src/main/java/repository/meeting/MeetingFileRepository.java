@@ -5,20 +5,28 @@ import global.enums.ErrorMessage;
 import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MeetingParser;
+
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class MeetingFileRepository implements MeetingRepository {
 
-    private static final String MEETING_FILE_PATH = "src/main/resources/meeting.csv";
+    public static final String MEETING_FILE_PATH = "src/main/resources/meeting.csv";
     private Long sequence;
+    private Map<Long, Meeting> meetings = new HashMap<>();
 
     public MeetingFileRepository() {
         try {
-            List<Meeting> meetings = CsvReader.readCsv(MEETING_FILE_PATH, new MeetingParser());
-            this.sequence = readNextSequence(meetings);
+            List<Meeting> csvMeetings = CsvReader.readCsv(MEETING_FILE_PATH, new MeetingParser());
 
+            for (Meeting meeting : csvMeetings) {
+                this.meetings.put(meeting.getId(), meeting);
+            }
+
+            this.sequence = readNextSequence(csvMeetings);
         } catch (IOException e) {
             throw new DataAccessException(ErrorMessage.INVALID_FILE);
         }

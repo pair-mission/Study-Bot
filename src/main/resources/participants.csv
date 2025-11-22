@@ -1,0 +1,5 @@
+id,member_id,meeting_id,role
+1,7,3,HOST
+2,7,4,MEMBER
+3,6,2,HOST
+4,7,1,MEMBER

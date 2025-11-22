@@ -7,16 +7,17 @@ import domain.member.Member;
 import domain.participant.MeetingParticipant;
 import dto.MeetingAttendanceDto;
 import global.enums.ErrorMessage;
-import java.util.List;
 import repository.attendance.AttendanceRepository;
-import repository.participant.ParticipantInMemoryRepository;
+import repository.participant.ParticipantRepository;
+
+import java.util.List;
 
 public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
-    private final ParticipantInMemoryRepository participantInMemoryRepository;
+    private final ParticipantRepository participantInMemoryRepository;
 
     public AttendanceService(AttendanceRepository attendanceRepository,
-                             ParticipantInMemoryRepository participantInMemoryRepository) {
+                             ParticipantRepository participantInMemoryRepository) {
         this.attendanceRepository = attendanceRepository;
         this.participantInMemoryRepository = participantInMemoryRepository;
     }

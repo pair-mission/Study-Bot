@@ -14,7 +14,7 @@ public class MemberInMemoryRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        Member newMember = Member.of(sequence, member.getNickname(), 1);
+        Member newMember = Member.of(sequence, member.getNickname(), member.getRemindDay());
         members.put(sequence, newMember);
         sequence++;
         return newMember;

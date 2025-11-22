@@ -8,7 +8,8 @@ import repository.meeting.MeetingFileRepository;
 import repository.meeting.MeetingRepository;
 import repository.member.MemberFileRepository;
 import repository.member.MemberRepository;
-import repository.participant.ParticipantInMemoryRepository;
+import repository.participant.ParticipantFileRepository;
+import repository.participant.ParticipantRepository;
 import service.AttendanceService;
 import service.MeetingService;
 import service.MemberService;
@@ -32,7 +33,7 @@ public class AppConfig {
     private final MeetingRepository meetingRepository;
     private final MemberRepository memberRepository;
     private final AttendanceRepository attendanceRepository;
-    private final ParticipantInMemoryRepository participantRepository;
+    private final ParticipantRepository participantRepository;
 
     // service
     private final MemberService memberService;
@@ -53,8 +54,8 @@ public class AppConfig {
 
         memberRepository = new MemberFileRepository();
         meetingRepository = new MeetingFileRepository();
+        participantRepository = new ParticipantFileRepository(memberRepository, meetingRepository);
         attendanceRepository = new AttendanceInMemoryRepository();
-        participantRepository = new ParticipantInMemoryRepository();
 
         memberService = new MemberService(memberRepository);
         meetingService = new MeetingService(meetingRepository, participantRepository);
@@ -62,11 +63,11 @@ public class AppConfig {
 
         memberController = new MemberController(memberService, inputView, outputView, session);
         meetingController = new MeetingController(meetingService, attendanceService, inputView, outputView, session);
-        exitController = new ExitController(inputView, outputView, session);
+        exitController = new ExitController(inputView, outputView, session, participantRepository, memberRepository, meetingRepository);
         authHandler = memberController;
         remindHandler = meetingController;
 
-        new DataInitializer().initialize(memberRepository, meetingRepository, participantRepository);
+//        new DataInitializer().initializeMemory(memberRepository, meetingRepository, participantRepository);
 
         List<AppController> allControllers = List.of(
                 memberController,

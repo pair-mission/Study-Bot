@@ -6,19 +6,29 @@ import global.utils.CsvReader;
 import global.utils.parser.MemberParser;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static global.enums.ErrorMessage.INVALID_FILE;
 
 public class MemberFileRepository implements MemberRepository {
-    private static final String MEMBER_FILE_PATH = "src/main/resources/members.csv";
+
+    public static final String MEMBER_FILE_PATH = "src/main/resources/members.csv";
+
     private Long sequence;
+    private Map<Long, Member> members = new HashMap<>();
 
     public MemberFileRepository() {
         try {
-            List<Member> members = CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser());
-            this.sequence = readNextSequence(members);
+            List<Member> csvMembers = CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser());
+
+            for (Member member : csvMembers) {
+                this.members.put(member.getId(), member);
+            }
+
+            this.sequence = readNextSequence(csvMembers);
         } catch (IOException e) {
             throw new DataAccessException(INVALID_FILE);
         }
@@ -30,60 +40,34 @@ public class MemberFileRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        try {
-            Member newMember = Member.of(sequence++, member.getNickname());
-            CsvReader.writeCsv(newMember, MEMBER_FILE_PATH, new MemberParser());
-            return newMember;
-        } catch (IOException e) {
-            throw new DataAccessException(INVALID_FILE);
-        }
+        Member newMember = Member.of(sequence, member.getNickname(), member.getRemindDay());
+        members.put(sequence, newMember);
+        sequence++;
+        return newMember;
     }
 
     @Override
     public List<Member> findAll() {
-        try {
-            return CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser());
-        } catch (IOException e) {
-            throw new DataAccessException(INVALID_FILE);
-        }
+        return members.values().stream().toList();
+    }
+
+    @Override
+    public Boolean existsBy(String nickname) {
+        return members.values().stream().anyMatch(member -> member.getNickname().equals(nickname));
     }
 
     @Override
     public Optional<Member> findByNickName(String nickname) {
-        try {
-            return CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser()).stream()
-                    .filter(member -> member.isSameNickname(nickname)).findFirst();
-        } catch (IOException e) {
-            throw new DataAccessException(INVALID_FILE);
-        }
+        return members.values().stream()
+                .filter(member -> member.isSameNickname(nickname)).findFirst();
     }
 
     @Override
     public Optional<Member> findById(long id) {
-        try {
-            return CsvReader.readCsv(MEMBER_FILE_PATH, new MemberParser()).stream()
-                    .filter(member -> member.isSameId(id)).findFirst();
-        } catch (IOException e) {
-            throw new DataAccessException(INVALID_FILE);
-        }
-    }
-
-
-    @Override
-    public Boolean existsBy(String nickname) {
-        try {
-            return CsvReader.existsCsv(nickname);
-        } catch (IOException e) {
-            throw new DataAccessException(INVALID_FILE);
-        }
+        return Optional.ofNullable(members.get(id));
     }
 
     @Override
     public void update(Member member) {
-        try {
-            CsvReader.updateCsv(member, MEMBER_FILE_PATH, new MemberParser());
-        } catch (IOException e) {
-            throw new DataAccessException(INVALID_FILE);
-        }
     }
 }

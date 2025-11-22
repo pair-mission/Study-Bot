@@ -3,12 +3,15 @@ package domain.member;
 import java.io.Serializable;
 
 public class Member implements Serializable {
+
+    public static final int DEFAULT_REMIND_DAY = 1;
+
     private final String nickname;
     private final Long id;
     private int remindDay; // 일 단위
 
     private Member(String nickname) {
-        this(null, nickname, 1);
+        this(null, nickname, DEFAULT_REMIND_DAY);
     }
 
     private Member(Long id, String nickname, int remindDay) {
@@ -22,7 +25,7 @@ public class Member implements Serializable {
     }
 
     public static Member of(Long id, String nickname) {
-        return new Member(id, nickname, 1);
+        return new Member(id, nickname, DEFAULT_REMIND_DAY);
     }
 
     public static Member of(Long id, String nickname, int remindDay) {
