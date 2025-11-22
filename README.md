@@ -68,6 +68,9 @@
 
 생성형 AI를 사용하지 않는다.
 
+### 프로젝트 설계
+<img width="1766" height="606" alt="architecture-overview" src="https://github.com/user-attachments/assets/6047612e-3e79-47da-a24f-932b9b51a14c" />
+
 ## 기능 목록
 
 ### 모임 관리
