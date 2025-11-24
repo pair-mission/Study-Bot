@@ -6,7 +6,7 @@ public enum ErrorMessage {
     INVALID_MENU_INPUT("[ERROR] 메뉴 입력값이 유효하지 않습니다."),
     INVALID_FILE("[ERROR] 파일이 유효하지 않습니다."),
 
-    // 모임
+    // 모임,
     MEETING_NOT_FOUND("[ERROR] 존재하지 않는 모임입니다."),
     MEMBER_NOT_FOUND("[ERROR] 존재하지 않는 멤버입니다."),
     MEMBER_ALREADY_EXISTS("[ERROR] 해당 이름으로 가입할 수 없습니다."),
@@ -16,6 +16,8 @@ public enum ErrorMessage {
     MEMBER_NOT_PARTICIPANT("[ERROR] 참여 중인 모임이 아닙니다."),
     ALREADY_PARTICIPANT("[ERROR] 이미 참여 중인 모임입니다."),
     ALREADY_ATTENDED("[ERROR] 이미 출석한 모임입니다."),
+    INVALID_MEETING_REGISTER_INPUT("[ERROR] 모임 등록 입력 예시의 형식대로 입력해주세요."),
+    INVALID_MEETING_UPDATE_INPUT("[ERROR] 모임 수정 입력 예시의 형식대로 입력해주세요."),
 
     // 날짜
     INVALID_DATE("[ERROR] 입력 날짜는 현재날짜보다 이후여야합니다."),

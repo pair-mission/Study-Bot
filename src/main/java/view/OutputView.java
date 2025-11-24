@@ -5,6 +5,7 @@ import dto.MeetingAttendanceDto;
 import dto.MeetingInfoDto;
 import dto.MemberInfoDto;
 import global.enums.MainMenu;
+
 import java.util.List;
 
 public class OutputView {
@@ -14,7 +15,7 @@ public class OutputView {
     }
 
     public void printMenu() {
-        System.out.println(" \n[메뉴 목록] ");
+        System.out.println("\n[메뉴 목록] ");
         for (MainMenu menu : MainMenu.values()) {
             System.out.println(menu.getMessage());
         }
