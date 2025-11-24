@@ -157,4 +157,39 @@
 ### 공통 입력값 검증
 
 - [x] 입력값이 빈 문자열, 공백, 또는 null이면 예외가 발생한다.
-- [x] 숫자 입력값이 음수인 경우 예외가 발생한다. 
+- [x] 숫자 입력값이 음수인 경우 예외가 발생한다.
+
+
+# 실행 결과 예시
+
+### 첫 실행 화면
+<img width="567" height="410" alt="result1" src="https://github.com/user-attachments/assets/b2671dfa-5c12-446b-a41c-876080682bb7" />
+
+### 로그인 시 리마인드 알림 및 메뉴 출력
+<img width="577" height="345" alt="result2" src="https://github.com/user-attachments/assets/345b1f2c-a334-4de1-bb14-c7a08f7ff088" />
+<img width="572" height="568" alt="result3" src="https://github.com/user-attachments/assets/96bf69d0-a537-4267-8dc0-71987a27a7f8" />
+
+### 내 모임 조회
+<img width="629" height="207" alt="result4" src="https://github.com/user-attachments/assets/58c536d2-f672-4ca7-a2c0-319b38313f59" />
+
+### 모임 등록
+<img width="754" height="180" alt="result5" src="https://github.com/user-attachments/assets/25cda991-9454-409b-8e23-c139fdc51d53" />
+
+### 모임 전체 조회
+<img width="687" height="249" alt="result6" src="https://github.com/user-attachments/assets/65575964-8ea4-4239-b334-38791b3c5a46" />
+
+### 모임 출석
+<img width="554" height="332" alt="result7" src="https://github.com/user-attachments/assets/ed915a15-6ee7-4f16-bdac-2d8ee7cb6b9a" />
+
+### 출석 기록 조회
+<img width="762" height="270" alt="result8" src="https://github.com/user-attachments/assets/226e0298-d266-4544-a167-a3bb5bab66b8" />
+
+
+
+
+
+
+
+
+
+
