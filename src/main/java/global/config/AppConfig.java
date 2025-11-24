@@ -28,8 +28,8 @@ public class AppConfig {
         ServiceConfig serviceConfig = new ServiceConfig(repositoryConfig);
         ControllerConfig controllerConfig = new ControllerConfig(serviceConfig, controllerContext, repositoryConfig);
 
-        AuthHandler authHandler = controllerConfig.getMemberController();
-        RemindHandler remindHandler = controllerConfig.getMeetingController();
+        AuthHandler authHandler = controllerConfig.getAuthHandler();
+        RemindHandler remindHandler = controllerConfig.getRemindHandler();
 
         List<AppController> allControllers = controllerConfig.getAllControllers();
 

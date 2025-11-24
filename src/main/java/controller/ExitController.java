@@ -49,6 +49,7 @@ public class ExitController extends AppController {
             CsvReader.updateAllCsv(allParticipants, PARTICIPANT_FILE_PATH,
                     new ParticipantParser(memberRepository, meetingRepository));
             CsvReader.updateAllCsv(allMeetings, MEETING_FILE_PATH, new MeetingParser());
+            outputView.printExit();
         } catch (IOException e) {
             outputView.printErrorMessage(e.getMessage());
         }
