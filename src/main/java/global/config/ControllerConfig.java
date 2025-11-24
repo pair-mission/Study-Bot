@@ -1,10 +1,12 @@
 package global.config;
 
 import controller.AppController;
+import controller.AuthHandler;
 import controller.ControllerContext;
 import controller.ExitController;
 import controller.MeetingController;
 import controller.MemberController;
+import controller.RemindHandler;
 import java.util.List;
 
 public class ControllerConfig {
@@ -35,12 +37,12 @@ public class ControllerConfig {
         );
     }
 
-    public MemberController getMemberController() {
-        return memberController;
+    public AuthHandler getAuthHandler() {
+        return this.memberController;
     }
 
-    public MeetingController getMeetingController() {
-        return meetingController;
+    public RemindHandler getRemindHandler() {
+        return this.meetingController;
     }
 
     public ExitController getExitController() {
