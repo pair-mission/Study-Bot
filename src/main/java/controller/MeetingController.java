@@ -8,9 +8,10 @@ import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.MainMenu;
 import global.utils.parser.InputParser;
-import java.util.List;
 import service.AttendanceService;
 import service.MeetingService;
+
+import java.util.List;
 
 public class MeetingController extends AppController implements RemindHandler {
 
@@ -82,12 +83,16 @@ public class MeetingController extends AppController implements RemindHandler {
     }
 
     private void registerMeeting() {
-        Member loginMember = session.getLoginMember();
-        String userInput = inputView.getMeetingCreationInput();
-        MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(userInput);
+        try {
+            Member loginMember = session.getLoginMember();
+            String userInput = inputView.getMeetingCreationInput();
+            MeetingCreateDto meetingCreateDto = MeetingCreateDto.from(userInput);
 
-        meetingService.createMeeting(meetingCreateDto, loginMember);
-        outputView.printMeetingRegisterSuccess();
+            meetingService.createMeeting(meetingCreateDto, loginMember);
+            outputView.printMeetingRegisterSuccess();
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
     }
 
     private void updateMeeting() {

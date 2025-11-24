@@ -1,7 +1,9 @@
 package dto;
 
+import global.enums.ErrorMessage;
 import global.utils.InputValidator;
 import global.utils.parser.InputParser;
+
 import java.util.List;
 
 public record MeetingCreateDto(
@@ -18,6 +20,10 @@ public record MeetingCreateDto(
     public static MeetingCreateDto from(String userInput) {
 
         List<String> tokens = InputParser.parseToTokens(userInput);
+
+        if (tokens.size() != 5) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_MEETING_REGISTER_INPUT.getMessage());
+        }
 
         String date = tokens.get(0);
         String startTime = tokens.get(1);
