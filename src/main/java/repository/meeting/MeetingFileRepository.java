@@ -6,6 +6,7 @@ import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.MeetingParser;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,5 +70,10 @@ public class MeetingFileRepository implements MeetingRepository {
     @Override
     public void delete(Long meetingId) {
         meetings.remove(meetingId);
+    }
+
+    @Override
+    public List<Meeting> findByDate(LocalDate date) {
+        return meetings.values().stream().filter(meeting -> meeting.getDate().equals(date)).toList();
     }
 }

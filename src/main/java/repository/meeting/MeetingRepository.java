@@ -1,6 +1,7 @@
 package repository.meeting;
 
 import domain.meeting.Meeting;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,5 @@ public interface MeetingRepository {
 
     void delete(Long meetingId);
 
+    List<Meeting> findByDate(LocalDate date);
 }

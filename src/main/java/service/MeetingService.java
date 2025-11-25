@@ -8,6 +8,7 @@ import dto.MeetingCreateDto;
 import dto.MeetingInfoDto;
 import dto.MeetingUpdateDto;
 import global.enums.ErrorMessage;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,7 +17,7 @@ import repository.meeting.MeetingRepository;
 import repository.participant.ParticipantRepository;
 
 public class MeetingService {
-    
+
     private final MeetingRepository meetingRepository;
     private final ParticipantRepository participantRepository;
 
@@ -114,5 +115,9 @@ public class MeetingService {
                 .filter(meeting -> meeting.getStartTime().isAfter(now))
                 .min(Comparator.comparing(Meeting::getStartTime))
                 .orElse(null);
+    }
+
+    public List<Meeting> findTomorrowMeetings(LocalDate tomorrowDate) {
+        return meetingRepository.findByDate(tomorrowDate);
     }
 }

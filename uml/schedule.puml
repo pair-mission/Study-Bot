@@ -1,0 +1,15 @@
+@startuml
+class Main
+class ReminderScheduler
+interface Job
+class ReminderJob
+interface RemindPolicy
+class MeetingService
+
+Main --> ReminderScheduler
+ReminderScheduler ..> Job : run()
+Job <|-- ReminderJob
+ReminderJob --> RemindPolicy
+ReminderJob --> MeetingService
+
+@enduml

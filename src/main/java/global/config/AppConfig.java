@@ -7,6 +7,9 @@ import controller.MainController;
 import controller.RemindHandler;
 import global.Session;
 import java.util.List;
+import schedule.RemindJob;
+import schedule.ReminderScheduler;
+import service.MeetingService;
 import view.InputView;
 import view.OutputView;
 
@@ -33,6 +36,12 @@ public class AppConfig {
 
         List<AppController> allControllers = controllerConfig.getAllControllers();
 
+        MeetingService meetingService = serviceConfig.getMeetingService();
+
+        RemindJob remindJob = new RemindJob(meetingService);
+        ReminderScheduler reminderScheduler = new ReminderScheduler(remindJob);
+
+        reminderScheduler.startDailyAt(6, 13);
         mainController = new MainController(inputView, outputView, allControllers, authHandler, remindHandler);
     }
 

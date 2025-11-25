@@ -1,6 +1,7 @@
 package repository.meeting;
 
 import domain.meeting.Meeting;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,5 +34,10 @@ public class MeetingInMemoryRepository implements MeetingRepository {
     @Override
     public void delete(Long meetingId) {
         meetings.remove(meetingId);
+    }
+
+    @Override
+    public List<Meeting> findByDate(LocalDate date) {
+        return meetings.values().stream().filter(meeting -> meeting.getDate().equals(date)).toList();
     }
 }
