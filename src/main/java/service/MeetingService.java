@@ -120,4 +120,8 @@ public class MeetingService {
     public List<Meeting> findTomorrowMeetings(LocalDate tomorrowDate) {
         return meetingRepository.findByDate(tomorrowDate);
     }
+
+    public List<MeetingParticipant> findByMeetingParticipants(LocalDate date) {
+        return participantRepository.findMeetingParticipantByDate(date);
+    }
 }

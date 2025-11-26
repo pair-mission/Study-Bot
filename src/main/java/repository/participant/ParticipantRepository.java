@@ -1,6 +1,7 @@
 package repository.participant;
 
 import domain.participant.MeetingParticipant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,5 @@ public interface ParticipantRepository {
 
     Optional<MeetingParticipant> findParticipantByMeetingIdAndMemberId(Long meetingId, Long memberId);
 
+    List<MeetingParticipant> findMeetingParticipantByDate(LocalDate date);
 }

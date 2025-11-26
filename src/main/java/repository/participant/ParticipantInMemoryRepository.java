@@ -1,6 +1,7 @@
 package repository.participant;
 
 import domain.participant.MeetingParticipant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,5 +52,12 @@ public class ParticipantInMemoryRepository implements ParticipantRepository {
                 .filter(participants -> participants.getMember().isSameId(memberId) && participants.getMeeting()
                         .isSameById(meetingId))
                 .findFirst();
+    }
+
+    @Override
+    public List<MeetingParticipant> findMeetingParticipantByDate(LocalDate date) {
+        return participants.values().stream()
+                .filter(participants -> participants.getMeeting().getDate().equals(date))
+                .toList();
     }
 }

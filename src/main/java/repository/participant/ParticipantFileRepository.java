@@ -7,6 +7,7 @@ import global.exception.DataAccessException;
 import global.utils.CsvReader;
 import global.utils.parser.ParticipantParser;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,4 +88,10 @@ public class ParticipantFileRepository implements ParticipantRepository {
                 .findFirst();
     }
 
+    @Override
+    public List<MeetingParticipant> findMeetingParticipantByDate(LocalDate date) {
+        return participants.values().stream()
+                .filter(participants -> participants.getMeeting().getDate().equals(date))
+                .toList();
+    }
 }

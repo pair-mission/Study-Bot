@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Meeting {
 
@@ -155,4 +156,16 @@ public class Meeting {
                 meetingTime.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")), topic, place);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Meeting meeting)) {
+            return false;
+        }
+        return Objects.equals(id, meeting.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

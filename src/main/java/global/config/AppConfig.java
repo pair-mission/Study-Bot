@@ -5,7 +5,9 @@ import controller.AuthHandler;
 import controller.ControllerContext;
 import controller.MainController;
 import controller.RemindHandler;
+import external.DiscordClient;
 import global.Session;
+import java.net.http.HttpClient;
 import java.util.List;
 import schedule.RemindJob;
 import schedule.ReminderScheduler;
@@ -38,10 +40,12 @@ public class AppConfig {
 
         MeetingService meetingService = serviceConfig.getMeetingService();
 
-        RemindJob remindJob = new RemindJob(meetingService);
+        String webhookUrl = System.getenv("DISCORD_WEBHOOK_URL");
+        DiscordClient discordClient = new DiscordClient(HttpClient.newHttpClient(), webhookUrl);
+        RemindJob remindJob = new RemindJob(meetingService, discordClient);
         ReminderScheduler reminderScheduler = new ReminderScheduler(remindJob);
 
-        reminderScheduler.startDailyAt(6, 13);
+        reminderScheduler.startDailyAt(21, 0);
         mainController = new MainController(inputView, outputView, allControllers, authHandler, remindHandler);
     }
 

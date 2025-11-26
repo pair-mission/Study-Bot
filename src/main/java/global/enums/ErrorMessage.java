@@ -31,7 +31,14 @@ public enum ErrorMessage {
     INVALID_NUMBER_FORMAT("[ERROR] 숫자 형식이 올바르지 않습니다."),
 
     // 도메인
-    NULL_OR_EMPTY("[ERRROR] NULL 이거나 EMPTY 일 수 없습니다.");
+    NULL_OR_EMPTY("[ERRROR] NULL 이거나 EMPTY 일 수 없습니다."),
+
+    // 설정
+    INVALID_SYSTEM_VALUES("[SYSTEM] DISCORD_WEBHOOK_URL이 설정되지 않아 알림 기능을 비활성화합니다. 환경 변수에 설정해주세요."),
+
+    // 외부 시스템
+    INVALID_REQUEST("[REQUEST] 메시지 전송에 실패 했습니다."),
+    FAIL_REQUEST("[REQUEST] 메시지 전송 중 실패 했습니다.");
 
     private final String message;
 
